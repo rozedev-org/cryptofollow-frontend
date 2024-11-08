@@ -21,7 +21,7 @@ const SidebarButton = ({ name, Icon }: SidebarButtonProps) => {
       display={"flex"}
       justifyContent={"flex-start"}
       paddingLeft={"12px"}
-      bg={"#D6B9C2"}
+      colorPalette={"pink"}
       borderRadius={"10px"}
       w={"197px"}
       h={"50px"}
