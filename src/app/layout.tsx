@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import { Poppins } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
 import { DefaultLayout } from "@/components/layout";
+import "./globals.css";
 
-const poppinsRegular = localFont({
-  src: "./fonts/PoppinsRegular.woff",
-  variable: "--font-poppins-sans",
+const poppins = Poppins({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -21,10 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppinsRegular.variable}`}>
-         <Provider>
+      <body className={poppins.className}>
+        <Provider>
           <DefaultLayout>{children}</DefaultLayout>
-         </Provider>
+        </Provider>
       </body>
     </html>
   );
