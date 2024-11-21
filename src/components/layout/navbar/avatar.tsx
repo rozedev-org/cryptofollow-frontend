@@ -8,14 +8,15 @@ export const NavbarAvatar = () => {
       <Avatar
         variant="solid"
         name="Juan Carlos Jimenez"
-        bg={"#E7CBD2"}
+        bg={"pink.250"}
+        colorScheme={"pink"}
         w={"40px"}
         h={"40px"}
         borderRadius={"10px"}
       />
 
-      <IconButton aria-label="Notifications" bg={"#FFFFFF"}>
-        <HiChevronDown size={40} color="#E7CBD2" />
+      <IconButton aria-label="Notifications" bg={"white"}>
+        <HiChevronDown size={40} color="pink.250" />
       </IconButton>
     </HStack>
   );
