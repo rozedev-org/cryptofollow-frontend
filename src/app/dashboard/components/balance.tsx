@@ -5,7 +5,23 @@ import {
   StatValueText,
 } from "@/components/ui/stat";
 import { Card, FormatNumber, HStack } from "@chakra-ui/react";
-export const Balance = () => {
+
+interface WalletResponse {
+  balance: number;
+}
+
+export const Balance = async () => {
+  const res = await fetch(
+    "http://localhost:8000/api/cryptofollow-service/v1/wallet"
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch wallet data");
+  }
+
+  const wallet: WalletResponse = await res.json();
+
+  console.log("wallet :>> ", wallet);
   return (
     <Card.Root
       borderWidth={0}
@@ -40,7 +56,11 @@ export const Balance = () => {
               fontWeight={"500"}
               color={"#1A1B2F"}
             >
-              <FormatNumber value={351251.02} style="currency" currency="USD" />
+              <FormatNumber
+                value={wallet.balance}
+                style="currency"
+                currency="USD"
+              />
             </StatValueText>
             <StatUpTrend
               py={"3px"}
