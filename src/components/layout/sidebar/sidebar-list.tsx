@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { For, VStack } from "@chakra-ui/react";
+import { For, Link, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import {
   HiCreditCard,
@@ -12,32 +12,35 @@ import {
 interface SidebarButtonProps {
   name: string;
   Icon: IconType;
+  route: string;
 }
 
-const SidebarButton = ({ name, Icon }: SidebarButtonProps) => {
+const SidebarButton = ({ name, Icon, route }: SidebarButtonProps) => {
   return (
-    <Button
-      onClick={() => console.log("Button clicked")}
-      display={"flex"}
-      justifyContent={"flex-start"}
-      paddingLeft={"12px"}
-      colorPalette={"pink"}
-      borderRadius={"10px"}
-      w={"197px"}
-      h={"50px"}
-      fontSize={"14px"}
-      fontWeight={"600"}
-    >
-      {<Icon />} {name}
-    </Button>
+    <Link href={route}>
+      <Button
+        onClick={() => console.log("Button clicked")}
+        display={"flex"}
+        justifyContent={"flex-start"}
+        paddingLeft={"12px"}
+        colorPalette={"pink"}
+        borderRadius={"10px"}
+        w={"197px"}
+        h={"50px"}
+        fontSize={"14px"}
+        fontWeight={"600"}
+      >
+        {<Icon />} {name}
+      </Button>
+    </Link>
   );
 };
 
 const SIDEBAR_LIST: SidebarButtonProps[] = [
-  { name: "Dashboard", Icon: HiSquares2X2 },
-  { name: "Inversiones", Icon: HiCreditCard },
-  { name: "Billetera", Icon: HiWallet },
-  { name: "Configuraciones", Icon: HiWrench },
+  { name: "Dashboard", Icon: HiSquares2X2, route: "dashboard" },
+  { name: "Inversiones", Icon: HiCreditCard, route: "investments" },
+  { name: "Billetera", Icon: HiWallet, route: "wallet" },
+  { name: "Configuraciones", Icon: HiWrench, route: "config" },
 ];
 
 export const SidebarList = () => {
