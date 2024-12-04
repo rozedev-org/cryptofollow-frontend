@@ -1,15 +1,5 @@
-import {
-  Box,
-  Button,
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
-  Stack,
-  Table,
-  Text,
-} from "@chakra-ui/react";
-import { BiDotsHorizontal } from "react-icons/bi";
+import { Menu } from "@/components/ui/menu";
+import { Box, Stack, Table, Text } from "@chakra-ui/react";
 
 export default function InvestmentsPage() {
   const data = [
@@ -80,25 +70,7 @@ export default function InvestmentsPage() {
             <Table.Row key={index}>
               <Table.Cell>
                 <Stack>
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <Button
-                        w={"20px"}
-                        h={"18px"}
-                        bg="#ffffff"
-                        _hover={{ bg: "#cccccc" }}
-                        ml={"11px"}
-                        mr={"36px"}
-                      >
-                        <BiDotsHorizontal color="black" />
-                      </Button>
-                    </MenuTrigger>
-                    <MenuContent position={"absolute"}>
-                      <MenuItem value="1">Opcion 1</MenuItem>
-                      <MenuItem value="2">Opcion 2</MenuItem>
-                      <MenuItem value="2">Opcion 3</MenuItem>
-                    </MenuContent>
-                  </MenuRoot>
+                  <Menu id={`${index}`} />
                 </Stack>
               </Table.Cell>
               <Table.Cell>
