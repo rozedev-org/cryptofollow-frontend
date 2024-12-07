@@ -1,54 +1,65 @@
 import { Menu } from "@/components/ui/menu";
 import { Box, Stack, Table, Text } from "@chakra-ui/react";
 
+export interface CryptoData {
+  currency: string;
+  priceUSDT: number;
+  gain24h: number; //Esto deberia de calcularse
+  gainUSDT: number; //Esto deberia de calcularse
+  gainCurrency: number; //Esto deberia de calcularse
+  investmentUSDT: number;
+  investmentCurrency: number; //Esto deberia de calcularse
+  totalUSDT: number; //Esto deberia de calcularse
+  totalCurrency: number; //Esto deberia de calcularse
+}
 export default function InvestmentsPage() {
   const data = [
     {
       currency: "DOGE",
       priceUSDT: 0.42269,
-      gain24h: 14, //Esto deberia de calcularse
-      gainUSDT: 7, //Esto deberia de calcularse
-      gainCurrency: 2.95, //Esto deberia de calcularse
+      gain24h: 14,
+      gainUSDT: 7,
+      gainCurrency: 2.95,
       investmentUSDT: 50,
-      investmentCurrency: 21.13, //Esto deberia de calcularse
-      totalUSDT: 57, //Esto deberia de calcularse
-      totalCurrency: 24.08, //Esto deberia de calcularse
+      investmentCurrency: 21.13,
+      totalUSDT: 57,
+      totalCurrency: 24.08,
     },
     {
       currency: "USDT",
-      priceUSDT: "0,00002280",
+      priceUSDT: 0.0000228,
       gain24h: -10,
       gainUSDT: -14,
       gainCurrency: -14,
-      investmentUSDT: "100",
-      investmentCurrency: "100",
-      amountCurrency: "200,964",
-      totalUSDT: "114",
-      totalCurrency: "114",
+      investmentUSDT: 100,
+      investmentCurrency: 100,
+      amountCurrency: 200.964,
+      totalUSDT: 114,
+      totalCurrency: 114,
     },
     {
       currency: "ETH",
-      priceUSDT: "0,00002280",
+      priceUSDT: 0.0000228,
       gain24h: 2.6,
       gainUSDT: 2.6,
       gainCurrency: 2.6,
-      investmentUSDT: "100",
-      investmentCurrency: "100",
-      amountCurrency: "2,100,511",
-      totalUSDT: "114",
-      totalCurrency: "114",
+      investmentUSDT: 100,
+      investmentCurrency: 100,
+      amountCurrency: 2100511,
+      totalUSDT: 114,
+      totalCurrency: 114,
     },
     {
       currency: "BTC",
-      priceUSDT: "0,00002280",
+      priceUSDT: 0.0000228,
       gain24h: -2.6,
       gainUSDT: -2.6,
       gainCurrency: -2.6,
-      investmentUSDT: "100",
-      investmentCurrency: "100",
-      amountCurrency: "2,100,511",
-      totalUSDT: "114",
-      totalCurrency: "114",
+      investmentUSDT: 100,
+      investmentCurrency: 100,
+      amountCurrency: 2100511,
+      totalUSDT: 114,
+      totalCurrency: 114,
     },
   ];
   return (
@@ -70,7 +81,7 @@ export default function InvestmentsPage() {
             <Table.Row key={index}>
               <Table.Cell>
                 <Stack>
-                  <Menu id={`${index}`} />
+                  <Menu index={index} data={data} />
                 </Stack>
               </Table.Cell>
               <Table.Cell>
