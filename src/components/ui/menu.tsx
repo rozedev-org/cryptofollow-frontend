@@ -1,4 +1,5 @@
 "use client";
+import { CryptoData } from "@/app/investments/page";
 import {
   MenuRoot,
   MenuTrigger,
@@ -9,9 +10,11 @@ import {
 import type { MenuRootProps as ChakraMenuRootProps } from "@chakra-ui/react";
 import { forwardRef } from "react";
 import { BiDotsHorizontal } from "react-icons/bi";
+import { DialogComponent } from "./dialog-details";
 
 interface MenuProps {
-  id?: string;
+  index: number;
+  data: CryptoData[];
 }
 
 export interface MenuRootProps extends ChakraMenuRootProps, MenuProps {}
@@ -19,7 +22,8 @@ export interface MenuRootProps extends ChakraMenuRootProps, MenuProps {}
 export const Menu = forwardRef<HTMLMenuElement, MenuProps>(function Menu(
   props
 ) {
-  const { id } = props;
+  const { index, data } = props;
+
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -35,13 +39,14 @@ export const Menu = forwardRef<HTMLMenuElement, MenuProps>(function Menu(
         </Button>
       </MenuTrigger>
       <MenuContent position={"absolute"}>
-        <MenuItem value="1" onClick={() => console.log(id)}>
-          Detalle
+        <MenuItem value="detail" onClick={() => console.log(data[index])}>
+          {/* <DrawerComponent title={'Detalle'} data={data}/> */}
+          <DialogComponent title="Detalle" data={data[index]} />
         </MenuItem>
-        <MenuItem value="2" onClick={() => console.log(id)}>
+        <MenuItem value="edit" onClick={() => console.log(index)}>
           Editar
         </MenuItem>
-        <MenuItem value="2" onClick={() => console.log(id)}>
+        <MenuItem value="delete" onClick={() => console.log(index)}>
           Eliminar
         </MenuItem>
       </MenuContent>
