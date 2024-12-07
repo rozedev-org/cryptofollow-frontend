@@ -26,6 +26,17 @@ export default function InvestmentsPage() {
       totalCurrency: 24.08,
     },
     {
+      currency: "DOGE",
+      priceUSDT: 0.46032,
+      gain24h: 31,
+      gainUSDT: 15.5,
+      gainCurrency: 7.13,
+      investmentUSDT: 50,
+      investmentCurrency: 23.01,
+      totalUSDT: 57,
+      totalCurrency: 30.14,
+    },
+    {
       currency: "USDT",
       priceUSDT: 0.0000228,
       gain24h: -10,
