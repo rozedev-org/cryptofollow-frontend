@@ -10,63 +10,64 @@ import {
   DialogHeader,
   DialogRoot,
   DialogTitle,
-} from "./dialog";
-import { DataListItem, DataListRoot } from "./data-list";
+} from "../../../components/ui/dialog";
+import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
+import { MenuItem } from "../../../components/ui/menu";
 
-interface DialogComponentProps {
+interface InvestmentDialogDetailProps {
   title: string;
-  data: CryptoData;
+  currencyId: number;
 }
-export const DialogComponent = (props: DialogComponentProps) => {
-  const { title, data } = props;
-  console.log(data);
+export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
+  const { title } = props;
+
   return (
-    <VStack alignItems="start">
-      <DialogRoot placement={"center"}>
+    <DialogRoot placement={"center"}>
+      <VStack alignItems="start">
         <DialogTrigger asChild>
-          <Text>{title}</Text>
+          <MenuItem value="detail">{title}</MenuItem>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader>
-            <DialogTitle pb={5}>Inversion en : {data.currency}</DialogTitle>
+            <DialogTitle pb={5}>Inversion en : {"data.currency"}</DialogTitle>
           </DialogHeader>
           <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
             <DataListRoot orientation="horizontal">
               <DataListItem
                 label="Ganancias"
                 value={
-                  data.gain24h >= 1 ? (
-                    <Badge colorPalette="green">{data.gain24h}%</Badge>
+                  2 >= 1 ? (
+                    <Badge colorPalette="green">{3}%</Badge>
                   ) : (
-                    <Badge colorPalette="red">{data.gain24h}%</Badge>
+                    <Badge colorPalette="red">{4}%</Badge>
                   )
                 }
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Precio (USDT)"
-                value={<Text ml={"auto"}>{data.priceUSDT} $</Text>}
+                value={<Text ml={"auto"}>{6} $</Text>}
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Ganancias (USDT)"
-                value={<Text ml={"auto"}>{data.gainUSDT} $</Text>}
+                value={<Text ml={"auto"}>{5} $</Text>}
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Inversion (USDT)"
-                value={<Text ml={"auto"}>{data.investmentUSDT} $</Text>}
+                value={<Text ml={"auto"}>{6} $</Text>}
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Total (USDT)"
-                value={<Text ml={"auto"}>{data.totalUSDT} $</Text>}
+                value={<Text ml={"auto"}>{6} $</Text>}
               />
             </DataListRoot>
           </DialogBody>
           <DialogCloseTrigger />
         </DialogContent>
-      </DialogRoot>
-    </VStack>
+      </VStack>
+    </DialogRoot>
   );
 };

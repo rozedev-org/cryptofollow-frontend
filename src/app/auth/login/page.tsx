@@ -13,8 +13,8 @@ import {
 import { FaGoogle } from "react-icons/fa";
 export default function LoginPage() {
   return (
-    <HStack>
-      <Image src="/pic.svg" alt="213" maxW="1024px" minH="984px" />
+    <HStack h={"100vh"}>
+      <Image src="/login-wallpaper.png" alt="213" minW="984px" h={"100%"} />
       <VStack display={"flex"} minW={"456px"} minH={"1024px"} p={"48px"}>
         <HStack mr={"auto"}>
           <Image src={"/logo.png"} alt="App Logo" width={"38"} height={"37"} />

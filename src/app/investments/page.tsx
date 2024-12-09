@@ -1,5 +1,7 @@
-import { Menu } from "@/components/ui/menu";
+"use client";
+import { InvestmentMenu } from "@/app/investments/components/InvestmentMenu";
 import { Box, Stack, Table, Text } from "@chakra-ui/react";
+import { BiDotsHorizontal } from "react-icons/bi";
 
 export interface CryptoData {
   currency: string;
@@ -15,6 +17,7 @@ export interface CryptoData {
 export default function InvestmentsPage() {
   const data = [
     {
+      id: 1,
       currency: "DOGE",
       priceUSDT: 0.42269,
       gain24h: 14,
@@ -26,6 +29,7 @@ export default function InvestmentsPage() {
       totalCurrency: 24.08,
     },
     {
+      id: 2,
       currency: "DOGE",
       priceUSDT: 0.46032,
       gain24h: 31,
@@ -37,6 +41,7 @@ export default function InvestmentsPage() {
       totalCurrency: 30.14,
     },
     {
+      id: 3,
       currency: "USDT",
       priceUSDT: 0.0000228,
       gain24h: -10,
@@ -49,6 +54,7 @@ export default function InvestmentsPage() {
       totalCurrency: 114,
     },
     {
+      id: 4,
       currency: "ETH",
       priceUSDT: 0.0000228,
       gain24h: 2.6,
@@ -61,6 +67,7 @@ export default function InvestmentsPage() {
       totalCurrency: 114,
     },
     {
+      id: 5,
       currency: "BTC",
       priceUSDT: 0.0000228,
       gain24h: -2.6,
@@ -73,6 +80,7 @@ export default function InvestmentsPage() {
       totalCurrency: 114,
     },
   ];
+
   return (
     <Box overflowX="auto">
       <Table.Root>
@@ -92,7 +100,11 @@ export default function InvestmentsPage() {
             <Table.Row key={index}>
               <Table.Cell>
                 <Stack>
-                  <Menu index={index} data={data} />
+                  {/* <Menu index={index} data={data} /> */}
+                  <InvestmentMenu
+                    currencyId={item.id}
+                    iconButton={<BiDotsHorizontal color="black" />}
+                  />
                 </Stack>
               </Table.Cell>
               <Table.Cell>
