@@ -1,6 +1,5 @@
 "use client";
 
-import { CryptoData } from "@/app/investments/page";
 import { Badge, Text, VStack } from "@chakra-ui/react";
 import {
   DialogTrigger,

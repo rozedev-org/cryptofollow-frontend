@@ -1,6 +1,7 @@
-import { Menu } from "@/components/ui/menu";
 import { Box, Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
 import { DialogForm } from "./components/dialog-form";
+import { InvestmentMenu } from "./components/InvestmentMenu";
+import { BiDotsHorizontal } from "react-icons/bi";
 
 export interface CryptoData {
   currency: string;
