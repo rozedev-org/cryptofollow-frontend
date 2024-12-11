@@ -1,5 +1,6 @@
 import { Menu } from "@/components/ui/menu";
-import { Box, Stack, Table, Text } from "@chakra-ui/react";
+import { Box, Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
+import { DialogForm } from "./components/dialog-form";
 
 export interface CryptoData {
   currency: string;
@@ -75,6 +76,10 @@ export default function InvestmentsPage() {
   ];
   return (
     <Box overflowX="auto">
+      <HStack mr={"auto"} mb={"35px"}>
+        <Heading>Inversiones</Heading>
+        <DialogForm />
+      </HStack>
       <Table.Root>
         <Table.Header>
           <Table.Row>
