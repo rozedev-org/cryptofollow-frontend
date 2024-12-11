@@ -50,12 +50,16 @@ const SIDEBAR_LIST: SidebarButtonProps[] = [
     Icon: HiWrench,
     route: appRoutes.home.config.url(),
   },
-];
 
-export const SidebarList = () => {
+
+export const SidebarList = ({
+  sidebarList,
+}: {
+  sidebarList: SidebarButtonProps[];
+}) => {
   return (
     <VStack gap={"32px"}>
-      <For each={SIDEBAR_LIST} fallback={<div>Empty</div>}>
+      <For each={sidebarList} fallback={<div>Empty</div>}>
         {(item, index) => (
           <SidebarButton {...item} key={`Sidebar-item-${index}`} />
         )}
