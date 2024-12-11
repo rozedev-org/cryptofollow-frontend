@@ -1,4 +1,5 @@
 "use client";
+import { appRoutes } from "@/appRoutes";
 import { Button } from "@/components/ui/button";
 import { For, Link, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
@@ -36,12 +37,20 @@ const SidebarButton = ({ name, Icon, route }: SidebarButtonProps) => {
   );
 };
 
-export const SIDEBAR_LIST: SidebarButtonProps[] = [
-  { name: "Dashboard", Icon: HiSquares2X2, route: "dashboard" },
-  { name: "Inversiones", Icon: HiCreditCard, route: "investments" },
-  { name: "Billetera", Icon: HiWallet, route: "wallet" },
-  { name: "Configuraciones", Icon: HiWrench, route: "config" },
-];
+const SIDEBAR_LIST: SidebarButtonProps[] = [
+  { name: "Dashboard", Icon: HiSquares2X2, route: appRoutes.home.url() },
+  {
+    name: "Inversiones",
+    Icon: HiCreditCard,
+    route: appRoutes.home.investments.url(),
+  },
+  { name: "Billetera", Icon: HiWallet, route: appRoutes.home.wallet.url() },
+  {
+    name: "Configuraciones",
+    Icon: HiWrench,
+    route: appRoutes.home.config.url(),
+  },
+
 
 export const SidebarList = ({
   sidebarList,

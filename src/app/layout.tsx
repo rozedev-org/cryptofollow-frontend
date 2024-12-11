@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
 import { DefaultLayout } from "@/components/layout";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
         <Provider>
+          <Toaster richColors closeButton />
           <DefaultLayout>{children}</DefaultLayout>
         </Provider>
       </body>
