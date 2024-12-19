@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "../../../components/ui/button";
 import { InvestmentDialogDetail } from "./dialog-details";
 import {
@@ -7,17 +6,18 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "../../../components/ui/menu";
+import { InvestmentDialogDelete } from "./dialog-delete";
 
 export interface InvestmentMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;
-  currencyId: number;
+  investId: number;
 }
 
 export const InvestmentMenu = ({
   textButton,
   iconButton,
-  currencyId,
+  investId,
 }: InvestmentMenuProps) => {
   return (
     <MenuRoot>
@@ -37,15 +37,14 @@ export const InvestmentMenu = ({
 
       <MenuContent>
         <MenuContent>
-          <MenuItem value="detail" onClick={() => console.log("oli")}>
-            {/* <DrawerComponent title={'Detalle'} data={data}/> */}
-            <InvestmentDialogDetail title="Detalle" currencyId={currencyId} />
+          <MenuItem value="detail">
+            <InvestmentDialogDetail title="Detalle" investId={investId} />
           </MenuItem>
           <MenuItem value="edit" onClick={() => console.log("oli")}>
             Editar
           </MenuItem>
-          <MenuItem value="delete" onClick={() => console.log("oli")}>
-            Eliminar
+          <MenuItem value="delete">
+            <InvestmentDialogDelete title="Eliminar" investId={investId} />
           </MenuItem>
         </MenuContent>
       </MenuContent>

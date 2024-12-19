@@ -1,89 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+"use client";
 import { Box, Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
 import { DialogForm } from "./components/dialog-form";
 import { InvestmentMenu } from "./components/InvestmentMenu";
 import { BiDotsHorizontal } from "react-icons/bi";
+import { useInvestments } from "./hook/useInvestment";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
-export interface CryptoData {
-  currency: string;
-  priceUSDT: number;
-  gain24h: number; //Esto deberia de calcularse
-  gainUSDT: number; //Esto deberia de calcularse
-  gainCurrency: number; //Esto deberia de calcularse
-  investmentUSDT: number;
-  investmentCurrency: number; //Esto deberia de calcularse
-  totalUSDT: number; //Esto deberia de calcularse
-  totalCurrency: number; //Esto deberia de calcularse
-}
 export default function InvestmentsPage() {
-  const data = [
-    {
-      id: 1,
-      currency: "DOGE",
-      priceUSDT: 0.42269,
-      gain24h: 14,
-      gainUSDT: 7,
-      gainCurrency: 2.95,
-      investmentUSDT: 50,
-      investmentCurrency: 21.13,
-      totalUSDT: 57,
-      totalCurrency: 24.08,
-    },
-    {
-      id: 2,
-      currency: "DOGE",
-      priceUSDT: 0.46032,
-      gain24h: 31,
-      gainUSDT: 15.5,
-      gainCurrency: 7.13,
-      investmentUSDT: 50,
-      investmentCurrency: 23.01,
-      totalUSDT: 57,
-      totalCurrency: 30.14,
-    },
-    {
-      id: 3,
-      currency: "USDT",
-      priceUSDT: 0.0000228,
-      gain24h: -10,
-      gainUSDT: -14,
-      gainCurrency: -14,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 200.964,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-    {
-      id: 4,
-      currency: "ETH",
-      priceUSDT: 0.0000228,
-      gain24h: 2.6,
-      gainUSDT: 2.6,
-      gainCurrency: 2.6,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 2100511,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-    {
-      id: 5,
-      currency: "BTC",
-      priceUSDT: 0.0000228,
-      gain24h: -2.6,
-      gainUSDT: -2.6,
-      gainCurrency: -2.6,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 2100511,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-  ];
+  const { fetchInvestments, invest } = useInvestments();
+  useEffect(() => {
+    fetchInvestments();
+  }, []);
 
   return (
     <Box overflowX="auto">
       <HStack mr={"auto"} mb={"35px"}>
+        {/* Este boton se borrara */}
+        <Button onClick={fetchInvestments}>Actualizar</Button>
         <Heading>Inversiones</Heading>
         <DialogForm />
       </HStack>
@@ -100,57 +35,62 @@ export default function InvestmentsPage() {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {data.map((item, index) => (
+          {invest.map((item, index) => (
             <Table.Row key={index}>
               <Table.Cell>
                 <Stack>
                   {/* <Menu index={index} data={data} /> */}
                   <InvestmentMenu
-                    currencyId={item.id}
+                    investId={item.id}
                     iconButton={<BiDotsHorizontal color="black" />}
                   />
                 </Stack>
               </Table.Cell>
               <Table.Cell>
                 <Stack mr={"56px"} mt={"25px"} mb={"6px"}>
-                  <Text fontWeight="bold">{item.currency}</Text>
+                  <Text fontWeight="bold">{item.currency.name}</Text>
                   <Text fontSize="sm" color="gray.500">
-                    {item.currency} / USDT
+                    {item.currency.name} / USDT
                   </Text>
                 </Stack>
               </Table.Cell>
               <Table.Cell>
-                <Text mr={"77px"}>{item.priceUSDT} USDT</Text>
+                <Text mr={"77px"}>{item.currency.price} USDT</Text>
               </Table.Cell>
-              {item.gain24h > 0 ? (
+              {/*Ganancia cada 24 horas aqui */}
+              {item.percentageVariation > 0 ? (
                 <Table.Cell color="green.500">
-                  <Text mr={"50px"}>+{item.gain24h}%</Text>
+                  <Text mr={"50px"}>
+                    +{item.percentageVariation.toFixed(2)}%
+                  </Text>
                 </Table.Cell>
               ) : (
                 <Table.Cell color="red.500">
-                  <Text mr={"50px"}>{item.gain24h}%</Text>
+                  <Text mr={"50px"}>
+                    {item.percentageVariation.toFixed(2)}%
+                  </Text>
                 </Table.Cell>
               )}
               <Table.Cell>
                 <Stack mr={"41px"}>
-                  <Text>{item.gainUSDT} USDT</Text>
+                  <Text>{item.pairVariation.toFixed(2)} USDT</Text>
                   <Text fontSize="sm" color="gray.500">
-                    {item.gainCurrency} {item.currency}
+                    {item.pairVariation.toFixed(2)} DOGE
                   </Text>
                 </Stack>
               </Table.Cell>
               <Table.Cell>
                 <Stack mr={"72px"}>
-                  <Text>{item.investmentUSDT} USDT</Text>
+                  <Text>{item.pairInvestment.toFixed(2)} USDT</Text>
                   <Text fontSize="sm" color="gray.500">
-                    {item.investmentCurrency} DOGE
+                    {item.currencyInvestment.toFixed(2)} DOGE
                   </Text>
                 </Stack>
               </Table.Cell>
               <Table.Cell>
-                <Text>{item.totalUSDT} USDT</Text>
+                <Text>{item.pairAmount.toFixed(2)} USDT</Text>
                 <Text fontSize="sm" color="gray.500">
-                  {item.totalCurrency} {item.currency}
+                  {item.pairAmount.toFixed(2)} DOGE
                 </Text>
               </Table.Cell>
             </Table.Row>
