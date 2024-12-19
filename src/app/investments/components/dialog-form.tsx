@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   DialogBody,
@@ -16,9 +15,16 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { toast } from "sonner";
+import {
+  NativeSelectField,
+  NativeSelectRoot,
+} from "@/components/ui/native-select";
 
 export const DialogForm = () => {
   const [open, setOpen] = useState(false);
+  const user = [{ value: "1", label: "Usuario 1" }];
+  const currency = [{ value: "1", label: "BONK" }];
+
   return (
     <DialogRoot
       placement={"center"}
@@ -92,16 +98,19 @@ export const DialogForm = () => {
                     // value={values.buyPrice}
                   />
                 </Field>
-                <Field label="Seleccionar la mondeda">
-                  {/* este input debe de ser un select (supongo) */}
-                  <Input
-                    name="currencyId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // value={values.currencyId}
-                  />
+                <Field label="Seleccionar la mondeda (Está en duro)" mt={4}>
+                  <NativeSelectRoot>
+                    <NativeSelectField
+                      placeholder="Select option"
+                      items={currency}
+                      name="currencyId"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      // value={values.currencyId}
+                    />
+                  </NativeSelectRoot>
                 </Field>
-                <Field label="Inversion de moneda">
+                <Field label="Inversion de moneda" mt={4}>
                   <Input
                     name="currencyInvestment"
                     onChange={handleChange}
@@ -109,14 +118,18 @@ export const DialogForm = () => {
                     // value={values.currencyInvestment}
                   />
                 </Field>
-                <Field label="Usuario">
+                <Field label="Usuario (Está en duro)" mt={4}>
                   {/* este input debe de ser un select (supongo) */}
-                  <Input
-                    name="userId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // value={values.userId}
-                  />
+                  <NativeSelectRoot>
+                    <NativeSelectField
+                      placeholder="Select option"
+                      items={user}
+                      name="userId"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      // value={values.userId}
+                    />
+                  </NativeSelectRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}
@@ -124,6 +137,7 @@ export const DialogForm = () => {
                   variant={"outline"}
                   type="submit"
                   disabled={isSubmitting}
+                  mt={6}
                 >
                   Enviar
                 </Button>
