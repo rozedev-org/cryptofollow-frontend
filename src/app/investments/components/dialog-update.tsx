@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { Formik } from "formik";
 import { useState } from "react";
-import { FaRegPlusSquare } from "react-icons/fa";
 import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { toast } from "sonner";
@@ -18,11 +17,19 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
+import { MenuItem } from "@/components/ui/menu";
+import { InvestmentIdentity } from "../types/crypto.types";
 
-export const InvestmentDialogForm = () => {
+interface InvestmentDialogUpdateProps {
+  title: string;
+  invest: InvestmentIdentity;
+}
+
+export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
   const user = [{ value: "1", label: "Usuario 1" }];
   const currency = [{ value: "1", label: "BONK" }];
+  const { title, invest } = props;
 
   return (
     <DialogRoot
@@ -31,14 +38,7 @@ export const InvestmentDialogForm = () => {
       onOpenChange={(e) => setOpen(e.open)}
     >
       <DialogTrigger asChild>
-        <Button
-          variant="plain"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          <FaRegPlusSquare />
-        </Button>
+        <MenuItem value="detail">{title}</MenuItem>
       </DialogTrigger>
       <DialogContent p={"30px"}>
         <DialogHeader>
@@ -47,10 +47,10 @@ export const InvestmentDialogForm = () => {
         <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
           <Formik
             initialValues={{
-              buyPrice: 0,
-              currencyInvestment: 0,
-              currencyId: 0,
-              userId: 0,
+              buyPrice: invest.buyPrice,
+              currencyInvestment: invest.currencyInvestment,
+              currencyId: invest.currencyId,
+              userId: 1,
             }}
             // validate={(values) => {
             //   const errors = {
@@ -67,33 +67,40 @@ export const InvestmentDialogForm = () => {
             onSubmit={async (values, { setSubmitting }) => {
               try {
                 const response = await fetch(
-                  "http://localhost:8000/api/cryptofollow-service/v1/investments",
+                  `http://localhost:8000/api/cryptofollow-service/v1/investments/${invest.id}`,
                   {
-                    method: "POST",
+                    method: "PUT",
                     headers: {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify(values),
                   }
                 );
-                toast.success(`Se ha creado una inversion`);
+                toast.success(`Se ha actualizado una inversion`);
                 console.log(response);
                 setOpen(false);
               } catch (error) {
-                toast.error("Ha ocurrido un error al crear la inversion");
+                toast.error("Ha ocurrido un error al actualizar la inversion");
                 console.log(error);
                 setOpen(true);
               }
               setSubmitting(false);
             }}
           >
-            {({ handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+            {({
+              values,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
               <form onSubmit={handleSubmit}>
                 <Field label="Precio de Compra">
                   <Input
                     name="buyPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.buyPrice}
                   />
                 </Field>
                 <Field label="Seleccionar la mondeda (Está en duro)" mt={4}>
@@ -104,6 +111,7 @@ export const InvestmentDialogForm = () => {
                       name="currencyId"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.currencyId}
                     />
                   </NativeSelectRoot>
                 </Field>
@@ -112,16 +120,18 @@ export const InvestmentDialogForm = () => {
                     name="currencyInvestment"
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    value={values.currencyInvestment}
                   />
                 </Field>
                 <Field label="Usuario (Está en duro)" mt={4}>
                   <NativeSelectRoot>
                     <NativeSelectField
-                      placeholder="Selecciona aqui tambien mano"
+                      placeholder="Selecciona mano"
                       items={user}
                       name="userId"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.userId}
                     />
                   </NativeSelectRoot>
                 </Field>
