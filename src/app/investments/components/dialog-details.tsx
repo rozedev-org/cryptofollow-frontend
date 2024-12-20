@@ -10,24 +10,21 @@ import {
 } from "../../../components/ui/dialog";
 import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 import { MenuItem } from "../../../components/ui/menu";
-import { useInvestment } from "../hook/useInvestment";
 import { Tooltip } from "@/components/ui/tooltip";
+import { InvestmentIdentity } from "../types/crypto.types";
 
 interface InvestmentDialogDetailProps {
   title: string;
-  investId: number;
+  invest: InvestmentIdentity;
 }
 export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
-  const { title, investId } = props;
-  const { fetchInvest, invest } = useInvestment(investId);
+  const { title, invest } = props;
 
   return (
     <DialogRoot placement={"center"}>
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail" onClick={fetchInvest}>
-            {title}
-          </MenuItem>
+          <MenuItem value="detail">{title}</MenuItem>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader>

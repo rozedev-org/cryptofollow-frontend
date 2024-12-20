@@ -7,6 +7,8 @@ import {
   MenuTrigger,
 } from "../../../components/ui/menu";
 import { InvestmentDialogDelete } from "./dialog-delete";
+import { InvestmentDialogUpdate } from "./dialog-update";
+import { useInvestment } from "../hook/useInvestment";
 
 export interface InvestmentMenuProps {
   textButton?: string;
@@ -19,6 +21,12 @@ export const InvestmentMenu = ({
   iconButton,
   investId,
 }: InvestmentMenuProps) => {
+  const { fetchInvest, invest } = useInvestment(investId);
+  const handleFetchInvest = () => {
+    if (invest.id === 0) {
+      fetchInvest();
+    }
+  };
   return (
     <MenuRoot>
       <MenuTrigger asChild>
@@ -29,6 +37,7 @@ export const InvestmentMenu = ({
           _hover={{ bg: "#cccccc" }}
           ml={"11px"}
           mr={"36px"}
+          onClick={handleFetchInvest}
         >
           {iconButton && iconButton}
           {textButton && textButton}
@@ -38,13 +47,17 @@ export const InvestmentMenu = ({
       <MenuContent>
         <MenuContent>
           <MenuItem value="detail">
-            <InvestmentDialogDetail title="Detalle" investId={investId} />
+            <InvestmentDialogDetail title="Detalle" invest={invest} />
           </MenuItem>
-          <MenuItem value="edit" onClick={() => console.log("oli")}>
-            Editar
+          <MenuItem value="edit">
+            <InvestmentDialogUpdate title="Editar" invest={invest} />
           </MenuItem>
           <MenuItem value="delete">
-            <InvestmentDialogDelete title="Eliminar" investId={investId} />
+            <InvestmentDialogDelete
+              title="Eliminar"
+              invest={invest}
+              investId={investId}
+            />
           </MenuItem>
         </MenuContent>
       </MenuContent>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { InvestmentIdentity } from "../types/crypto.types";
+import { InvestmentIdentity, newInvestment } from "../types/crypto.types";
 
 export const useInvestments = () => {
   const fetchInvestments = async () => {
@@ -48,7 +48,20 @@ export const useInvestment = (id: number) => {
     pairInvestment: 0,
     pairVariation: 0,
     percentageVariation: 0,
+    userId: 0,
   });
 
   return { fetchInvest, invest, setInvest };
+};
+
+export const useCreateInvestment = async (values: newInvestment) => {
+  try {
+    const response = await fetch(
+      "http://localhost:8000/api/cryptofollow-service/v1/investments",
+      { method: "POST", body: JSON.stringify(values) }
+    );
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
 };

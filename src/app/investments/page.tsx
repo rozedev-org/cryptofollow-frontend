@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Box, Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
-import { DialogForm } from "./components/dialog-form";
 import { InvestmentMenu } from "./components/InvestmentMenu";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { useInvestments } from "./hook/useInvestment";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { InvestmentDialogForm } from "./components/dialog-form";
 
 export default function InvestmentsPage() {
   const { fetchInvestments, invest } = useInvestments();
@@ -20,7 +20,7 @@ export default function InvestmentsPage() {
         {/* Este boton se borrara */}
         <Button onClick={fetchInvestments}>Actualizar</Button>
         <Heading>Inversiones</Heading>
-        <DialogForm />
+        <InvestmentDialogForm />
       </HStack>
       <Table.Root>
         <Table.Header>
@@ -39,7 +39,6 @@ export default function InvestmentsPage() {
             <Table.Row key={index}>
               <Table.Cell>
                 <Stack>
-                  {/* <Menu index={index} data={data} /> */}
                   <InvestmentMenu
                     investId={item.id}
                     iconButton={<BiDotsHorizontal color="black" />}
