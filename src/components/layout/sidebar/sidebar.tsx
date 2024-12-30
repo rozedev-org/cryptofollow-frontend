@@ -1,6 +1,7 @@
 import { VStack } from "@chakra-ui/react";
 import { SideBarLogo } from "./logo";
-import { SIDEBAR_LIST, SidebarList } from "./sidebar-list";
+import {SidebarList } from "./sidebar-list";
+import { SIDEBAR_LIST } from "@/constants/sidebar.constant";
 
 export const Sidebar = () => {
   return (

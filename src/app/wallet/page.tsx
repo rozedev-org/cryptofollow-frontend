@@ -3,57 +3,10 @@
 import { Box, Table, Stack, Text, For } from "@chakra-ui/react";
 import { useWallet } from "./hook/useWallet";
 import { useEffect } from "react";
+import { dataWallet } from "@/constants/walletPage.constant";
 
 export default function WalletPage() {
-  const dataWallet = [
-    {
-      currency: "DOGE",
-      priceUSDT: 0.46032,
-      gain24h: 22.5,
-      gainUSDT: 22.5,
-      gainCurrency: 10.08,
-      investmentUSDT: 100,
-      investmentCurrency: 44.14,
-      totalUSDT: 122.5,
-      totalCurrency: 54.22,
-    },
-    {
-      currency: "USDT",
-      priceUSDT: 0.0000228,
-      gain24h: -10,
-      gainUSDT: -14,
-      gainCurrency: -14,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 200.964,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-    {
-      currency: "ETH",
-      priceUSDT: 0.0000228,
-      gain24h: 2.6,
-      gainUSDT: 2.6,
-      gainCurrency: 2.6,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 2100511,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-    {
-      currency: "BTC",
-      priceUSDT: 0.0000228,
-      gain24h: -2.6,
-      gainUSDT: -2.6,
-      gainCurrency: -2.6,
-      investmentUSDT: 100,
-      investmentCurrency: 100,
-      amountCurrency: 2100511,
-      totalUSDT: 114,
-      totalCurrency: 114,
-    },
-  ];
+  
   const {fetchWallet} = useWallet()
   useEffect(() => {
     fetchWallet()
