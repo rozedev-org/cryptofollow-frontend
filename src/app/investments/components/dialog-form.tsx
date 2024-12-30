@@ -74,6 +74,7 @@ export const InvestmentDialogForm = () => {
                       "Content-Type": "application/json",
                     },
                     body: JSON.stringify(values),
+                    credentials: "include",
                   }
                 );
                 toast.success(`Se ha creado una inversion`);

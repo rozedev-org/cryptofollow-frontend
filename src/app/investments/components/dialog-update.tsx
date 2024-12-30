@@ -69,6 +69,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                 const response = await fetch(
                   `http://localhost:8000/api/cryptofollow-service/v1/investments/${invest.id}`,
                   {
+                    credentials: "include",
                     method: "PUT",
                     headers: {
                       "Content-Type": "application/json",

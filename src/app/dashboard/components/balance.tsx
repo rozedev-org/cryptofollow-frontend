@@ -12,7 +12,10 @@ interface WalletResponse {
 
 export const Balance = async () => {
   const res = await fetch(
-    "http://localhost:8000/api/cryptofollow-service/v1/wallet"
+    "http://localhost:8000/api/cryptofollow-service/v1/wallet",
+    {
+      credentials: "include",
+    }
   );
 
   if (!res.ok) {

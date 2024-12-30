@@ -5,7 +5,10 @@ export const useInvestments = () => {
   const fetchInvestments = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/cryptofollow-service/v1/investments"
+        "http://localhost:8000/api/cryptofollow-service/v1/investments",
+        {
+          credentials: "include",
+        }
       ).then((res) => res.json());
       setInvest(response);
       return response;
@@ -26,7 +29,10 @@ export const useInvestment = (id: number) => {
   const fetchInvest = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/cryptofollow-service/v1/investments/${id}`
+        `http://localhost:8000/api/cryptofollow-service/v1/investments/${id}`,
+        {
+          credentials: "include",
+        }
       ).then((res) => res.json());
       setInvest(response);
       return response;
@@ -58,7 +64,7 @@ export const useCreateInvestment = async (values: newInvestment) => {
   try {
     const response = await fetch(
       "http://localhost:8000/api/cryptofollow-service/v1/investments",
-      { method: "POST", body: JSON.stringify(values) }
+      { method: "POST", body: JSON.stringify(values), credentials: "include" }
     );
     console.log(response);
   } catch (error) {

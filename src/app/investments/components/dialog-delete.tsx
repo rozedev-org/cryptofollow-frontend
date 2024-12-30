@@ -29,7 +29,12 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
     try {
       await fetch(
         `http://localhost:8000/api/cryptofollow-service/v1/investments/${id}`,
-        { method: "DELETE", headers: { "Content-Type": "application/json" } }
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+
+          credentials: "include",
+        }
       );
       toast.success("Inversion eliminada con exito");
       setOpen(false);
