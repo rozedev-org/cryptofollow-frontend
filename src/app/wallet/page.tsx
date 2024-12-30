@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client'
 import { Box, Table, Stack, Text, For } from "@chakra-ui/react";
-import React from "react";
+import { useWallet } from "./hook/useWallet";
+import { useEffect } from "react";
 
 export default function WalletPage() {
   const dataWallet = [
@@ -51,6 +54,11 @@ export default function WalletPage() {
       totalCurrency: 114,
     },
   ];
+  const {fetchWallet} = useWallet()
+  useEffect(() => {
+    fetchWallet()
+  }, [])
+  
   return (
     <Box overflowX="auto">
       <Table.Root>
