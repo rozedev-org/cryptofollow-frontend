@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { InvestmentIdentity, newInvestment } from "../types/crypto.types";
+import { config } from "@/config";
 
 export const useInvestments = () => {
   const fetchInvestments = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/cryptofollow-service/v1/investments",
-        {
-          credentials: "include",
-        }
-      ).then((res) => res.json());
+      const { bff } = config;
+
+      const response = await fetch(`${bff.url}/investments`, {
+        credentials: "include",
+      }).then((res) => res.json());
       setInvest(response);
       return response;
     } catch (error) {
@@ -28,12 +28,11 @@ export const useInvestments = () => {
 export const useInvestment = (id: number) => {
   const fetchInvest = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/cryptofollow-service/v1/investments/${id}`,
-        {
-          credentials: "include",
-        }
-      ).then((res) => res.json());
+      const { bff } = config;
+
+      const response = await fetch(`${bff.url}/investments/${id}`, {
+        credentials: "include",
+      }).then((res) => res.json());
       setInvest(response);
       return response;
     } catch (error) {
@@ -62,10 +61,13 @@ export const useInvestment = (id: number) => {
 
 export const useCreateInvestment = async (values: newInvestment) => {
   try {
-    const response = await fetch(
-      "http://localhost:8000/api/cryptofollow-service/v1/investments",
-      { method: "POST", body: JSON.stringify(values), credentials: "include" }
-    );
+    const { bff } = config;
+
+    const response = await fetch(`${bff.url}/investments`, {
+      method: "POST",
+      body: JSON.stringify(values),
+      credentials: "include",
+    });
     console.log(response);
   } catch (error) {
     console.log(error);

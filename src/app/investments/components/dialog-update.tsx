@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/native-select";
 import { MenuItem } from "@/components/ui/menu";
 import { InvestmentIdentity } from "../types/crypto.types";
+import { config } from "@/config";
 
 interface InvestmentDialogUpdateProps {
   title: string;
@@ -66,8 +67,10 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
             // }}
             onSubmit={async (values, { setSubmitting }) => {
               try {
+                const { bff } = config;
+
                 const response = await fetch(
-                  `http://localhost:8000/api/cryptofollow-service/v1/investments/${invest.id}`,
+                  `${bff.url}/investments/${invest.id}`,
                   {
                     credentials: "include",
                     method: "PUT",
