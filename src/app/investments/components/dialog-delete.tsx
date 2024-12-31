@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useInvestments } from "../hook/useInvestment";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { toast } from "sonner";
+import { config } from "@/config";
 
 interface InvestmentDialogDeleteProps {
   title: string;
@@ -26,11 +27,14 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
   const { title, invest, investId } = props;
 
   const handleDelete = async (id: number) => {
+    const { bff } = config;
     try {
-      await fetch(
-        `http://localhost:8000/api/cryptofollow-service/v1/investments/${id}`,
-        { method: "DELETE", headers: { "Content-Type": "application/json" } }
-      );
+      await fetch(`${bff.url}/investments/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+
+        credentials: "include",
+      });
       toast.success("Inversion eliminada con exito");
       setOpen(false);
       fetchInvestments();

@@ -1,16 +1,5 @@
-import {
-  HStack,
-  Stack,
-  Image,
-  VStack,
-  Button,
-  Flex,
-  Heading,
-  Link,
-  Text,
-  Input,
-} from "@chakra-ui/react";
-import { FaGoogle } from "react-icons/fa";
+import { HStack, Image, VStack, Heading } from "@chakra-ui/react";
+import { LoginForm } from "./components/login-form";
 export default function LoginPage() {
   return (
     <HStack h={"100vh"}>
@@ -27,57 +16,7 @@ export default function LoginPage() {
             CryptoFollow
           </Heading>
         </HStack>
-        <Stack minW={"360px"} minH={"574px"} pb={"228px"}>
-          <Heading as="h2" size="lg" pt={"48px"} pb={"24px"}>
-            Encantado de verte de nuevo
-          </Heading>
-
-          <Text fontSize="11px" color="gray.600">
-            Acceso
-          </Text>
-          <Input placeholder=" Email" bg="gray.100" />
-          <Text fontSize="11px" color="gray.600">
-            Contraseña
-          </Text>
-          <Input placeholder=" Introducir Contraseña" bg="gray.100" />
-          <Flex justify="flex-end">
-            <Link color="blue.500" fontSize="sm">
-              ¿Has olvidado tu contraseña?
-            </Link>
-          </Flex>
-
-          <Button
-            color={"white"}
-            my={"32px"}
-            colorScheme="purple"
-            w="full"
-            bg="#d6b9c2"
-            _hover={{ bg: "#b5929f" }}
-            borderRadius="md"
-            py={6}
-          >
-            Iniciar sesión
-          </Button>
-
-          <Button
-            mt={"32px"}
-            mb={"24px"}
-            bg="#333333"
-            _hover={{ bg: "#4d4d4d" }}
-            color="white"
-            variant="outline"
-            w="full"
-            borderRadius="md"
-            py={6}
-          >
-            <FaGoogle /> O inicia sesión con Google
-          </Button>
-
-          <Text pt={"24px"} fontSize="12px" color="gray.600">
-            ¿No tienes una cuenta?{" "}
-            <Link color="blue.500">Regístrate ahora</Link>
-          </Text>
-        </Stack>
+        <LoginForm />
       </VStack>
     </HStack>
   );

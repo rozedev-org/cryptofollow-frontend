@@ -6,7 +6,7 @@ import { ThemeProvider, useTheme } from "next-themes";
 import type { ThemeProviderProps } from "next-themes";
 import { forwardRef } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
-
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ColorModeProviderProps extends ThemeProviderProps {}
 
 export function ColorModeProvider(props: ColorModeProviderProps) {
@@ -26,7 +26,7 @@ export function useColorMode() {
     toggleColorMode,
   };
 }
-
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export function useColorModeValue<T>(light: T, dark: T) {
   const { colorMode } = useColorMode();
   return colorMode === "light" ? light : dark;

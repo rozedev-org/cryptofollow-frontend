@@ -18,6 +18,7 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
+import { config } from "@/config";
 
 export const InvestmentDialogForm = () => {
   const [open, setOpen] = useState(false);
@@ -66,16 +67,16 @@ export const InvestmentDialogForm = () => {
             // }}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                const response = await fetch(
-                  "http://localhost:8000/api/cryptofollow-service/v1/investments",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(values),
-                  }
-                );
+                const { bff } = config;
+
+                const response = await fetch(`${bff.url}/investments`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(values),
+                  credentials: "include",
+                });
                 toast.success(`Se ha creado una inversion`);
                 console.log(response);
                 setOpen(false);
