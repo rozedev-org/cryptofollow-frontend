@@ -72,7 +72,7 @@ export const LoginForm = () => {
         </Button>
 
         <Text pt={"24px"} fontSize="12px" color="gray.600">
-          ¿No tienes una cuenta? <Link color="blue.500">Regístrate ahora</Link>
+          ¿No tienes una cuenta? <Link color="blue.500" onClick={()=>{console.log('registrar')}}>Regístrate ahora</Link>
         </Text>
       </Stack>
     </form>
