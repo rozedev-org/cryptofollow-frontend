@@ -1,16 +1,4 @@
-import {
-  HStack,
-  Stack,
-  Image,
-  VStack,
-  Button,
-  Flex,
-  Heading,
-  Link,
-  Text,
-  Input,
-} from "@chakra-ui/react";
-import { FaGoogle } from "react-icons/fa";
+import { HStack, Image, VStack, Heading } from "@chakra-ui/react";
 import { LoginForm } from "./components/login-form";
 export default function LoginPage() {
   return (

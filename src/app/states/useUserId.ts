@@ -60,6 +60,7 @@ export const useUserSession = create<SessionState>((set) => ({
       set({ sessionTimeout, isLoggedIn: true, id: response.data.user.id });
       return true;
     } catch (e) {
+      console.log(e);
       return false;
     }
   },
@@ -96,6 +97,7 @@ export const useUserSession = create<SessionState>((set) => ({
 
       return true;
     } catch (e) {
+      console.log(e);
       set({ isLoggedIn: false });
       return false;
     }
