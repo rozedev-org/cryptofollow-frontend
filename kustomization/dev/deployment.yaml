@@ -33,7 +33,7 @@ spec:
           #   memory: '500Mi'
           #   cpu: '200m'
           envFrom:
-            - secretRef:
-                name: cryptofollow-frontend-env
+            # - secretRef:
+            #     name: cryptofollow-frontend-env
             - configMapRef:
                 name: cryptofollow-frontend-cm
