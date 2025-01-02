@@ -20,7 +20,12 @@ import {
 } from "@/components/ui/native-select";
 import { config } from "@/config";
 
-export const InvestmentDialogForm = () => {
+interface InvestmentDialogFormProps {
+  handleRefreshSignal: (value: boolean) => void;
+}
+export const InvestmentDialogForm = ({
+  handleRefreshSignal,
+}: InvestmentDialogFormProps) => {
   const [open, setOpen] = useState(false);
   const user = [{ value: "1", label: "Usuario 1" }];
   const currency = [{ value: "1", label: "BONK" }];
@@ -79,6 +84,7 @@ export const InvestmentDialogForm = () => {
                 });
                 toast.success(`Se ha creado una inversion`);
                 console.log(response);
+                handleRefreshSignal(true);
                 setOpen(false);
               } catch (error) {
                 toast.error("Ha ocurrido un error al crear la inversion");

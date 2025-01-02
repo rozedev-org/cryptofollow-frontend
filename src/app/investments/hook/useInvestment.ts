@@ -6,22 +6,31 @@ export const useInvestments = () => {
   const fetchInvestments = async () => {
     try {
       const { bff } = config;
-
+      setIsLoading(true);
       const response = await fetch(`${bff.url}/investments`, {
         credentials: "include",
       }).then((res) => res.json());
       setInvest(response);
+      setIsLoading(false);
       return response;
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
 
   const [invest, setInvest] = useState<InvestmentIdentity[]>([]);
+  const [refreshSignal, setRefreshSignal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleRefreshSignal = (value: boolean) => setRefreshSignal(value);
 
   return {
     invest,
     fetchInvestments,
+    refreshSignal,
+    handleRefreshSignal,
+    isLoading,
   };
 };
 
