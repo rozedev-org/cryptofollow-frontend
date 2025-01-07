@@ -1,63 +1,65 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useEffect } from "react";
 import { useWallet } from "../hook/useWallet";
 import { For, Stack, Table, Text } from "@chakra-ui/react";
-import { dataWallet } from "@/constants/walletPage.constant";
 
 export const WalletTableBody = () => {
-  const { fetchWallet } = useWallet();
+  const { fetchWallet, wallet } = useWallet();
   useEffect(() => {
     fetchWallet();
   }, []);
 
   return (
-    <For each={dataWallet}>
+    <>
+      <For each={wallet}>
       {(item, index) => (
         <Table.Row key={index}>
           <Table.Cell>
             <Stack mr={"56px"} mt={"25px"} mb={"6px"}>
-              <Text fontWeight="bold">{item.currency}</Text>
+              <Text fontWeight="bold">{item.currency.name}</Text>
               <Text fontSize="sm" color="gray.500">
-                {item.currency} / USDT
+                {item.currency.name} / USDT
               </Text>
             </Stack>
           </Table.Cell>
           <Table.Cell>
-            <Text mr={"77px"}>{item.priceUSDT} USDT</Text>
+            <Text mr={"77px"}>{item.currency.price} USDT</Text>
           </Table.Cell>
-          {item.gain24h > 0 ? (
+          {item.percentageVariation > 0 ? (
             <Table.Cell color="green.500">
-              <Text mr={"50px"}>+{item.gain24h}%</Text>
+              <Text mr={"50px"}>+{item.percentageVariation.toFixed(2)}%</Text>
             </Table.Cell>
           ) : (
             <Table.Cell color="red.500">
-              <Text mr={"50px"}>{item.gain24h}%</Text>
+              <Text mr={"50px"}> {item.percentageVariation.toFixed(2)}%</Text>
             </Table.Cell>
           )}
           <Table.Cell>
             <Stack mr={"41px"}>
-              <Text>{item.gainUSDT} USDT</Text>
+              <Text>{item.pairVariation.toFixed(2)} USDT</Text>
               <Text fontSize="sm" color="gray.500">
-                {item.gainCurrency} {item.currency}
+                {item.pairVariation.toFixed(2)} {item.currency.name}
               </Text>
             </Stack>
           </Table.Cell>
           <Table.Cell>
             <Stack mr={"72px"}>
-              <Text>{item.investmentUSDT} USDT</Text>
+              <Text>{item.pairInvestment} USDT</Text>
               <Text fontSize="sm" color="gray.500">
-                {item.investmentCurrency} DOGE
+                {item.currencyInvestment} {item.currency.name}
               </Text>
             </Stack>
           </Table.Cell>
           <Table.Cell>
-            <Text>{item.totalUSDT} USDT</Text>
-            <Text fontSize="sm" color="gray.500">
-              {item.totalCurrency} {item.currency}
-            </Text>
+          <Text>{item.pairAmount.toFixed(2)} USDT</Text>
+          <Text fontSize="sm" color="gray.500">
+            {item.pairAmount.toFixed(2)} {item.currency.name}
+          </Text>
           </Table.Cell>
         </Table.Row>
       )}
     </For>
+    </>
   );
 };

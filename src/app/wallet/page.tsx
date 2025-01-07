@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Table } from "@chakra-ui/react";
 import { WalletTableBody } from "./components/WalletTableBody";
 
