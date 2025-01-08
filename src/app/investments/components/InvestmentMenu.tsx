@@ -45,21 +45,19 @@ export const InvestmentMenu = ({
       </MenuTrigger>
 
       <MenuContent>
-        <MenuContent>
-          <MenuItem value="detail">
-            <InvestmentDialogDetail title="Detalle" invest={invest} />
-          </MenuItem>
-          <MenuItem value="edit">
-            <InvestmentDialogUpdate title="Editar" invest={invest} />
-          </MenuItem>
-          <MenuItem value="delete">
-            <InvestmentDialogDelete
-              title="Eliminar"
-              invest={invest}
-              investId={investId}
-            />
-          </MenuItem>
-        </MenuContent>
+        <MenuItem value="detail">
+          <InvestmentDialogDetail title="Detalle" invest={invest} />
+        </MenuItem>
+        <MenuItem value="edit">
+          <InvestmentDialogUpdate title="Editar" invest={invest} />
+        </MenuItem>
+        <MenuItem value="delete">
+          <InvestmentDialogDelete
+            title="Eliminar"
+            invest={invest}
+            investId={investId}
+          />
+        </MenuItem>
       </MenuContent>
     </MenuRoot>
   );
