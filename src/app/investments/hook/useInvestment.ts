@@ -10,7 +10,7 @@ export const useInvestments = () => {
       const response = await fetch(`${bff.url}/investments`, {
         credentials: "include",
       }).then((res) => res.json());
-      setInvest(response);
+      setInvest(response || []);
       setIsLoading(false);
       return response;
     } catch (error) {

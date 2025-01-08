@@ -4,6 +4,7 @@ import { SearchButton } from "./search-button";
 import { NotificationButton } from "./notification-button";
 import { NavbarAvatar } from "./avatar";
 import { ColorModeButton } from "@/components/ui/color-mode";
+import { NavBarUserOptions } from "./user-options";
 
 export const Navbar = () => {
   return (
@@ -18,6 +19,7 @@ export const Navbar = () => {
       <SearchButton />
       <NotificationButton />
       <NavbarAvatar />
+      <NavBarUserOptions />
       <ColorModeButton />
     </HStack>
   );
