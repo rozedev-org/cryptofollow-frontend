@@ -17,7 +17,7 @@ export const useWallet = () => {
         console.log(error);
         }
     };
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [wallet, setWallet] = useState<WalletIdentity[]>([]);
     
     return {

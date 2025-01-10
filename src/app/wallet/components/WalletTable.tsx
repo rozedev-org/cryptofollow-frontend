@@ -1,64 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
-import { useInvestments } from "../hook/useInvestment";
-import { BiDotsHorizontal } from "react-icons/bi";
-import { InvestmentMenu } from "./InvestmentMenu";
-import { InvestmentDialogForm } from "./dialog-form";
 import { useEffect } from "react";
+import { useWallet } from "../hook/useWallet";
+import { For, Stack, Table, Text } from "@chakra-ui/react";
 import { LoadItem } from "@/components/layout/loading";
 
-export const InvestmentTable = () => {
-  const {
-    fetchInvestments,
-    invest,
-    refreshSignal,
-    handleRefreshSignal,
-    isLoading,
-  } = useInvestments();
-
+export const WalletTable = () => {
+  const { fetchWallet, wallet, isLoading } = useWallet();
   useEffect(() => {
-    fetchInvestments();
+    fetchWallet();
   }, []);
 
-  useEffect(() => {
-    if (refreshSignal) {
-      fetchInvestments();
-      handleRefreshSignal(false);
-    }
-  }, [refreshSignal]);
   return (
     <>
       {isLoading && <LoadItem />}
       {!isLoading && (
-        <>
-          <HStack mr={"auto"} mb={"35px"}>
-            <Heading>Inversiones</Heading>
-            <InvestmentDialogForm handleRefreshSignal={handleRefreshSignal} />
-          </HStack>
-          <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeader></Table.ColumnHeader>
-                <Table.ColumnHeader>Moneda</Table.ColumnHeader>
-                <Table.ColumnHeader>Precio</Table.ColumnHeader>
-                <Table.ColumnHeader>24 h</Table.ColumnHeader>
-                <Table.ColumnHeader>+/-</Table.ColumnHeader>
-                <Table.ColumnHeader>Inversión</Table.ColumnHeader>
-                <Table.ColumnHeader>Importe</Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {invest.map((item, index) => (
+        <Table.Root>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>Moneda</Table.ColumnHeader>
+              <Table.ColumnHeader>Precio</Table.ColumnHeader>
+              <Table.ColumnHeader>24 h</Table.ColumnHeader>
+              <Table.ColumnHeader>+/-</Table.ColumnHeader>
+              <Table.ColumnHeader>Inversión</Table.ColumnHeader>
+              <Table.ColumnHeader>Importe</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            <For each={wallet}>
+              {(item, index) => (
                 <Table.Row key={index}>
-                  <Table.Cell>
-                    <Stack>
-                      <InvestmentMenu
-                        invest={item}
-                        iconButton={<BiDotsHorizontal color="black" />}
-                      />
-                    </Stack>
-                  </Table.Cell>
                   <Table.Cell>
                     <Stack mr={"56px"} mt={"25px"} mb={"6px"}>
                       <Text fontWeight="bold">{item.currency.name}</Text>
@@ -87,29 +58,29 @@ export const InvestmentTable = () => {
                     <Stack mr={"41px"}>
                       <Text>{item.pairVariation.toFixed(2)} USDT</Text>
                       <Text fontSize="sm" color="gray.500">
-                        {item.pairVariation.toFixed(2)} DOGE
+                        {item.pairVariation.toFixed(2)} {item.currency.name}
                       </Text>
                     </Stack>
                   </Table.Cell>
                   <Table.Cell>
                     <Stack mr={"72px"}>
-                      <Text>{item.pairInvestment.toFixed(2)} USDT</Text>
+                      <Text>{item.pairInvestment} USDT</Text>
                       <Text fontSize="sm" color="gray.500">
-                        {item.currencyInvestment.toFixed(2)} DOGE
+                        {item.currencyInvestment} {item.currency.name}
                       </Text>
                     </Stack>
                   </Table.Cell>
                   <Table.Cell>
                     <Text>{item.pairAmount.toFixed(2)} USDT</Text>
                     <Text fontSize="sm" color="gray.500">
-                      {item.pairAmount.toFixed(2)} DOGE
+                      {item.pairAmount.toFixed(2)} {item.currency.name}
                     </Text>
                   </Table.Cell>
                 </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
-        </>
+              )}
+            </For>
+          </Table.Body>
+        </Table.Root>
       )}
     </>
   );

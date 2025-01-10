@@ -19,6 +19,8 @@ import {
   NativeSelectRoot,
 } from "@/components/ui/native-select";
 import { config } from "@/config";
+import { LoadItem } from "@/components/layout/loading";
+import { useNewData } from "@/app/states/useNewData";
 
 interface InvestmentDialogFormProps {
   handleRefreshSignal: (value: boolean) => void;
@@ -29,6 +31,7 @@ export const InvestmentDialogForm = ({
   const [open, setOpen] = useState(false);
   const user = [{ value: "1", label: "Usuario 1" }];
   const currency = [{ value: "1", label: "BONK" }];
+  const { creating, setIsCreating } = useNewData();
 
   return (
     <DialogRoot
@@ -71,6 +74,7 @@ export const InvestmentDialogForm = ({
             //   return errors;
             // }}
             onSubmit={async (values, { setSubmitting }) => {
+              setIsCreating(true);
               try {
                 const { bff } = config;
 
@@ -86,10 +90,12 @@ export const InvestmentDialogForm = ({
                 console.log(response);
                 handleRefreshSignal(true);
                 setOpen(false);
+                setIsCreating(false);
               } catch (error) {
                 toast.error("Ha ocurrido un error al crear la inversion");
                 console.log(error);
                 setOpen(true);
+                setIsCreating(false);
               }
               setSubmitting(false);
             }}
@@ -134,6 +140,7 @@ export const InvestmentDialogForm = ({
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}
+                {creating && <LoadItem />}
                 <Button
                   variant={"outline"}
                   type="submit"
