@@ -21,7 +21,7 @@ export const useInvestments = () => {
 
   const [invest, setInvest] = useState<InvestmentIdentity[]>([]);
   const [refreshSignal, setRefreshSignal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleRefreshSignal = (value: boolean) => setRefreshSignal(value);
 
