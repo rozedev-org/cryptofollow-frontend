@@ -15,18 +15,21 @@ import { useInvestments } from "../hook/useInvestment";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { toast } from "sonner";
 import { config } from "@/config";
+import { useNewData } from "@/app/states/useNewData";
+import { LoadItem } from "@/components/layout/loading";
 
 interface InvestmentDialogDeleteProps {
   title: string;
-  investId: number;
   invest: InvestmentIdentity;
 }
 export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
   const { fetchInvestments } = useInvestments();
   const [open, setOpen] = useState(false);
-  const { title, invest, investId } = props;
+  const { title, invest } = props;
+  const { creating, setIsCreating } = useNewData();
 
   const handleDelete = async (id: number) => {
+    setIsCreating(true);
     const { bff } = config;
     try {
       await fetch(`${bff.url}/investments/${id}`, {
@@ -38,9 +41,11 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
       toast.success("Inversion eliminada con exito");
       setOpen(false);
       fetchInvestments();
+      setIsCreating(false);
     } catch (error) {
       toast.error("Error al eliminar la inversion");
       console.log(error);
+      setIsCreating(false);
     }
   };
   return (
@@ -62,8 +67,9 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
             <VStack>
               <Text textAlign="center">{`¿Estas seguro de eliminar la inversion de ${invest.currency.name}?`}</Text>
               <HStack justifyContent={"space-evenly"} mt={2}>
+                {creating && <LoadItem />}
                 <Button
-                  onClick={() => handleDelete(investId)}
+                  onClick={() => handleDelete(invest.id)}
                   p={2}
                   colorPalette="red"
                 >

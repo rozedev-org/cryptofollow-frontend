@@ -5,13 +5,15 @@ import { useLoginForm } from "../../hooks/useLogin";
 import { Flex, Heading, Input, Link, Stack, Text } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import { FaGoogle } from "react-icons/fa";
+import { LoadItem } from "@/components/layout/loading";
 
 export const LoginForm = () => {
-  const { handleChangeEmail, handleChangePassword, handleLogin } =
+  const { handleChangeEmail, handleChangePassword, handleLogin, loading } =
     useLoginForm();
 
   return (
     <form onSubmit={handleLogin}>
+      {loading && <LoadItem />}
       <Stack minW={"360px"} minH={"574px"} pb={"228px"}>
         <Heading as="h2" size="lg" pt={"48px"} pb={"24px"}>
           Encantado de verte de nuevo
@@ -72,7 +74,15 @@ export const LoginForm = () => {
         </Button>
 
         <Text pt={"24px"} fontSize="12px" color="gray.600">
-          ¿No tienes una cuenta? <Link color="blue.500" onClick={()=>{console.log('registrar')}}>Regístrate ahora</Link>
+          ¿No tienes una cuenta?{" "}
+          <Link
+            color="blue.500"
+            onClick={() => {
+              console.log("registrar");
+            }}
+          >
+            Regístrate ahora
+          </Link>
         </Text>
       </Stack>
     </form>

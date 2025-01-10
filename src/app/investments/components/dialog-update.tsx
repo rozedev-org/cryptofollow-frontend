@@ -20,6 +20,8 @@ import {
 import { MenuItem } from "@/components/ui/menu";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { config } from "@/config";
+import { useNewData } from "@/app/states/useNewData";
+import { LoadItem } from "@/components/layout/loading";
 
 interface InvestmentDialogUpdateProps {
   title: string;
@@ -31,7 +33,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const user = [{ value: "1", label: "Usuario 1" }];
   const currency = [{ value: "1", label: "BONK" }];
   const { title, invest } = props;
-
+  const { creating, setIsCreating } = useNewData();
   return (
     <DialogRoot
       placement={"center"}
@@ -66,6 +68,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
             //   return errors;
             // }}
             onSubmit={async (values, { setSubmitting }) => {
+              setIsCreating(true);
               try {
                 const { bff } = config;
 
@@ -83,10 +86,12 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                 toast.success(`Se ha actualizado una inversion`);
                 console.log(response);
                 setOpen(false);
+                setIsCreating(false);
               } catch (error) {
                 toast.error("Ha ocurrido un error al actualizar la inversion");
                 console.log(error);
                 setOpen(true);
+                setIsCreating(false);
               }
               setSubmitting(false);
             }}
@@ -141,6 +146,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}
+                {creating && <LoadItem />}
                 <Button
                   variant={"outline"}
                   type="submit"

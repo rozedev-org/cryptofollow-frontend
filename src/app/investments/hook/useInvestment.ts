@@ -36,6 +36,7 @@ export const useInvestments = () => {
 
 export const useInvestment = (id: number) => {
   const fetchInvest = async () => {
+    setIsLoading(true);
     try {
       const { bff } = config;
 
@@ -43,11 +44,14 @@ export const useInvestment = (id: number) => {
         credentials: "include",
       }).then((res) => res.json());
       setInvest(response);
+      setIsLoading(false);
       return response;
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
     }
   };
+  const [isLoading, setIsLoading] = useState(true);
   const [invest, setInvest] = useState<InvestmentIdentity>({
     id: 0,
     buyPrice: 0,
@@ -65,7 +69,7 @@ export const useInvestment = (id: number) => {
     userId: 0,
   });
 
-  return { fetchInvest, invest, setInvest };
+  return { fetchInvest, invest, setInvest, isLoading };
 };
 
 export const useCreateInvestment = async (values: newInvestment) => {
