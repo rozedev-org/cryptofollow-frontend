@@ -1,13 +1,15 @@
 'use client'
 import { useState } from "react";
 import { WalletIdentity} from "../types/wallet.types";
+import { config } from "@/config";
 
 export const useWallet = () => {
     const fetchWallet = async () => {
+        const {bff} = config
         try {
             setIsLoading(true);    
         const response : WalletIdentity[] = await fetch(
-            "http://localhost:8000/api/cryptofollow-service/v1/wallet/currencies"
+            `${bff.url}/wallet/currencies`,
         ).then((res) => res.json());
         setWallet(response);
         setIsLoading(false);
