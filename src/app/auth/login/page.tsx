@@ -2,7 +2,7 @@ import { HStack, Image, VStack, Heading } from "@chakra-ui/react";
 import { LoginForm } from "./components/login-form";
 export default function LoginPage() {
   return (
-    <HStack h={"100vh"}>
+    <HStack>
       <Image src="/login-wallpaper.png" alt="213" minW="984px" h={"100%"} />
       <VStack display={"flex"} minW={"456px"} minH={"1024px"} p={"48px"}>
         <HStack mr={"auto"}>
