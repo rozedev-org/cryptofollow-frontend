@@ -21,6 +21,7 @@ import {
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useNewData } from "@/app/states/useNewData";
+import { useUserSession } from "@/app/states/useUserId";
 
 interface InvestmentDialogFormProps {
   handleRefreshSignal: (value: boolean) => void;
@@ -28,8 +29,8 @@ interface InvestmentDialogFormProps {
 export const InvestmentDialogForm = ({
   handleRefreshSignal,
 }: InvestmentDialogFormProps) => {
+  const { id } = useUserSession();
   const [open, setOpen] = useState(false);
-  const user = [{ value: "1", label: "Usuario 1" }];
   const currency = [{ value: "1", label: "BONK" }];
   const { creating, setIsCreating } = useNewData();
 
@@ -76,14 +77,14 @@ export const InvestmentDialogForm = ({
             onSubmit={async (values, { setSubmitting }) => {
               setIsCreating(true);
               try {
+                const defaultValue = { ...values, userId: id };
                 const { bff } = config;
-
                 const response = await fetch(`${bff.url}/investments`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
                   },
-                  body: JSON.stringify(values),
+                  body: JSON.stringify(defaultValue),
                   credentials: "include",
                 });
                 toast.success(`Se ha creado una inversion`);
@@ -126,17 +127,6 @@ export const InvestmentDialogForm = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                </Field>
-                <Field label="Usuario (Está en duro)" mt={4}>
-                  <NativeSelectRoot>
-                    <NativeSelectField
-                      placeholder="Selecciona aqui tambien mano"
-                      items={user}
-                      name="userId"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    />
-                  </NativeSelectRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}
