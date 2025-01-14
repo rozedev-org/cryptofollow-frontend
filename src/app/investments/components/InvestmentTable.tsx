@@ -7,15 +7,11 @@ import { InvestmentMenu } from "./InvestmentMenu";
 import { InvestmentDialogForm } from "./dialog-form";
 import { useEffect } from "react";
 import { LoadItem } from "@/components/layout/loading";
+import { useHandleData } from "@/app/states/useHandleData";
 
 export const InvestmentTable = () => {
-  const {
-    fetchInvestments,
-    invest,
-    refreshSignal,
-    handleRefreshSignal,
-    isLoading,
-  } = useInvestments();
+  const { refreshSignal, handleRefreshSignal } = useHandleData();
+  const { fetchInvestments, invest, isLoading } = useInvestments();
 
   useEffect(() => {
     fetchInvestments();
@@ -34,7 +30,7 @@ export const InvestmentTable = () => {
         <>
           <HStack mr={"auto"} mb={"35px"}>
             <Heading>Inversiones</Heading>
-            <InvestmentDialogForm handleRefreshSignal={handleRefreshSignal} />
+            <InvestmentDialogForm />
           </HStack>
           <Table.Root>
             <Table.Header>

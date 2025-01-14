@@ -20,19 +20,14 @@ import {
 } from "@/components/ui/native-select";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
-import { useNewData } from "@/app/states/useNewData";
 import { useUserSession } from "@/app/states/useUserId";
+import { useHandleData } from "@/app/states/useHandleData";
 
-interface InvestmentDialogFormProps {
-  handleRefreshSignal: (value: boolean) => void;
-}
-export const InvestmentDialogForm = ({
-  handleRefreshSignal,
-}: InvestmentDialogFormProps) => {
+export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
   const currency = [{ value: "1", label: "BONK" }];
-  const { creating, setIsCreating } = useNewData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
 
   return (
     <DialogRoot

@@ -20,8 +20,9 @@ import {
 import { MenuItem } from "@/components/ui/menu";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { config } from "@/config";
-import { useNewData } from "@/app/states/useNewData";
 import { LoadItem } from "@/components/layout/loading";
+import { useUserSession } from "@/app/states/useUserId";
+import { useHandleData } from "@/app/states/useHandleData";
 
 interface InvestmentDialogUpdateProps {
   title: string;
@@ -30,10 +31,10 @@ interface InvestmentDialogUpdateProps {
 
 export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
-  const user = [{ value: "1", label: "Usuario 1" }];
+  const { id } = useUserSession();
   const currency = [{ value: "1", label: "BONK" }];
   const { title, invest } = props;
-  const { creating, setIsCreating } = useNewData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   return (
     <DialogRoot
       placement={"center"}
@@ -71,7 +72,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
               setIsCreating(true);
               try {
                 const { bff } = config;
-
+                const defaultValue = { ...values, userId: id };
                 const response = await fetch(
                   `${bff.url}/investments/${invest.id}`,
                   {
@@ -80,11 +81,12 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     headers: {
                       "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(values),
+                    body: JSON.stringify(defaultValue),
                   }
                 );
                 toast.success(`Se ha actualizado una inversion`);
                 console.log(response);
+                handleRefreshSignal(true);
                 setOpen(false);
                 setIsCreating(false);
               } catch (error) {
@@ -131,18 +133,6 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     onBlur={handleBlur}
                     value={values.currencyInvestment}
                   />
-                </Field>
-                <Field label="Usuario (Está en duro)" mt={4}>
-                  <NativeSelectRoot>
-                    <NativeSelectField
-                      placeholder="Selecciona mano"
-                      items={user}
-                      name="userId"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.userId}
-                    />
-                  </NativeSelectRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}

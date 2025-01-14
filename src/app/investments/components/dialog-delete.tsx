@@ -15,7 +15,7 @@ import { useInvestments } from "../hook/useInvestment";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { toast } from "sonner";
 import { config } from "@/config";
-import { useNewData } from "@/app/states/useNewData";
+import { useHandleData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
 
 interface InvestmentDialogDeleteProps {
@@ -26,7 +26,7 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
   const { fetchInvestments } = useInvestments();
   const [open, setOpen] = useState(false);
   const { title, invest } = props;
-  const { creating, setIsCreating } = useNewData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
 
   const handleDelete = async (id: number) => {
     setIsCreating(true);
@@ -39,6 +39,7 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
         credentials: "include",
       });
       toast.success("Inversion eliminada con exito");
+      handleRefreshSignal(true);
       setOpen(false);
       fetchInvestments();
       setIsCreating(false);
