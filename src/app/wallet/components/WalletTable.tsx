@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useWallet } from "../hook/useWallet";
 import { For, Stack, Table, Text } from "@chakra-ui/react";
 import { LoadItem } from "@/components/layout/loading";
+import { NumericFormat } from "react-number-format";
 
 export const WalletTable = () => {
   const { fetchWallet, wallet, isLoading } = useWallet();
@@ -43,38 +44,99 @@ export const WalletTable = () => {
                   </Table.Cell>
                   {item.percentageVariation > 0 ? (
                     <Table.Cell color="green.500">
-                      <Text mr={"50px"}>
-                        +{item.percentageVariation.toFixed(2)}%
-                      </Text>
+                      <Stack mr={"30px"}>
+                        <NumericFormat
+                          displayType="text"
+                          value={item.percentageVariation}
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          fixedDecimalScale
+                          prefix="+"
+                          suffix={` %`}
+                        />
+                      </Stack>
                     </Table.Cell>
                   ) : (
                     <Table.Cell color="red.500">
-                      <Text mr={"50px"}>
-                        {item.percentageVariation.toFixed(2)}%
-                      </Text>
+                      <Stack mr={"30px"}>
+                        <NumericFormat
+                          displayType="text"
+                          value={item.percentageVariation}
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          fixedDecimalScale
+                          suffix={` %`}
+                        />
+                      </Stack>
                     </Table.Cell>
                   )}
                   <Table.Cell>
                     <Stack mr={"41px"}>
-                      <Text>{item.pairVariation.toFixed(2)} USDT</Text>
-                      <Text fontSize="sm" color="gray.500">
-                        {item.pairVariation.toFixed(2)} {item.currency.name}
-                      </Text>
+                      <NumericFormat
+                        displayType="text"
+                        value={item.pairVariation}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` USDT`}
+                      />
+                      <NumericFormat
+                        displayType="text"
+                        value={item.pairVariation}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` ${item.currency.name}`}
+                      />
                     </Stack>
                   </Table.Cell>
                   <Table.Cell>
                     <Stack mr={"72px"}>
-                      <Text>{item.pairInvestment} USDT</Text>
-                      <Text fontSize="sm" color="gray.500">
-                        {item.currencyInvestment} {item.currency.name}
-                      </Text>
+                      <NumericFormat
+                        displayType="text"
+                        value={item.pairInvestment}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` USDT`}
+                      />
+                      <NumericFormat
+                        displayType="text"
+                        value={item.currencyInvestment}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` ${item.currency.name}`}
+                      />
                     </Stack>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text>{item.pairAmount.toFixed(2)} USDT</Text>
-                    <Text fontSize="sm" color="gray.500">
-                      {item.pairAmount.toFixed(2)} {item.currency.name}
-                    </Text>
+                    <Stack>
+                      <NumericFormat
+                        displayType="text"
+                        value={item.pairAmount}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` USDT`}
+                      />
+                      <NumericFormat
+                        displayType="text"
+                        value={item.pairAmount}
+                        thousandSeparator="."
+                        decimalSeparator=","
+                        decimalScale={3}
+                        fixedDecimalScale
+                        suffix={` ${item.currency.name}`}
+                      />
+                    </Stack>
                   </Table.Cell>
                 </Table.Row>
               )}

@@ -1,4 +1,4 @@
-import { Badge, Text, VStack } from "@chakra-ui/react";
+import { Badge, Stack, VStack } from "@chakra-ui/react";
 import {
   DialogTrigger,
   DialogBody,
@@ -12,6 +12,7 @@ import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 import { MenuItem } from "../../../components/ui/menu";
 import { Tooltip } from "@/components/ui/tooltip";
 import { InvestmentIdentity } from "../types/crypto.types";
+import { NumericFormat } from "react-number-format";
 
 interface InvestmentDialogDetailProps {
   title: string;
@@ -37,13 +38,22 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
               <DataListItem
                 label="Ganancias"
                 value={
-                  invest.percentageVariation >= 1 ? (
+                  invest.percentageVariation > 0 ? (
                     <Tooltip
                       showArrow
                       content={`${invest.percentageVariation}%`}
                     >
                       <Badge colorPalette="green">
-                        {invest.percentageVariation.toFixed(2)}%
+                        <NumericFormat
+                          displayType="text"
+                          value={invest.percentageVariation}
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          fixedDecimalScale
+                          prefix="+"
+                          suffix={` %`}
+                        />
                       </Badge>
                     </Tooltip>
                   ) : (
@@ -52,7 +62,15 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                       content={`${invest.percentageVariation}%`}
                     >
                       <Badge colorPalette="red">
-                        {invest.percentageVariation.toFixed(2)}%
+                        <NumericFormat
+                          displayType="text"
+                          value={invest.percentageVariation}
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={2}
+                          fixedDecimalScale
+                          suffix={` %`}
+                        />
                       </Badge>
                     </Tooltip>
                   )
@@ -62,58 +80,68 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                 borderBottom={"solid thin #e4e4e7"}
                 label="Precio (USDT)"
                 value={
-                  <Tooltip
-                    openDelay={1}
-                    closeDelay={1}
-                    showArrow
-                    content={`${invest.currency.price} $`}
-                  >
-                    <Text ml={"auto"}>{invest.buyPrice} $</Text>
-                  </Tooltip>
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.buyPrice}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={8}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
                 }
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Ganancias (USDT)"
                 value={
-                  <Tooltip
-                    openDelay={1}
-                    closeDelay={1}
-                    showArrow
-                    content={`${invest.pairVariation} $`}
-                  >
-                    <Text ml={"auto"}>{invest.pairVariation.toFixed(2)} $</Text>
-                  </Tooltip>
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.pairVariation}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={2}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
                 }
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Inversion (USDT)"
                 value={
-                  <Tooltip
-                    openDelay={1}
-                    closeDelay={1}
-                    showArrow
-                    content={`${invest.pairInvestment} $`}
-                  >
-                    <Text ml={"auto"}>
-                      {invest.pairInvestment.toFixed(2)} $
-                    </Text>
-                  </Tooltip>
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.pairInvestment}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={2}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
                 }
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
                 label="Total (USDT)"
                 value={
-                  <Tooltip
-                    openDelay={1}
-                    closeDelay={1}
-                    showArrow
-                    content={`${invest.pairAmount} $`}
-                  >
-                    <Text ml={"auto"}>{invest.pairAmount.toFixed(2)} $</Text>
-                  </Tooltip>
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.pairAmount}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={2}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
                 }
               />
             </DataListRoot>
