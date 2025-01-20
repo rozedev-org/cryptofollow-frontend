@@ -40,13 +40,13 @@ export const InvestmentMenu = ({
       </MenuTrigger>
       <MenuContent>
         <MenuItem value="detail">
-          <InvestmentDialogDetail title="Detalle" invest={invest} />
+          <InvestmentDialogDetail invest={invest} />
         </MenuItem>
         <MenuItem value="edit">
-          <InvestmentDialogUpdate title="Editar" invest={invest} />
+          <InvestmentDialogUpdate invest={invest} />
         </MenuItem>
         <MenuItem value="delete">
-          <InvestmentDialogDelete title="Eliminar" invest={invest} />
+          <InvestmentDialogDelete invest={invest} />
         </MenuItem>
       </MenuContent>
     </MenuRoot>

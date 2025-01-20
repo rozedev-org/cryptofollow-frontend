@@ -15,17 +15,16 @@ import { InvestmentIdentity } from "../types/crypto.types";
 import { NumericFormat } from "react-number-format";
 
 interface InvestmentDialogDetailProps {
-  title: string;
   invest: InvestmentIdentity;
 }
 export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
-  const { title, invest } = props;
+  const { invest } = props;
 
   return (
     <DialogRoot placement={"center"}>
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">{title}</MenuItem>
+          <MenuItem value="detail">Detalle</MenuItem>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader>

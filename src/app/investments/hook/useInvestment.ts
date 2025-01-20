@@ -54,6 +54,7 @@ export const useInvestment = (id: number) => {
       id: 0,
       name: "",
       price: 0,
+      pair: "",
     },
     currencyId: 0,
     currencyInvestment: 0,

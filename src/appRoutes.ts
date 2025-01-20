@@ -10,6 +10,9 @@ export const appRoutes = {
     wallet: {
       url: () => "/wallet",
     },
+    currencies: {
+      url: () => "/currency",
+    },
     config: {
       url: () => "/config",
     },
