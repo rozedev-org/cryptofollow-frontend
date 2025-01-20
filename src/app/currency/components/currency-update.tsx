@@ -17,7 +17,7 @@ import { MenuItem } from "@/components/ui/menu";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useHandleData } from "@/app/states/useHandleData";
-import { CurrencyIdentity } from "@/app/investments/types/crypto.types";
+import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 
 interface CurrencyDialogUpdateProps {
   currency: CurrencyIdentity;

@@ -1,5 +1,5 @@
 "use client";
-import { axiosInstace } from "@/app/common/axiosInstace";
+import { axiosInstace } from "@/common/axiosInstace";
 import { useUserSession } from "@/app/states/useUserId";
 import { appRoutes } from "@/appRoutes";
 import {

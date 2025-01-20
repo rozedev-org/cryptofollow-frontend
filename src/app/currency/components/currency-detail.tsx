@@ -11,7 +11,7 @@ import {
 import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 import { MenuItem } from "../../../components/ui/menu";
 import { NumericFormat } from "react-number-format";
-import { CurrencyIdentity } from "@/app/investments/types/crypto.types";
+import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 
 interface CurrencyDialogDetailProps {
   currency: CurrencyIdentity;

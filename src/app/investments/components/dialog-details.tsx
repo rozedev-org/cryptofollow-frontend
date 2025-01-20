@@ -1,18 +1,18 @@
+import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, Stack, VStack } from "@chakra-ui/react";
+import { NumericFormat } from "react-number-format";
+import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 import {
-  DialogTrigger,
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
   DialogHeader,
   DialogRoot,
   DialogTitle,
+  DialogTrigger,
 } from "../../../components/ui/dialog";
-import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
-import { MenuItem } from "../../../components/ui/menu";
-import { Tooltip } from "@/components/ui/tooltip";
-import { InvestmentIdentity } from "../types/crypto.types";
-import { NumericFormat } from "react-number-format";
+import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogDetailProps {
   invest: InvestmentIdentity;
@@ -24,7 +24,15 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
     <DialogRoot placement={"center"}>
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">Detalle</MenuItem>
+          <Button
+            justifyContent={"flex-start"}
+            w={"100%"}
+            p={1}
+            variant={"subtle"}
+            size={"xs"}
+          >
+            Detalle
+          </Button>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader>

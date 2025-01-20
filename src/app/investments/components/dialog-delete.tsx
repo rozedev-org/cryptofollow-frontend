@@ -1,21 +1,21 @@
-import { Button, HStack, VStack, Text } from "@chakra-ui/react";
+import { Button, HStack, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import {
-  DialogTrigger,
+  DialogActionTrigger,
   DialogBody,
   DialogCloseTrigger,
   DialogContent,
   DialogHeader,
   DialogRoot,
   DialogTitle,
-  DialogActionTrigger,
+  DialogTrigger,
 } from "../../../components/ui/dialog";
-import { MenuItem } from "../../../components/ui/menu";
-import { useState } from "react";
-import { InvestmentIdentity } from "../types/crypto.types";
-import { toast } from "sonner";
-import { config } from "@/config";
+
 import { useHandleData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
+import { config } from "@/config";
+import { toast } from "sonner";
+import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogDeleteProps {
   invest: InvestmentIdentity;
@@ -54,7 +54,15 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
     >
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">Eliminar</MenuItem>
+          <Button
+            justifyContent={"flex-start"}
+            w={"100%"}
+            p={1}
+            variant={"subtle"}
+            size={"xs"}
+          >
+            Eliminar
+          </Button>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader alignSelf={"center"}>

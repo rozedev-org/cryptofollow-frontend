@@ -1,16 +1,27 @@
 import { useState } from "react";
-import { InvestmentIdentity, newInvestment } from "../types/crypto.types";
 import { config } from "@/config";
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from "@/common/interfaces/response.interface";
+import { InvestmentIdentity, newInvestment } from "../types/investment.types";
 
 export const useInvestments = () => {
-  const fetchInvestments = async () => {
+  const fetchInvestments = async (params: PaginationParams) => {
     try {
       const { bff } = config;
       setIsLoading(true);
-      const response = await fetch(`${bff.url}/investments`, {
-        credentials: "include",
-      }).then((res) => res.json());
-      setInvest(response || []);
+      const { page, take } = params;
+      const response = await fetch(
+        `${bff.url}/investments?page=${page}&take=${take}`,
+        {
+          credentials: "include",
+        }
+      ).then(
+        (res) => res.json() as Promise<PaginatedResponse<InvestmentIdentity>>
+      );
+
+      setInvest(response);
       setIsLoading(false);
       return response;
     } catch (error) {
@@ -19,7 +30,18 @@ export const useInvestments = () => {
     }
   };
 
-  const [invest, setInvest] = useState<InvestmentIdentity[]>([]);
+  const [invest, setInvest] = useState<PaginatedResponse<InvestmentIdentity>>({
+    data: [] as InvestmentIdentity[],
+    meta: {
+      page: 0,
+      take: 0,
+      itemCount: 0,
+      pageCount: 0,
+      hasPreviousPage: false,
+      hasNextPage: true,
+    },
+  });
+
   const [isLoading, setIsLoading] = useState(true);
 
   return {

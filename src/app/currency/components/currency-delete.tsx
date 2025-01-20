@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { config } from "@/config";
 import { useHandleData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
-import { CurrencyIdentity } from "@/app/investments/types/crypto.types";
+import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 
 interface CurrencyDialogDeleteProps {
   currency: CurrencyIdentity;

@@ -8,22 +8,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Formik } from "formik";
-import { useState } from "react";
-import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
-import { toast } from "sonner";
 import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { MenuItem } from "@/components/ui/menu";
-import { InvestmentIdentity } from "../types/crypto.types";
-import { config } from "@/config";
-import { LoadItem } from "@/components/layout/loading";
-import { useUserSession } from "@/app/states/useUserId";
-import { useHandleData } from "@/app/states/useHandleData";
+import { Input } from "@chakra-ui/react";
+import { Formik } from "formik";
+import { useState } from "react";
+import { toast } from "sonner";
+
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
+import { useHandleData } from "@/app/states/useHandleData";
+import { useUserSession } from "@/app/states/useUserId";
+import { LoadItem } from "@/components/layout/loading";
+import { config } from "@/config";
+import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogUpdateProps {
   invest: InvestmentIdentity;
@@ -45,7 +45,15 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
       }}
     >
       <DialogTrigger asChild>
-        <MenuItem value="detail">Editar</MenuItem>
+        <Button
+          justifyContent={"flex-start"}
+          w={"100%"}
+          p={1}
+          variant={"subtle"}
+          size={"xs"}
+        >
+          Editar
+        </Button>
       </DialogTrigger>
       <DialogContent p={"30px"}>
         <DialogHeader>

@@ -13,7 +13,6 @@ export const Navbar = () => {
       px={"29px"}
       h={"90px"}
       style={{ width: "Calc(100vw - 256px)" }}
-      mb={"33px"}
     >
       <NavbarTitle />
       <SearchButton />

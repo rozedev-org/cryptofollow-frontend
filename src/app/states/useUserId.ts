@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { DateTime } from "luxon";
-import { axiosInstace } from "../common/axiosInstace";
+import { axiosInstace } from "../../common/axiosInstace";
 import { LoginEntity } from "../auth/login/types/login.types";
 
 type SessionState = {

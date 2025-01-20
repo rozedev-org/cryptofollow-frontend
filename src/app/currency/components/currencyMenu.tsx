@@ -1,4 +1,3 @@
-import { CurrencyIdentity } from "@/app/investments/types/crypto.types";
 import { Button } from "@/components/ui/button";
 import {
   MenuRoot,
@@ -9,6 +8,7 @@ import {
 import { CurrencyDialogDetail } from "./currency-detail";
 import { CurrencyDialogUpdate } from "./currency-update";
 import { CurrencyDialogDelete } from "./currency-delete";
+import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 export interface CurrencyMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;

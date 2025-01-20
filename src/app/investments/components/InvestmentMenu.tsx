@@ -10,7 +10,7 @@ import {
 } from "../../../components/ui/menu";
 import { InvestmentDialogDelete } from "./dialog-delete";
 import { InvestmentDialogUpdate } from "./dialog-update";
-import { InvestmentIdentity } from "../types/crypto.types";
+import { InvestmentIdentity } from "../types/investment.types";
 
 export interface InvestmentMenuProps {
   textButton?: string;
@@ -39,13 +39,13 @@ export const InvestmentMenu = ({
         </Button>
       </MenuTrigger>
       <MenuContent>
-        <MenuItem value="detail">
+        <MenuItem value="detail" asChild>
           <InvestmentDialogDetail invest={invest} />
         </MenuItem>
-        <MenuItem value="edit">
+        <MenuItem value="edit" asChild>
           <InvestmentDialogUpdate invest={invest} />
         </MenuItem>
-        <MenuItem value="delete">
+        <MenuItem value="delete" asChild>
           <InvestmentDialogDelete invest={invest} />
         </MenuItem>
       </MenuContent>

@@ -1,7 +1,7 @@
 import {
   CurrencyIdentity,
   newCurrency,
-} from "@/app/investments/types/crypto.types";
+} from "@/app/investments/types/investment.types";
 import { config } from "@/config";
 import { useState } from "react";
 

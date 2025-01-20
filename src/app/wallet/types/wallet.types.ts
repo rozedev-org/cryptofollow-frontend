@@ -1,5 +1,4 @@
-import { CurrencyIdentity } from "@/app/investments/types/crypto.types";
-
+import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 
 export interface WalletIdentity {
   currency: CurrencyIdentity;
