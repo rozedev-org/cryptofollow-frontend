@@ -23,26 +23,29 @@ import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useUserSession } from "@/app/states/useUserId";
 import { useHandleData } from "@/app/states/useHandleData";
+import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 
 interface InvestmentDialogUpdateProps {
-  title: string;
   invest: InvestmentIdentity;
 }
 
 export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
   const { id } = useUserSession();
-  const currency = [{ value: "1", label: "BONK" }];
-  const { title, invest } = props;
+  const { currency, fetchCurrencies } = useCurrencies();
+  const { invest } = props;
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   return (
     <DialogRoot
       placement={"center"}
       open={open}
-      onOpenChange={(e) => setOpen(e.open)}
+      onOpenChange={(e) => {
+        fetchCurrencies();
+        setOpen(e.open);
+      }}
     >
       <DialogTrigger asChild>
-        <MenuItem value="detail">{title}</MenuItem>
+        <MenuItem value="detail">Editar</MenuItem>
       </DialogTrigger>
       <DialogContent p={"30px"}>
         <DialogHeader>
@@ -114,16 +117,20 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     value={values.buyPrice}
                   />
                 </Field>
-                <Field label="Seleccionar la mondeda (Está en duro)" mt={4}>
+                <Field label="Seleccionar la mondeda" mt={4}>
                   <NativeSelectRoot>
                     <NativeSelectField
                       placeholder="Selecciona mano"
-                      items={currency}
                       name="currencyId"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.currencyId}
-                    />
+                    >
+                      {currency.map((item, index) => (
+                        <option key={index} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </NativeSelectField>
                   </NativeSelectRoot>
                 </Field>
                 <Field label="Inversion de moneda" mt={4}>

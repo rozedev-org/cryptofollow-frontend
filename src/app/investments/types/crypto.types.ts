@@ -14,6 +14,13 @@ export interface InvestmentIdentity {
 export interface CurrencyIdentity {
   id: number;
   name: string;
+  pair: string;
+  price: number;
+}
+
+export interface newCurrency {
+  name: string;
+  pair: string;
   price: number;
 }
 

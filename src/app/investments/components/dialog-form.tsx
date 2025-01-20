@@ -22,13 +22,13 @@ import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useUserSession } from "@/app/states/useUserId";
 import { useHandleData } from "@/app/states/useHandleData";
+import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
-  const currency = [{ value: "1", label: "BONK" }];
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
-
+  const { currency, fetchCurrencies } = useCurrencies();
   return (
     <DialogRoot
       placement={"center"}
@@ -39,6 +39,7 @@ export const InvestmentDialogForm = () => {
         <Button
           variant="plain"
           onClick={() => {
+            fetchCurrencies();
             setOpen(true);
           }}
         >
@@ -105,15 +106,20 @@ export const InvestmentDialogForm = () => {
                     onBlur={handleBlur}
                   />
                 </Field>
-                <Field label="Seleccionar la mondeda (Está en duro)" mt={4}>
+                <Field label="Seleccionar la mondeda" mt={4}>
                   <NativeSelectRoot>
                     <NativeSelectField
                       placeholder="Selecciona mano"
-                      items={currency}
                       name="currencyId"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                    />
+                    >
+                      {currency.map((item, index) => (
+                        <option key={index} value={item.id}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </NativeSelectField>
                   </NativeSelectRoot>
                 </Field>
                 <Field label="Inversion de moneda" mt={4}>

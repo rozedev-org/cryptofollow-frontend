@@ -11,7 +11,6 @@ import {
 } from "../../../components/ui/dialog";
 import { MenuItem } from "../../../components/ui/menu";
 import { useState } from "react";
-import { useInvestments } from "../hook/useInvestment";
 import { InvestmentIdentity } from "../types/crypto.types";
 import { toast } from "sonner";
 import { config } from "@/config";
@@ -19,13 +18,11 @@ import { useHandleData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
 
 interface InvestmentDialogDeleteProps {
-  title: string;
   invest: InvestmentIdentity;
 }
 export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
-  const { fetchInvestments } = useInvestments();
   const [open, setOpen] = useState(false);
-  const { title, invest } = props;
+  const { invest } = props;
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
 
   const handleDelete = async (id: number) => {
@@ -41,7 +38,6 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
       toast.success("Inversion eliminada con exito");
       handleRefreshSignal(true);
       setOpen(false);
-      fetchInvestments();
       setIsCreating(false);
     } catch (error) {
       toast.error("Error al eliminar la inversion");
@@ -58,7 +54,7 @@ export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
     >
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">{title}</MenuItem>
+          <MenuItem value="detail">Eliminar</MenuItem>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader alignSelf={"center"}>
