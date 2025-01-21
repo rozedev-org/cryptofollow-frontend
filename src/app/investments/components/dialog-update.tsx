@@ -19,7 +19,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
-import { useHandleCreateData } from "@/app/states/useHandleData";
+import { useHandleData } from "@/app/states/useHandleData";
 import { useUserSession } from "@/app/states/useUserId";
 import { LoadItem } from "@/components/layout/loading";
 import { config } from "@/config";
@@ -34,8 +34,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const { id } = useUserSession();
   const { currency, fetchCurrencies } = useCurrencies();
   const { invest } = props;
-  const { creating, setIsCreating, handleRefreshSignal } =
-    useHandleCreateData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   return (
     <DialogRoot
       placement={"center"}

@@ -24,7 +24,7 @@ import { useCreateInvestment } from "../hook/useInvestment";
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
-  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const { creating } = useHandleData();
   const { currency, fetchCurrencies } = useCurrencies();
   const { investmentForm, onSubmit } = useCreateInvestment(id);
 

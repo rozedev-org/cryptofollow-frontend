@@ -16,8 +16,8 @@ import { toast } from "sonner";
 import { MenuItem } from "@/components/ui/menu";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
-import { useHandleCreateData } from "@/app/states/useHandleData";
 import { CurrencyIdentity } from "@/app/investments/types/investment.types";
+import { useHandleData } from "@/app/states/useHandleData";
 
 interface CurrencyDialogUpdateProps {
   currency: CurrencyIdentity;
@@ -26,8 +26,7 @@ interface CurrencyDialogUpdateProps {
 export const CurrencyDialogUpdate = (props: CurrencyDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
   const { currency } = props;
-  const { creating, setIsCreating, handleRefreshSignal } =
-    useHandleCreateData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   return (
     <DialogRoot
       placement={"center"}

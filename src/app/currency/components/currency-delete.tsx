@@ -13,9 +13,9 @@ import { MenuItem } from "../../../components/ui/menu";
 import { useState } from "react";
 import { toast } from "sonner";
 import { config } from "@/config";
-import { useHandleCreateData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
 import { CurrencyIdentity } from "@/app/investments/types/investment.types";
+import { useHandleData } from "@/app/states/useHandleData";
 
 interface CurrencyDialogDeleteProps {
   currency: CurrencyIdentity;
@@ -23,8 +23,7 @@ interface CurrencyDialogDeleteProps {
 export const CurrencyDialogDelete = (props: CurrencyDialogDeleteProps) => {
   const [open, setOpen] = useState(false);
   const { currency } = props;
-  const { creating, setIsCreating, handleRefreshSignal } =
-    useHandleCreateData();
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
 
   const handleDelete = async (id: number) => {
     setIsCreating(true);
