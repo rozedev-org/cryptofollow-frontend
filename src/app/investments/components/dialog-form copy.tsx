@@ -8,52 +8,42 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Formik } from "formik";
+import { useState } from "react";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
+import { toast } from "sonner";
 import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { Input } from "@chakra-ui/react";
-import { Formik } from "formik";
-import { useState } from "react";
-import { toast } from "sonner";
-
-import { useCurrencies } from "@/app/currency/hook/useCurrencies";
-import { useHandleCreateData } from "@/app/states/useHandleData";
-import { useUserSession } from "@/app/states/useUserId";
-import { LoadItem } from "@/components/layout/loading";
 import { config } from "@/config";
-import { InvestmentIdentity } from "../types/investment.types";
+import { LoadItem } from "@/components/layout/loading";
+import { useUserSession } from "@/app/states/useUserId";
+import { useHandleData } from "@/app/states/useHandleData";
+import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 
-interface InvestmentDialogUpdateProps {
-  invest: InvestmentIdentity;
-}
-
-export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
-  const [open, setOpen] = useState(false);
+export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
+  const [open, setOpen] = useState(false);
+  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   const { currency, fetchCurrencies } = useCurrencies();
-  const { invest } = props;
-  const { creating, setIsCreating, handleRefreshSignal } =
-    useHandleCreateData();
   return (
     <DialogRoot
       placement={"center"}
       open={open}
-      onOpenChange={(e) => {
-        fetchCurrencies();
-        setOpen(e.open);
-      }}
+      onOpenChange={(e) => setOpen(e.open)}
     >
       <DialogTrigger asChild>
         <Button
-          justifyContent={"flex-start"}
-          w={"100%"}
-          p={1}
-          variant={"subtle"}
-          size={"xs"}
+          variant="plain"
+          onClick={() => {
+            fetchCurrencies();
+            setOpen(true);
+          }}
         >
-          Editar
+          <FaRegPlusSquare />
         </Button>
       </DialogTrigger>
       <DialogContent p={"30px"}>
@@ -63,10 +53,10 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
         <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
           <Formik
             initialValues={{
-              buyPrice: invest.buyPrice,
-              currencyInvestment: invest.currencyInvestment,
-              currencyId: invest.currencyId,
-              userId: 1,
+              buyPrice: 0,
+              currencyInvestment: 0,
+              currencyId: 0,
+              userId: 0,
             }}
             // validate={(values) => {
             //   const errors = {
@@ -83,26 +73,23 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
             onSubmit={async (values, { setSubmitting }) => {
               setIsCreating(true);
               try {
-                const { bff } = config;
                 const defaultValue = { ...values, userId: id };
-                const response = await fetch(
-                  `${bff.url}/investments/${invest.id}`,
-                  {
-                    credentials: "include",
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(defaultValue),
-                  }
-                );
-                toast.success(`Se ha actualizado una inversion`);
+                const { bff } = config;
+                const response = await fetch(`${bff.url}/investments`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(defaultValue),
+                  credentials: "include",
+                });
+                toast.success(`Se ha creado una inversion`);
                 console.log(response);
                 handleRefreshSignal(true);
                 setOpen(false);
                 setIsCreating(false);
               } catch (error) {
-                toast.error("Ha ocurrido un error al actualizar la inversion");
+                toast.error("Ha ocurrido un error al crear la inversion");
                 console.log(error);
                 setOpen(true);
                 setIsCreating(false);
@@ -110,20 +97,13 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
               setSubmitting(false);
             }}
           >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
+            {({ handleChange, handleBlur, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
                 <Field label="Precio de Compra">
                   <Input
                     name="buyPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.buyPrice}
                   />
                 </Field>
                 <Field label="Seleccionar la mondeda" mt={4}>
@@ -147,7 +127,6 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     name="currencyInvestment"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.currencyInvestment}
                   />
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}

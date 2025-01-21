@@ -5,6 +5,9 @@ import {
   PaginationParams,
 } from "@/common/interfaces/response.interface";
 import { InvestmentIdentity, newInvestment } from "../types/investment.types";
+import { useForm } from "react-hook-form";
+import { useHandleData } from "@/app/states/useHandleData";
+import { toast } from "sonner";
 
 export const useInvestments = () => {
   const fetchInvestments = async (params: PaginationParams) => {
@@ -90,7 +93,7 @@ export const useInvestment = (id: number) => {
   return { fetchInvest, invest, setInvest, isLoading };
 };
 
-export const useCreateInvestment = async (values: newInvestment) => {
+export const useCreateInvestmentOld = async (values: newInvestment) => {
   try {
     const { bff } = config;
 
@@ -103,4 +106,42 @@ export const useCreateInvestment = async (values: newInvestment) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const useCreateInvestment = (userId: number) => {
+  const { setIsCreating, handleRefreshSignal } = useHandleData();
+
+  const investmentForm = useForm<newInvestment>({
+    defaultValues: {
+      buyPrice: 0,
+      currencyId: 0,
+      currencyInvestment: 0,
+      userId,
+    },
+  });
+
+  const onSubmit = investmentForm.handleSubmit(async (values) => {
+    setIsCreating(true);
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/investments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      });
+      toast.success(`Se ha creado una inversion`);
+      console.log(response);
+      handleRefreshSignal(true);
+      setIsCreating(false);
+    } catch (error) {
+      toast.error("Ha ocurrido un error al crear la inversion");
+      console.log(error);
+      setIsCreating(false);
+    }
+  });
+
+  return { investmentForm, onSubmit };
 };

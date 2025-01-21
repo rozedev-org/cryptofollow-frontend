@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "../../../components/ui/dialog";
 
-import { useHandleData } from "@/app/states/useHandleData";
+import { useHandleCreateData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";
 import { config } from "@/config";
 import { toast } from "sonner";
@@ -23,7 +23,8 @@ interface InvestmentDialogDeleteProps {
 export const InvestmentDialogDelete = (props: InvestmentDialogDeleteProps) => {
   const [open, setOpen] = useState(false);
   const { invest } = props;
-  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const { creating, setIsCreating, handleRefreshSignal } =
+    useHandleCreateData();
 
   const handleDelete = async (id: number) => {
     setIsCreating(true);

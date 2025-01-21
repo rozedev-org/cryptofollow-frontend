@@ -16,11 +16,12 @@ import { Field } from "@/components/ui/field";
 import { toast } from "sonner";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
-import { useHandleData } from "@/app/states/useHandleData";
+import { useHandleCreateData } from "@/app/states/useHandleData";
 
 export const CurrencyDialogForm = () => {
   const [open, setOpen] = useState(false);
-  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const { creating, setIsCreating, handleRefreshSignal } =
+    useHandleCreateData();
   return (
     <DialogRoot
       placement={"center"}

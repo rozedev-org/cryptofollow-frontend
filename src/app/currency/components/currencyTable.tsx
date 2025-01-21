@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useHandleData } from "@/app/states/useHandleData";
+import { useHandleCreateData } from "@/app/states/useHandleData";
 import { useCurrencies } from "../hook/useCurrencies";
 import { useEffect } from "react";
 import { LoadItem } from "@/components/layout/loading";
@@ -11,7 +11,7 @@ import { CurrencyDialogForm } from "./currency-form";
 import { NumericFormat } from "react-number-format";
 
 export const CurrencyTable = () => {
-  const { handleRefreshSignal, refreshSignal } = useHandleData();
+  const { handleRefreshSignal, refreshSignal } = useHandleCreateData();
   const { currency, fetchCurrencies, isLoading } = useCurrencies();
 
   useEffect(() => {
