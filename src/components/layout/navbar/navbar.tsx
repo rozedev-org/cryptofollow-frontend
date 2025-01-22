@@ -4,6 +4,7 @@ import { SearchButton } from "./search-button";
 import { NotificationButton } from "./notification-button";
 import { NavbarAvatar } from "./avatar";
 import { ColorModeButton } from "@/components/ui/color-mode";
+import { NavBarUserOptions } from "./user-options";
 
 export const Navbar = () => {
   return (
@@ -12,12 +13,12 @@ export const Navbar = () => {
       px={"29px"}
       h={"90px"}
       style={{ width: "Calc(100vw - 256px)" }}
-      mb={"33px"}
     >
       <NavbarTitle />
       <SearchButton />
       <NotificationButton />
       <NavbarAvatar />
+      <NavBarUserOptions />
       <ColorModeButton />
     </HStack>
   );

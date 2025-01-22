@@ -1,6 +1,5 @@
 import { Avatar } from "@/components/ui/avatar";
-import { HStack, IconButton } from "@chakra-ui/react";
-import { HiChevronDown } from "react-icons/hi2";
+import { HStack } from "@chakra-ui/react";
 
 export const NavbarAvatar = () => {
   return (
@@ -14,10 +13,6 @@ export const NavbarAvatar = () => {
         h={"40px"}
         borderRadius={"10px"}
       />
-
-      <IconButton aria-label="Notifications" bg={"white"}>
-        <HiChevronDown size={40} color="pink.250" />
-      </IconButton>
     </HStack>
   );
 };

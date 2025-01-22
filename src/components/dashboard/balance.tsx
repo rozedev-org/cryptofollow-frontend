@@ -1,27 +1,40 @@
+"use client";
 import {
   StatLabel,
   StatRoot,
   StatUpTrend,
   StatValueText,
 } from "@/components/ui/stat";
+import { config } from "@/config";
 import { Card, FormatNumber, HStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
 interface WalletResponse {
   balance: number;
 }
 
-export const Balance = async () => {
-  const res = await fetch(
-    "http://localhost:8000/api/cryptofollow-service/v1/wallet"
-  );
+export const Balance = () => {
+  const { bff } = config;
+  const [wallet, setWallet] = useState<{ balance: number }>({
+    balance: 0,
+  });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch wallet data");
-  }
+  useEffect(() => {
+    async function load() {
+      const res = await fetch(`${bff.url}/wallet`, {
+        credentials: "include",
+      });
 
-  const wallet: WalletResponse = await res.json();
+      if (!res.ok) {
+        throw new Error("Failed to fetch wallet data");
+      }
 
-  console.log("wallet :>> ", wallet);
+      const walletResponse: WalletResponse = await res.json();
+      setWallet((state) => ({ ...state, balance: walletResponse.balance }));
+    }
+    load();
+  }, []);
+
   return (
     <Card.Root
       borderWidth={0}

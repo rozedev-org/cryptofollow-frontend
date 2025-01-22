@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 export const NavbarTranslate = [{ key: "dashboard", value: "Dashboard" }];
 
 export const getNavbarTranslate = (key: string) => {
-  let value = NavbarTranslate.find((x) => x.key == key)?.value;
+  const value = NavbarTranslate.find((x) => x.key == key)?.value;
   return value ?? key;
 };
 
 const getPageTitle = () => {
+  //eslint-disable-next-line react-hooks/rules-of-hooks
   const pathname = usePathname();
   const items = pathname.split("/");
   const unformatedTitle = items[items.length - 1];

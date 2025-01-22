@@ -1,10 +1,11 @@
-import styles from "./page.module.css";
-
-export default function Home() {
+import { Assets } from "@/components/dashboard/assets";
+import { Balance } from "@/components/dashboard/balance";
+import { VStack } from "@chakra-ui/react";
+export default function Dashboard() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}></main>
-      <footer className={styles.footer}></footer>
-    </div>
+    <VStack alignSelf={"flex-start"} gap={17}>
+      <Balance />
+      <Assets />
+    </VStack>
   );
 }

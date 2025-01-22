@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Button } from "../../../components/ui/button";
 import { InvestmentDialogDetail } from "./dialog-details";
@@ -7,17 +8,20 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "../../../components/ui/menu";
+import { InvestmentDialogDelete } from "./dialog-delete";
+import { InvestmentDialogUpdate } from "./dialog-update";
+import { InvestmentIdentity } from "../types/investment.types";
 
 export interface InvestmentMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;
-  currencyId: number;
+  invest: InvestmentIdentity;
 }
 
 export const InvestmentMenu = ({
   textButton,
   iconButton,
-  currencyId,
+  invest,
 }: InvestmentMenuProps) => {
   return (
     <MenuRoot>
@@ -34,20 +38,16 @@ export const InvestmentMenu = ({
           {textButton && textButton}
         </Button>
       </MenuTrigger>
-
       <MenuContent>
-        <MenuContent>
-          <MenuItem value="detail" onClick={() => console.log("oli")}>
-            {/* <DrawerComponent title={'Detalle'} data={data}/> */}
-            <InvestmentDialogDetail title="Detalle" currencyId={currencyId} />
-          </MenuItem>
-          <MenuItem value="edit" onClick={() => console.log("oli")}>
-            Editar
-          </MenuItem>
-          <MenuItem value="delete" onClick={() => console.log("oli")}>
-            Eliminar
-          </MenuItem>
-        </MenuContent>
+        <MenuItem value="detail" asChild>
+          <InvestmentDialogDetail invest={invest} />
+        </MenuItem>
+        <MenuItem value="edit" asChild>
+          <InvestmentDialogUpdate invest={invest} />
+        </MenuItem>
+        <MenuItem value="delete" asChild>
+          <InvestmentDialogDelete invest={invest} />
+        </MenuItem>
       </MenuContent>
     </MenuRoot>
   );
