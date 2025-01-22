@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { appRoutes } from "@/appRoutes";
 import { useUserSession } from "@/app/states/useUserId";
+import { config } from "@/config";
 
 export const useLoginForm = () => {
   const [onError, setOnError] = useState(false);
@@ -42,6 +43,11 @@ export const useLoginForm = () => {
   const handleChangePassword = (password: string) => {
     setLoginState({ ...loginState, password });
   };
+
+  const handleRedirectGoogleAuth = () => {
+    window.location.href = `${config.bff.url}/auth/google`;
+  };
+
   return {
     handleLogin,
     onError,
@@ -50,5 +56,6 @@ export const useLoginForm = () => {
     setOnError,
     handleChangeEmail,
     handleChangePassword,
+    handleRedirectGoogleAuth,
   };
 };

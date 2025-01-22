@@ -8,8 +8,13 @@ import { FaGoogle } from "react-icons/fa";
 import { LoadItem } from "@/components/layout/loading";
 
 export const LoginForm = () => {
-  const { handleChangeEmail, handleChangePassword, handleLogin, loading } =
-    useLoginForm();
+  const {
+    handleChangeEmail,
+    handleChangePassword,
+    handleLogin,
+    loading,
+    handleRedirectGoogleAuth,
+  } = useLoginForm();
 
   return (
     <form onSubmit={handleLogin}>
@@ -69,6 +74,7 @@ export const LoginForm = () => {
           w="full"
           borderRadius="md"
           py={6}
+          onClick={handleRedirectGoogleAuth}
         >
           <FaGoogle /> O inicia sesión con Google
         </Button>
