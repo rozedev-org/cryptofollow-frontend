@@ -93,6 +93,7 @@ export const CurrencyDialogUpdate = (props: CurrencyDialogUpdateProps) => {
               <form onSubmit={handleSubmit}>
                 <Field label="Nombre de la Moneda">
                   <Input
+                    p={2}
                     name="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -101,6 +102,7 @@ export const CurrencyDialogUpdate = (props: CurrencyDialogUpdateProps) => {
                 </Field>
                 <Field label="Precio" mt={4}>
                   <Input
+                    p={2}
                     name="price"
                     onChange={handleChange}
                     onBlur={handleBlur}

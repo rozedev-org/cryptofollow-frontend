@@ -101,6 +101,7 @@ export const InvestmentDialogForm = () => {
               <form onSubmit={handleSubmit}>
                 <Field label="Precio de Compra">
                   <Input
+                    p={2}
                     name="buyPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -124,6 +125,7 @@ export const InvestmentDialogForm = () => {
                 </Field>
                 <Field label="Inversion de moneda" mt={4}>
                   <Input
+                    p={2}
                     name="currencyInvestment"
                     onChange={handleChange}
                     onBlur={handleBlur}
