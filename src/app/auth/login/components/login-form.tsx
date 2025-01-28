@@ -26,20 +26,20 @@ export const LoginForm = () => {
 
         <Field label="Acceso" fontSize="11px" color="gray.600">
           <Input
+            p={2}
             type="email"
             placeholder="Email"
             bg="gray.100"
-            p={2}
             onChange={(e) => handleChangeEmail(e.target.value)}
           />
         </Field>
 
         <Field label="Contraseña" fontSize="11px" color="gray.600">
           <Input
+            p={2}
             type="password"
             placeholder="Introducir Contraseña"
             bg="gray.100"
-            p={2}
             onChange={(e) => handleChangePassword(e.target.value)}
           />
         </Field>
