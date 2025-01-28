@@ -1,13 +1,11 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-"use client";
-import { Button } from "../../../components/ui/button";
-import { InvestmentDialogDetail } from "./dialog-details";
+import { Button } from "@/components/ui/button";
 import {
-  MenuContent,
-  MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "../../../components/ui/menu";
+  MenuContent,
+  MenuItem,
+} from "@/components/ui/menu";
+import { InvestmentDialogDetail } from "./dialog-details";
 import { InvestmentDialogDelete } from "./dialog-delete";
 import { InvestmentDialogUpdate } from "./dialog-update";
 import { InvestmentIdentity } from "../types/investment.types";

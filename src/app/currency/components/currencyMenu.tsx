@@ -35,13 +35,13 @@ export const CurrencyMenu = ({
         </Button>
       </MenuTrigger>
       <MenuContent>
-        <MenuItem value="detail">
+        <MenuItem value="detail" asChild>
           <CurrencyDialogDetail currency={currency} />
         </MenuItem>
-        <MenuItem value="edit">
+        <MenuItem value="edit" asChild>
           <CurrencyDialogUpdate currency={currency} />
         </MenuItem>
-        <MenuItem value="delete">
+        <MenuItem value="delete" asChild>
           <CurrencyDialogDelete currency={currency} />
         </MenuItem>
       </MenuContent>

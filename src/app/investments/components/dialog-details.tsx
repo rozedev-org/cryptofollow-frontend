@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, Stack, VStack } from "@chakra-ui/react";
 import { NumericFormat } from "react-number-format";
-import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
+import { DataListItem, DataListRoot } from "@/components/ui/data-list";
 import {
   DialogBody,
   DialogCloseTrigger,
@@ -11,7 +11,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "@/components/ui/dialog";
 import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogDetailProps {
