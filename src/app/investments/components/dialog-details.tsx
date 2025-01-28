@@ -85,7 +85,24 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
-                label="Precio (USDT)"
+                label="Precio actual (USDT)"
+                value={
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.currency.price}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={8}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
+                }
+              />
+              <DataListItem
+                borderBottom={"solid thin #e4e4e7"}
+                label="Precio de compra (USDT)"
                 value={
                   <Stack ml={"auto"}>
                     <NumericFormat
