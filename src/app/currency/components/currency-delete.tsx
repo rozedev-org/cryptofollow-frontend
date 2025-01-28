@@ -8,8 +8,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogActionTrigger,
-} from "../../../components/ui/dialog";
-import { MenuItem } from "../../../components/ui/menu";
+} from "@/components/ui/dialog";
 import { useState } from "react";
 import { toast } from "sonner";
 import { config } from "@/config";
@@ -54,7 +53,15 @@ export const CurrencyDialogDelete = (props: CurrencyDialogDeleteProps) => {
     >
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">Eliminar</MenuItem>
+          <Button
+            justifyContent={"flex-start"}
+            w={"100%"}
+            p={1}
+            variant={"subtle"}
+            size={"xs"}
+          >
+            Eliminar
+          </Button>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader alignSelf={"center"}>
