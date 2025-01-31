@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useHandleData } from "@/app/states/useHandleData";
-import { useCurrencies } from "../hook/useCurrencies";
-import { useEffect, useState } from "react";
-import { LoadItem } from "@/components/layout/loading";
-import { Heading, HStack } from "@chakra-ui/react";
-import { CurrencyDialogForm } from "./currency-form";
-import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
-import { CurrencyColumns } from "../types/currency.types";
 import { PaginationParams } from "@/common/interfaces/response.interface";
-import { Button } from "@/components/ui/button";
+import { LoadItem } from "@/components/layout/loading";
+import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
+import { Heading, HStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useCurrencies } from "../hook/useCurrencies";
+import { CurrencyColumns } from "../types/currency.types";
+import { CurrencyDialogForm } from "./currency-form";
 
 export const CurrencyTable = () => {
   const { handleRefreshSignal, refreshSignal } = useHandleData();
