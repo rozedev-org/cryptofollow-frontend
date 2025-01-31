@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
 import { CurrencyTable } from "./components/currencyTable";
+import { BasePage } from "@/components/layout/base-page/base-page";
 
 export default function CurrenciesPage() {
   return (
-    <Box overflowX="auto" w={"40vw"}>
+    <BasePage flexDir={"column"}>
       <CurrencyTable />
-    </Box>
+    </BasePage>
   );
 }

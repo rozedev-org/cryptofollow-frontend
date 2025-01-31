@@ -64,11 +64,6 @@ export const CurrencyTable = () => {
 
   return (
     <>
-      <Button
-        onClick={() => {
-          console.log(currency);
-        }}
-      ></Button>
       {isLoadingPage && <LoadItem />}
       {!isLoadingPage && (
         <>

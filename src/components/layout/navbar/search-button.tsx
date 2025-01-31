@@ -9,6 +9,7 @@ export const SearchButton = () => {
       flex="1"
       endElementProps={{ padding: "11px 15px 11px 11px" }}
       endElement={<HiMagnifyingGlass size={18} />}
+      display={["none", "flex"]} // Ocultar en móviles, mostrar en pantallas más grandes
     >
       <Input
         ml={"auto"}

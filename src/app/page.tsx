@@ -1,11 +1,11 @@
 import { Assets } from "@/components/dashboard/assets";
 import { Balance } from "@/components/dashboard/balance";
-import { VStack } from "@chakra-ui/react";
+import { BasePage } from "@/components/layout/base-page/base-page";
 export default function Dashboard() {
   return (
-    <VStack alignSelf={"flex-start"} gap={17}>
+    <BasePage alignSelf={"flex-start"} gap={17} flexDir={"column"}>
       <Balance />
       <Assets />
-    </VStack>
+    </BasePage>
   );
 }

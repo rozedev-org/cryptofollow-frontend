@@ -11,7 +11,7 @@ export const Assets = () => {
   return (
     <Card.Root
       borderWidth={0}
-      w={"842px"}
+      w={"100%"}
       height={"376px"}
       pt={"30px"}
       pl={"30px"}
