@@ -1,13 +1,9 @@
-import { createColumnHelper } from "@tanstack/react-table";
-import { InvestmentMenu } from "../components/InvestmentMenu";
-import { BiDotsHorizontal } from "react-icons/bi";
-import { Stack, Text } from "@chakra-ui/react";
-import { NumericFormat } from "react-number-format";
 import { CurrencyIdentity } from "@/app/currency/types/currency.types";
+import { Text, Stack } from "@chakra-ui/react";
+import { createColumnHelper } from "@tanstack/react-table";
+import { NumericFormat } from "react-number-format";
 
-export interface InvestmentIdentity {
-  id: number;
-  buyPrice: number;
+export interface WalletIdentity {
   currency: CurrencyIdentity;
   currencyId: number;
   currencyInvestment: number;
@@ -15,30 +11,12 @@ export interface InvestmentIdentity {
   pairInvestment: number;
   pairVariation: number;
   percentageVariation: number;
-  userId: number;
 }
 
-export interface newInvestment {
-  buyPrice: number;
-  currencyInvestment: number;
-  currencyId: number;
-  userId: number;
-}
+const columnHelper = createColumnHelper<WalletIdentity>();
 
-const columnHelper = createColumnHelper<InvestmentIdentity>();
-
-export const InvestmentsColumns = [
-  columnHelper.accessor("id", {
-    cell: (item) => (
-      <InvestmentMenu
-        invest={item.row.original}
-        iconButton={<BiDotsHorizontal color="black" />}
-      />
-    ),
-    header: "",
-  }),
-
-  columnHelper.accessor("id", {
+export const WalletColumns = [
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack mr={"56px"} mt={"25px"} mb={"6px"}>
         <Text fontWeight="bold">{row.original.currency.name}</Text>
@@ -50,14 +28,14 @@ export const InvestmentsColumns = [
     header: "Moneda",
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Text mr={"77px"}>{row.original.currency.price} USDT</Text>
     ),
     header: "Precio",
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack
         mr={"30px"}
@@ -78,7 +56,7 @@ export const InvestmentsColumns = [
     header: "24h",
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack mr={"41px"}>
         <NumericFormat
@@ -104,7 +82,7 @@ export const InvestmentsColumns = [
     header: "+/-",
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack mr={"72px"}>
         <NumericFormat
@@ -130,7 +108,7 @@ export const InvestmentsColumns = [
     header: "Inversión",
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack>
         <NumericFormat

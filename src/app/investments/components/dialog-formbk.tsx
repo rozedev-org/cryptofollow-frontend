@@ -20,6 +20,7 @@ import { Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { useCreateInvestment } from "../hook/useInvestment";
+import { PaginationParams } from "@/common/interfaces/response.interface";
 
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
@@ -27,7 +28,10 @@ export const InvestmentDialogForm = () => {
   const { creating } = useHandleData();
   const { currency, fetchCurrencies } = useCurrencies();
   const { investmentForm, onSubmit } = useCreateInvestment(id);
-
+  const queryPamas: PaginationParams = {
+    page: 1,
+    take: 1,
+  };
   return (
     <DialogRoot
       placement={"center"}
@@ -38,7 +42,7 @@ export const InvestmentDialogForm = () => {
         <Button
           variant="plain"
           onClick={() => {
-            fetchCurrencies();
+            fetchCurrencies(queryPamas);
             setOpen(true);
           }}
         >
@@ -101,7 +105,7 @@ export const InvestmentDialogForm = () => {
                   //   );
                   // }}
                 >
-                  {currency.map((item, index) => (
+                  {currency.data.map((item, index) => (
                     <option key={index} value={item.id}>
                       {item.name}
                     </option>

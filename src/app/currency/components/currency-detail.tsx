@@ -10,8 +10,8 @@ import {
 } from "../../../components/ui/dialog";
 import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 import { NumericFormat } from "react-number-format";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 import { Button } from "@/components/ui/button";
+import { CurrencyIdentity } from "../types/currency.types";
 
 interface CurrencyDialogDetailProps {
   currency: CurrencyIdentity;

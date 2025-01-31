@@ -8,7 +8,7 @@ import {
 import { CurrencyDialogDetail } from "./currency-detail";
 import { CurrencyDialogUpdate } from "./currency-update";
 import { CurrencyDialogDelete } from "./currency-delete";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
+import { CurrencyIdentity } from "../types/currency.types";
 export interface CurrencyMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;

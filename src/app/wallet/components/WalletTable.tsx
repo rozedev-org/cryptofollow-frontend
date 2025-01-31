@@ -1,148 +1,79 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useWallet } from "../hook/useWallet";
-import { For, Stack, Table, Text } from "@chakra-ui/react";
+import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { LoadItem } from "@/components/layout/loading";
-import { NumericFormat } from "react-number-format";
+import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
+import { WalletColumns } from "../types/wallet.types";
+import { PaginationParams } from "@/common/interfaces/response.interface";
+import { useHandleData } from "@/app/states/useHandleData";
 
 export const WalletTable = () => {
-  const { fetchWallet, wallet, isLoading } = useWallet();
+  const { refreshSignal, handleRefreshSignal } = useHandleData();
+  const { fetchWallet, wallet } = useWallet();
+  const [perPage, setPerPage] = useState(5);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+
+  const fetchData = async (page: number) => {
+    setIsLoadingData(true);
+
+    const queryPamas: PaginationParams = {
+      page,
+      take: perPage,
+    };
+
+    await fetchWallet(queryPamas);
+    setIsLoadingPage(false);
+    setIsLoadingData(false);
+  };
+
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    fetchData(selectedItem.selected + 1);
+  };
+
+  const handlePerRowsChange = async (newPerPage: number, page: number) => {
+    setIsLoadingData(true);
+    const queryPamas = {
+      page,
+      take: newPerPage,
+    };
+    await fetchWallet(queryPamas);
+
+    setPerPage(newPerPage);
+    setIsLoadingData(false);
+  };
+
   useEffect(() => {
-    fetchWallet();
+    fetchData(1);
   }, []);
+
+  useEffect(() => {
+    if (refreshSignal) {
+      setIsLoadingData(true);
+      fetchData(1);
+      handleRefreshSignal(false);
+    }
+  }, [refreshSignal]);
 
   return (
     <>
-      {isLoading && <LoadItem />}
-      {!isLoading && (
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeader>Moneda</Table.ColumnHeader>
-              <Table.ColumnHeader>Precio</Table.ColumnHeader>
-              <Table.ColumnHeader>24 h</Table.ColumnHeader>
-              <Table.ColumnHeader>+/-</Table.ColumnHeader>
-              <Table.ColumnHeader>Inversión</Table.ColumnHeader>
-              <Table.ColumnHeader>Importe</Table.ColumnHeader>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <For each={wallet}>
-              {(item, index) => (
-                <Table.Row key={index}>
-                  <Table.Cell>
-                    <Stack mr={"56px"} mt={"25px"} mb={"6px"}>
-                      <Text fontWeight="bold">{item.currency.name}</Text>
-                      <Text fontSize="sm" color="gray.500">
-                        {item.currency.name} / USDT
-                      </Text>
-                    </Stack>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text mr={"77px"}>{item.currency.price} USDT</Text>
-                  </Table.Cell>
-                  {item.percentageVariation > 0 ? (
-                    <Table.Cell color="green.500">
-                      <Stack mr={"30px"}>
-                        <NumericFormat
-                          displayType="text"
-                          value={item.percentageVariation}
-                          thousandSeparator="."
-                          decimalSeparator=","
-                          decimalScale={2}
-                          fixedDecimalScale
-                          prefix="+"
-                          suffix={` %`}
-                        />
-                      </Stack>
-                    </Table.Cell>
-                  ) : (
-                    <Table.Cell color="red.500">
-                      <Stack mr={"30px"}>
-                        <NumericFormat
-                          displayType="text"
-                          value={item.percentageVariation}
-                          thousandSeparator="."
-                          decimalSeparator=","
-                          decimalScale={2}
-                          fixedDecimalScale
-                          suffix={` %`}
-                        />
-                      </Stack>
-                    </Table.Cell>
-                  )}
-                  <Table.Cell>
-                    <Stack mr={"41px"}>
-                      <NumericFormat
-                        displayType="text"
-                        value={item.pairVariation}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` USDT`}
-                      />
-                      <NumericFormat
-                        displayType="text"
-                        value={item.pairVariation}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` ${item.currency.name}`}
-                      />
-                    </Stack>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Stack mr={"72px"}>
-                      <NumericFormat
-                        displayType="text"
-                        value={item.pairInvestment}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` USDT`}
-                      />
-                      <NumericFormat
-                        displayType="text"
-                        value={item.currencyInvestment}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` ${item.currency.name}`}
-                      />
-                    </Stack>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Stack>
-                      <NumericFormat
-                        displayType="text"
-                        value={item.pairAmount}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` USDT`}
-                      />
-                      <NumericFormat
-                        displayType="text"
-                        value={item.pairAmount}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={3}
-                        fixedDecimalScale
-                        suffix={` ${item.currency.name}`}
-                      />
-                    </Stack>
-                  </Table.Cell>
-                </Table.Row>
-              )}
-            </For>
-          </Table.Body>
-        </Table.Root>
+      {isLoadingPage && <LoadItem />}
+      {!isLoadingPage && (
+        <VStack w={"100%"}>
+          <HStack mr={"auto"} mb={"35px"}>
+            <Heading>Billetera</Heading>
+          </HStack>
+          <PaginatedTable
+            meta={wallet.meta}
+            data={wallet.data}
+            handlePageChange={handlePageChange}
+            handlePerRowsChange={handlePerRowsChange}
+            columns={WalletColumns}
+            isLoadingData={isLoadingData}
+          />
+        </VStack>
       )}
     </>
   );
