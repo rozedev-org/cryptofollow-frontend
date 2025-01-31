@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { appRoutes } from "@/appRoutes";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useUserSession } from "./states/useUserId";
 
@@ -13,16 +13,16 @@ export const UserSessionProvider = ({
   const { validateSession, isExpired } = useUserSession();
 
   const router = useRouter();
-
+  const pathname = usePathname();
   const handleValidateSession = async () => {
     const result = await validateSession();
-    if (!result) {
+    if (!result && pathname !== appRoutes.home.login.url()) {
       router.push(appRoutes.home.login.url());
     }
   };
   useEffect(() => {
     handleValidateSession();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (isExpired) {
