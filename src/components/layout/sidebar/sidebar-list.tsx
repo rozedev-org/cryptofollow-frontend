@@ -17,7 +17,9 @@ const SidebarButton = ({ name, route, onClose }: SidebarButtonProps) => {
 
   const handleClick = () => {
     router.push(route);
-    onClose && onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
   return (
