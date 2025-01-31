@@ -13,7 +13,7 @@ export const useWallet = () => {
       setIsLoading(true);
       const { page, take } = params;
       const response = await fetch(
-        `${bff.url}/wallet/currencies?page=${page}$take=${take}`,
+        `${bff.url}/wallet/currencies?page=${page}&take=${take}`,
         {
           credentials: "include",
         }
