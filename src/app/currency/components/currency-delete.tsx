@@ -13,8 +13,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 import { useHandleData } from "@/app/states/useHandleData";
+import { CurrencyIdentity } from "../types/currency.types";
 
 interface CurrencyDialogDeleteProps {
   currency: CurrencyIdentity;

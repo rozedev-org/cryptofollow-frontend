@@ -15,8 +15,8 @@ import { Field } from "@/components/ui/field";
 import { toast } from "sonner";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
 import { useHandleData } from "@/app/states/useHandleData";
+import { CurrencyIdentity } from "../types/currency.types";
 
 interface CurrencyDialogUpdateProps {
   currency: CurrencyIdentity;

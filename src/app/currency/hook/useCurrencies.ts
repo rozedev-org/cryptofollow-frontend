@@ -1,27 +1,46 @@
-import {
-  CurrencyIdentity,
-  newCurrency,
-} from "@/app/investments/types/investment.types";
 import { config } from "@/config";
 import { useState } from "react";
+import { CurrencyIdentity, newCurrency } from "../types/currency.types";
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from "@/common/interfaces/response.interface";
 
 export const useCurrencies = () => {
-  const fetchCurrencies = async () => {
-    setIsLoading(true);
+  const fetchCurrencies = async (params: PaginationParams) => {
     try {
       const { bff } = config;
-      const response = await fetch(`${bff.url}/currency`, {
-        credentials: "include",
-      }).then((res) => res.json());
+      setIsLoading(true);
+      const { page, take } = params;
+      const response = await fetch(
+        `${bff.url}/currency?page=${page}&take=${take}`,
+        {
+          credentials: "include",
+        }
+      ).then(
+        (res) => res.json() as Promise<PaginatedResponse<CurrencyIdentity>>
+      );
+      setCurrency(response);
       setIsLoading(false);
-      setCurrency(response || []);
       return response;
     } catch (error) {
       setIsLoading(false);
       console.log(error);
     }
   };
-  const [currency, setCurrency] = useState<CurrencyIdentity[]>([]);
+  const [currency, setCurrency] = useState<PaginatedResponse<CurrencyIdentity>>(
+    {
+      data: [] as CurrencyIdentity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    }
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   return {
