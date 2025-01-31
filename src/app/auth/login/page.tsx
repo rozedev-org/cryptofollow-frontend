@@ -1,8 +1,9 @@
 import { HStack, Image, VStack, Heading } from "@chakra-ui/react";
 import { LoginForm } from "./components/login-form";
+import { BasePage } from "@/components/layout/base-page/base-page";
 export default function LoginPage() {
   return (
-    <HStack>
+    <BasePage>
       <Image src="/login-wallpaper.png" alt="213" minW="984px" h={"100%"} />
       <VStack display={"flex"} minW={"456px"} minH={"1024px"} p={"48px"}>
         <HStack mr={"auto"}>
@@ -18,6 +19,6 @@ export default function LoginPage() {
         </HStack>
         <LoginForm />
       </VStack>
-    </HStack>
+    </BasePage>
   );
 }
