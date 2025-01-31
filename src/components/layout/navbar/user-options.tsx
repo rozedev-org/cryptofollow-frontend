@@ -17,52 +17,56 @@ export const NavBarUserOptions = () => {
   const router = useRouter();
   const { setIsLoggedIn } = useUserSession();
   const handleLogout = () => {
-    axiosInstace.post(`/auth/logout`);
-    router.push(appRoutes.home.login.url());
-    setIsLoggedIn(false);
-    window.location.reload();
+    try {
+      axiosInstace.post(`/auth/logout`);
+      setIsLoggedIn(false);
+      router.push(appRoutes.home.login.url());
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
-    <MenuRoot>
-      <MenuTrigger asChild>
-        <IconButton aria-label="Notifications" bg={"white"}>
-          <Avatar
-            variant="solid"
-            name="Juan Carlos Jimenez"
-            bg={"pink.250"}
-            colorScheme={"pink"}
-            w={"40px"}
-            h={"40px"}
-            borderRadius={"20px"}
-          />
-          <VStack alignItems={"start"}>
-            <Text color={"black"}>Juan Jimenez</Text>
-            <Text color={"gray.500"}>Admin</Text>
-          </VStack>
-          <HiChevronDown size={40} color="black" />
-        </IconButton>
-      </MenuTrigger>
-
-      <MenuContent>
-        <MenuItem
-          value="profile"
-          p={2}
-          onClick={() => {
-            router.push(appRoutes.home.profile.url());
-          }}
-        >
-          Perfil
-        </MenuItem>
-        <MenuItem
-          value="logout"
-          onClick={handleLogout}
-          p={2}
-          borderTop={"sm"}
-          borderColor={"gray.200"}
-        >
-          Cerrar Sesion
-        </MenuItem>
-      </MenuContent>
-    </MenuRoot>
+    <>
+      <MenuRoot>
+        <MenuTrigger asChild>
+          <IconButton aria-label="Notifications" bg={"white"}>
+            <Avatar
+              variant="solid"
+              name="Juan Carlos Jimenez"
+              bg={"pink.250"}
+              colorScheme={"pink"}
+              w={"40px"}
+              h={"40px"}
+              borderRadius={"20px"}
+            />
+            <VStack alignItems={"start"}>
+              <Text color={"black"}>Juan Jimenez</Text>
+              <Text color={"gray.500"}>Admin</Text>
+            </VStack>
+            <HiChevronDown size={40} color="black" />
+          </IconButton>
+        </MenuTrigger>
+        <MenuContent>
+          <MenuItem
+            value="profile"
+            p={2}
+            onClick={() => {
+              router.push(appRoutes.home.profile.url());
+            }}
+          >
+            Perfil
+          </MenuItem>
+          <MenuItem
+            value="logout"
+            onClick={handleLogout}
+            p={2}
+            borderTop={"sm"}
+            borderColor={"gray.200"}
+          >
+            Cerrar Sesion
+          </MenuItem>
+        </MenuContent>
+      </MenuRoot>
+    </>
   );
 };
