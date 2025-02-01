@@ -1,11 +1,10 @@
 @media screen and (max-width: 600px) {
   .responsive thead {
-    visibility: hidden;
-    position: absolute;
+    display: none;
   }
 
   .responsive tr {
-    display: block;
+    display: table-row;
     margin-bottom: 0.625em;
     border-spacing: 1rem;
   }
