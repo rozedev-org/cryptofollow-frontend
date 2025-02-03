@@ -19,7 +19,10 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleLogin}>
       {loading && <LoadItem />}
-      <Stack minW={"360px"} minH={"574px"} pb={"228px"}>
+      <Stack
+
+      // minW={"360px"} minH={"574px"} pb={"228px"}
+      >
         <Heading as="h2" size="lg" pt={"48px"} pb={"24px"}>
           Encantado de verte de nuevo
         </Heading>

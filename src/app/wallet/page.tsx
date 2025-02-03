@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
+import { BasePage } from "@/components/layout/base-page/base-page";
 import { WalletTable } from "./components/WalletTable";
 
 export default function WalletPage() {
   return (
-    <Box overflowX="auto">
+    <BasePage>
       <WalletTable />
-    </Box>
+    </BasePage>
   );
 }
