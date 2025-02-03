@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
+import { BasePage } from "@/components/layout/base-page/base-page";
 import { InvestmentTable } from "./components/InvestmentTable";
 
 export default function InvestmentsPage() {
   return (
-    <Box overflowX="auto">
+    <BasePage>
       <InvestmentTable />
-    </Box>
+    </BasePage>
   );
 }

@@ -24,6 +24,7 @@ import { useUserSession } from "@/app/states/useUserId";
 import { LoadItem } from "@/components/layout/loading";
 import { config } from "@/config";
 import { InvestmentIdentity } from "../types/investment.types";
+import { PaginationParams } from "@/common/interfaces/response.interface";
 
 interface InvestmentDialogUpdateProps {
   invest: InvestmentIdentity;
@@ -35,12 +36,16 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const { currency, fetchCurrencies } = useCurrencies();
   const { invest } = props;
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const queryPamas: PaginationParams = {
+    page: 1,
+    take: 1,
+  };
   return (
     <DialogRoot
       placement={"center"}
       open={open}
       onOpenChange={(e) => {
-        fetchCurrencies();
+        fetchCurrencies(queryPamas);
         setOpen(e.open);
       }}
     >
@@ -119,6 +124,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
               <form onSubmit={handleSubmit}>
                 <Field label="Precio de Compra">
                   <Input
+                    p={2}
                     name="buyPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -133,7 +139,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      {currency.map((item, index) => (
+                      {currency.data.map((item, index) => (
                         <option key={index} value={item.id}>
                           {item.name}
                         </option>
@@ -143,6 +149,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                 </Field>
                 <Field label="Inversion de moneda" mt={4}>
                   <Input
+                    p={2}
                     name="currencyInvestment"
                     onChange={handleChange}
                     onBlur={handleBlur}

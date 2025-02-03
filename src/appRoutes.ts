@@ -16,5 +16,8 @@ export const appRoutes = {
     config: {
       url: () => "/config",
     },
+    profile: {
+      url: () => "/profile",
+    },
   },
 };

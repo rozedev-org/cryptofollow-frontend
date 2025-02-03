@@ -1,41 +1,58 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { For, Link, VStack } from "@chakra-ui/react";
 import { SIDEBAR_LIST } from "@/constants/sidebar.constant";
+import { For, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export interface SidebarButtonProps {
   name: string;
   Icon: IconType;
   route: string;
+  onClose?: () => void;
 }
-const SidebarButton = ({ name, Icon, route }: SidebarButtonProps) => {
+const SidebarButton = ({ name, route, onClose }: SidebarButtonProps) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(route);
+    if (onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <Link href={route}>
-      <Button
-        onClick={() => console.log("Button clicked")}
-        display={"flex"}
-        justifyContent={"flex-start"}
-        paddingLeft={"12px"}
-        colorPalette={"pink"}
-        borderRadius={"10px"}
-        w={"197px"}
-        h={"50px"}
-        fontSize={"14px"}
-        fontWeight={"600"}
-      >
-        {<Icon />} {name}
-      </Button>
-    </Link>
+    <Button
+      paddingLeft={"12px"}
+      justifyContent={"start"}
+      borderRadius={"10px"}
+      colorPalette={"pink"}
+      w={"197px"}
+      h={"50px"}
+      fontSize={"14px"}
+      fontWeight={"600"}
+      color={"white"}
+      onClick={handleClick}
+    >
+      {name}
+    </Button>
   );
 };
 
-export const SidebarList = () => {
+export interface SidebarListProps {
+  onClose?: () => void;
+}
+export const SidebarList = ({ onClose }: SidebarListProps) => {
   return (
     <VStack gap={"32px"}>
       <For each={SIDEBAR_LIST} fallback={<div>Empty</div>}>
         {(item, index) => (
-          <SidebarButton {...item} key={`Sidebar-item-${index}`} />
+          <SidebarButton
+            {...item}
+            key={`Sidebar-item-${index}`}
+            onClose={onClose}
+          />
         )}
       </For>
     </VStack>

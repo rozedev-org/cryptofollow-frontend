@@ -1,93 +1,83 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { useHandleData } from "@/app/states/useHandleData";
-import { useCurrencies } from "../hook/useCurrencies";
-import { useEffect } from "react";
+import { PaginationParams } from "@/common/interfaces/response.interface";
 import { LoadItem } from "@/components/layout/loading";
-import { Heading, HStack, Stack, Table, Text } from "@chakra-ui/react";
-import { CurrencyMenu } from "./currencyMenu";
-import { BiDotsHorizontal } from "react-icons/bi";
+import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
+import { Heading, HStack } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useCurrencies } from "../hook/useCurrencies";
+import { CurrencyColumns } from "../types/currency.types";
 import { CurrencyDialogForm } from "./currency-form";
-import { NumericFormat } from "react-number-format";
 
 export const CurrencyTable = () => {
   const { handleRefreshSignal, refreshSignal } = useHandleData();
-  const { currency, fetchCurrencies, isLoading } = useCurrencies();
+  const { currency, fetchCurrencies } = useCurrencies();
+
+  //Todo esto se ira para un componente de constantes o algo
+  const [perPage, setPerPage] = useState(5);
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [isLoadingPage, setIsLoadingPage] = useState(false);
+
+  const fetchData = async (page: number) => {
+    setIsLoadingData(true);
+
+    const queryPamas: PaginationParams = {
+      page,
+      take: perPage,
+    };
+
+    await fetchCurrencies(queryPamas);
+    setIsLoadingPage(false);
+    setIsLoadingData(false);
+  };
+
+  const handlePageChange = (selectedItem: { selected: number }) => {
+    fetchData(selectedItem.selected + 1);
+  };
+
+  const handlePerRowsChange = async (newPerPage: number, page: number) => {
+    setIsLoadingData(true);
+    const queryPamas = {
+      page,
+      take: newPerPage,
+    };
+    await fetchCurrencies(queryPamas);
+
+    setPerPage(newPerPage);
+    setIsLoadingData(false);
+  };
 
   useEffect(() => {
-    fetchCurrencies();
+    fetchData(1);
+    console.log(currency);
   }, []);
 
   useEffect(() => {
     if (refreshSignal) {
-      fetchCurrencies();
+      setIsLoadingData(true);
+      fetchData(1);
       handleRefreshSignal(false);
     }
   }, [refreshSignal]);
 
   return (
     <>
-      {isLoading && <LoadItem />}
-      {!isLoading && (
+      {isLoadingPage && <LoadItem />}
+      {!isLoadingPage && (
         <>
           <HStack mr={"auto"} mb={"35px"}>
             <Heading>Monedas</Heading>
             <CurrencyDialogForm />
           </HStack>
-          <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeader w={"90px"}></Table.ColumnHeader>
-                <Table.ColumnHeader w={"90px"}>Nombre</Table.ColumnHeader>
-                <Table.ColumnHeader w={"90px"}>Moneda</Table.ColumnHeader>
-                <Table.ColumnHeader w={"90px"}>Precio</Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {currency.map((item, index) => (
-                <Table.Row key={index}>
-                  <Table.Cell>
-                    <Stack>
-                      <CurrencyMenu
-                        currency={item}
-                        iconButton={<BiDotsHorizontal color="black" />}
-                      />
-                    </Stack>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Stack mr={"56px"} mt={"30px"} mb={"30px"}>
-                      <Text fontWeight="bold">{item.name}</Text>
-                    </Stack>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text>{item.pair}</Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    {item.price <= 1 ? (
-                      <NumericFormat
-                        displayType="text"
-                        value={item.price}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        decimalScale={8}
-                        fixedDecimalScale
-                        suffix={` $`}
-                      />
-                    ) : (
-                      <NumericFormat
-                        displayType="text"
-                        value={item.price}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        fixedDecimalScale
-                        suffix={` $`}
-                      />
-                    )}
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+          <PaginatedTable
+            meta={currency.meta}
+            data={currency.data}
+            handlePageChange={handlePageChange}
+            handlePerRowsChange={handlePerRowsChange}
+            columns={CurrencyColumns}
+            isLoadingData={isLoadingData}
+          />
         </>
       )}
     </>

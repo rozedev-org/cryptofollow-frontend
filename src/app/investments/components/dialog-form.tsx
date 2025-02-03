@@ -23,12 +23,17 @@ import { LoadItem } from "@/components/layout/loading";
 import { useUserSession } from "@/app/states/useUserId";
 import { useHandleData } from "@/app/states/useHandleData";
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
+import { PaginationParams } from "@/common/interfaces/response.interface";
 
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   const { currency, fetchCurrencies } = useCurrencies();
+  const queryPamas: PaginationParams = {
+    page: 1,
+    take: 1,
+  };
   return (
     <DialogRoot
       placement={"center"}
@@ -39,7 +44,7 @@ export const InvestmentDialogForm = () => {
         <Button
           variant="plain"
           onClick={() => {
-            fetchCurrencies();
+            fetchCurrencies(queryPamas);
             setOpen(true);
           }}
         >
@@ -101,6 +106,7 @@ export const InvestmentDialogForm = () => {
               <form onSubmit={handleSubmit}>
                 <Field label="Precio de Compra">
                   <Input
+                    p={2}
                     name="buyPrice"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -114,7 +120,7 @@ export const InvestmentDialogForm = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      {currency.map((item, index) => (
+                      {currency.data.map((item, index) => (
                         <option key={index} value={item.id}>
                           {item.name}
                         </option>
@@ -124,6 +130,7 @@ export const InvestmentDialogForm = () => {
                 </Field>
                 <Field label="Inversion de moneda" mt={4}>
                   <Input
+                    p={2}
                     name="currencyInvestment"
                     onChange={handleChange}
                     onBlur={handleBlur}

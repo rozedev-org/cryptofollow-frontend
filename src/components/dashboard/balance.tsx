@@ -38,7 +38,7 @@ export const Balance = () => {
   return (
     <Card.Root
       borderWidth={0}
-      w={"842px"}
+      w={["100%", "842px"]}
       height={"169px"}
       pt={"30px"}
       pl={"30px"}

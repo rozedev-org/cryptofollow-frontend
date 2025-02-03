@@ -8,33 +8,41 @@ import { FaGoogle } from "react-icons/fa";
 import { LoadItem } from "@/components/layout/loading";
 
 export const LoginForm = () => {
-  const { handleChangeEmail, handleChangePassword, handleLogin, loading } =
-    useLoginForm();
+  const {
+    handleChangeEmail,
+    handleChangePassword,
+    handleLogin,
+    loading,
+    handleRedirectGoogleAuth,
+  } = useLoginForm();
 
   return (
     <form onSubmit={handleLogin}>
       {loading && <LoadItem />}
-      <Stack minW={"360px"} minH={"574px"} pb={"228px"}>
+      <Stack
+
+      // minW={"360px"} minH={"574px"} pb={"228px"}
+      >
         <Heading as="h2" size="lg" pt={"48px"} pb={"24px"}>
           Encantado de verte de nuevo
         </Heading>
 
         <Field label="Acceso" fontSize="11px" color="gray.600">
           <Input
+            p={2}
             type="email"
             placeholder="Email"
             bg="gray.100"
-            p={2}
             onChange={(e) => handleChangeEmail(e.target.value)}
           />
         </Field>
 
         <Field label="Contraseña" fontSize="11px" color="gray.600">
           <Input
+            p={2}
             type="password"
             placeholder="Introducir Contraseña"
             bg="gray.100"
-            p={2}
             onChange={(e) => handleChangePassword(e.target.value)}
           />
         </Field>
@@ -69,6 +77,7 @@ export const LoginForm = () => {
           w="full"
           borderRadius="md"
           py={6}
+          onClick={handleRedirectGoogleAuth}
         >
           <FaGoogle /> O inicia sesión con Google
         </Button>

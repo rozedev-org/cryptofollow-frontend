@@ -8,7 +8,7 @@ import {
 import { CurrencyDialogDetail } from "./currency-detail";
 import { CurrencyDialogUpdate } from "./currency-update";
 import { CurrencyDialogDelete } from "./currency-delete";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
+import { CurrencyIdentity } from "../types/currency.types";
 export interface CurrencyMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;
@@ -35,13 +35,13 @@ export const CurrencyMenu = ({
         </Button>
       </MenuTrigger>
       <MenuContent>
-        <MenuItem value="detail">
+        <MenuItem value="detail" asChild>
           <CurrencyDialogDetail currency={currency} />
         </MenuItem>
-        <MenuItem value="edit">
+        <MenuItem value="edit" asChild>
           <CurrencyDialogUpdate currency={currency} />
         </MenuItem>
-        <MenuItem value="delete">
+        <MenuItem value="delete" asChild>
           <CurrencyDialogDelete currency={currency} />
         </MenuItem>
       </MenuContent>

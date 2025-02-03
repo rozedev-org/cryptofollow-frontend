@@ -9,9 +9,9 @@ import {
   DialogTitle,
 } from "../../../components/ui/dialog";
 import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
-import { MenuItem } from "../../../components/ui/menu";
 import { NumericFormat } from "react-number-format";
-import { CurrencyIdentity } from "@/app/investments/types/investment.types";
+import { Button } from "@/components/ui/button";
+import { CurrencyIdentity } from "../types/currency.types";
 
 interface CurrencyDialogDetailProps {
   currency: CurrencyIdentity;
@@ -23,7 +23,15 @@ export const CurrencyDialogDetail = (props: CurrencyDialogDetailProps) => {
     <DialogRoot placement={"center"}>
       <VStack alignItems="start">
         <DialogTrigger asChild>
-          <MenuItem value="detail">Detalle</MenuItem>
+          <Button
+            justifyContent={"flex-start"}
+            w={"100%"}
+            p={1}
+            variant={"subtle"}
+            size={"xs"}
+          >
+            Detalle
+          </Button>
         </DialogTrigger>
         <DialogContent p={"30px"}>
           <DialogHeader>

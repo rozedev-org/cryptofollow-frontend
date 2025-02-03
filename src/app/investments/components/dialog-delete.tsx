@@ -9,7 +9,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "@/components/ui/dialog";
 
 import { useHandleData } from "@/app/states/useHandleData";
 import { LoadItem } from "@/components/layout/loading";

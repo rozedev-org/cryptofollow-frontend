@@ -79,6 +79,7 @@ export const CurrencyDialogForm = () => {
               <form onSubmit={handleSubmit}>
                 <Field label="Nombre de la Moneda">
                   <Input
+                    p={2}
                     name="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -86,6 +87,7 @@ export const CurrencyDialogForm = () => {
                 </Field>
                 <Field label="Precio de la moneda" mt={4}>
                   <Input
+                    p={2}
                     name="price"
                     onChange={handleChange}
                     onBlur={handleBlur}

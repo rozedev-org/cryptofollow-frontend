@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import { Badge, Stack, VStack } from "@chakra-ui/react";
 import { NumericFormat } from "react-number-format";
-import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
+import { DataListItem, DataListRoot } from "@/components/ui/data-list";
 import {
   DialogBody,
   DialogCloseTrigger,
@@ -11,7 +11,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog";
+} from "@/components/ui/dialog";
 import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogDetailProps {
@@ -85,7 +85,24 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
               />
               <DataListItem
                 borderBottom={"solid thin #e4e4e7"}
-                label="Precio (USDT)"
+                label="Precio actual (USDT)"
+                value={
+                  <Stack ml={"auto"}>
+                    <NumericFormat
+                      displayType="text"
+                      value={invest.currency.price}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                      decimalScale={8}
+                      fixedDecimalScale
+                      suffix={` $`}
+                    />
+                  </Stack>
+                }
+              />
+              <DataListItem
+                borderBottom={"solid thin #e4e4e7"}
+                label="Precio de compra (USDT)"
                 value={
                   <Stack ml={"auto"}>
                     <NumericFormat

@@ -1,8 +1,9 @@
 "use client";
-import { HStack, VStack } from "@chakra-ui/react";
+import { useUserSession } from "@/app/states/useUserId";
+import { Flex } from "@chakra-ui/react";
+import { MainContent } from "./content/content";
 import { Navbar } from "./navbar/navbar";
 import { Sidebar } from "./sidebar/sidebar";
-import { useUserSession } from "@/app/states/useUserId";
 
 export const DefaultLayout = ({
   children,
@@ -11,15 +12,15 @@ export const DefaultLayout = ({
 }>) => {
   const { isLoggedIn } = useUserSession();
   return (
-    <HStack alignItems={"flex-start"}>
+    <Flex w={"100%"} data-component={"main-layout"} gap={4}>
       {/* Sidebar */}
       {isLoggedIn && <Sidebar />}
-      <VStack>
+      <Flex w={"100%"} h={"100vh"} flexDir={"column"}>
         {/* Navbar */}
         {isLoggedIn && <Navbar />}
         {/* Content */}
-        {children}
-      </VStack>
-    </HStack>
+        <MainContent>{children}</MainContent>
+      </Flex>
+    </Flex>
   );
 };

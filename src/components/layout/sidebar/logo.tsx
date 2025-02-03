@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const SideBarLogo = () => {
   return (
-    <HStack gap={"7px"} px={"43px"} pt={"28px"}>
+    <HStack gap={"7px"} h={"90px"}>
       <Image src={"/logo.png"} alt="App Logo" width={"38"} height={"37"} />
       <Heading
         color={"#1A1B2F"}
