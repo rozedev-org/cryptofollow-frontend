@@ -13,7 +13,6 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { Input } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -21,10 +20,14 @@ import { toast } from "sonner";
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 import { useHandleData } from "@/app/states/useHandleData";
 import { useUserSession } from "@/app/states/useUserId";
+import { PaginationParams } from "@/common/interfaces/response.interface";
 import { LoadItem } from "@/components/layout/loading";
+import {
+  NumberInputField,
+  NumberInputRoot,
+} from "@/components/ui/number-input";
 import { config } from "@/config";
 import { InvestmentIdentity } from "../types/investment.types";
-import { PaginationParams } from "@/common/interfaces/response.interface";
 
 interface InvestmentDialogUpdateProps {
   invest: InvestmentIdentity;
@@ -100,6 +103,11 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     body: JSON.stringify(defaultValue),
                   }
                 );
+
+                if (!response.ok) {
+                  throw new Error("Error al actualizar la inversion");
+                }
+
                 toast.success(`Se ha actualizado una inversion`);
                 console.log(response);
                 handleRefreshSignal(true);
@@ -122,14 +130,17 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
               isSubmitting,
             }) => (
               <form onSubmit={handleSubmit}>
-                <Field label="Precio de Compra">
-                  <Input
-                    p={2}
-                    name="buyPrice"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.buyPrice}
-                  />
+                <Field
+                  label="Precio de Compra"
+                  helperText="Precio de compra de la moneda. Los decimales se separan por '.' "
+                >
+                  <NumberInputRoot name="buyPrice" w={"100%"}>
+                    <NumberInputField
+                      onChange={handleChange}
+                      p={2}
+                      defaultValue={values.buyPrice}
+                    />
+                  </NumberInputRoot>
                 </Field>
                 <Field label="Seleccionar la mondeda" mt={4}>
                   <NativeSelectRoot>
@@ -147,14 +158,18 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                     </NativeSelectField>
                   </NativeSelectRoot>
                 </Field>
-                <Field label="Inversion de moneda" mt={4}>
-                  <Input
-                    p={2}
-                    name="currencyInvestment"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.currencyInvestment}
-                  />
+                <Field
+                  label="Inversion de moneda"
+                  mt={4}
+                  helperText="Cantidad de moneda a invertir. Los decimales se separan por '.'"
+                >
+                  <NumberInputRoot name="currencyInvestment" w={"100%"}>
+                    <NumberInputField
+                      onChange={handleChange}
+                      p={2}
+                      defaultValue={values.currencyInvestment}
+                    />
+                  </NumberInputRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}

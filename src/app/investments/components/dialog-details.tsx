@@ -54,8 +54,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                         <NumericFormat
                           displayType="text"
                           value={invest.percentageVariation}
-                          thousandSeparator="."
-                          decimalSeparator=","
+                          thousandSeparator=","
+                          decimalSeparator="."
                           decimalScale={2}
                           fixedDecimalScale
                           prefix="+"
@@ -72,8 +72,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                         <NumericFormat
                           displayType="text"
                           value={invest.percentageVariation}
-                          thousandSeparator="."
-                          decimalSeparator=","
+                          thousandSeparator=","
+                          decimalSeparator="."
                           decimalScale={2}
                           fixedDecimalScale
                           suffix={` %`}
@@ -108,8 +108,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                     <NumericFormat
                       displayType="text"
                       value={invest.buyPrice}
-                      thousandSeparator="."
-                      decimalSeparator=","
+                      thousandSeparator=","
+                      decimalSeparator="."
                       decimalScale={8}
                       fixedDecimalScale
                       suffix={` $`}
@@ -125,8 +125,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                     <NumericFormat
                       displayType="text"
                       value={invest.pairVariation}
-                      thousandSeparator="."
-                      decimalSeparator=","
+                      thousandSeparator=","
+                      decimalSeparator="."
                       decimalScale={2}
                       fixedDecimalScale
                       suffix={` $`}
@@ -142,8 +142,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                     <NumericFormat
                       displayType="text"
                       value={invest.pairInvestment}
-                      thousandSeparator="."
-                      decimalSeparator=","
+                      thousandSeparator=","
+                      decimalSeparator="."
                       decimalScale={2}
                       fixedDecimalScale
                       suffix={` $`}
@@ -159,8 +159,8 @@ export const InvestmentDialogDetail = (props: InvestmentDialogDetailProps) => {
                     <NumericFormat
                       displayType="text"
                       value={invest.pairAmount}
-                      thousandSeparator="."
-                      decimalSeparator=","
+                      thousandSeparator=","
+                      decimalSeparator="."
                       decimalScale={2}
                       fixedDecimalScale
                       suffix={` $`}
