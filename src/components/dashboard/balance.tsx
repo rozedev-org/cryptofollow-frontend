@@ -1,10 +1,5 @@
 "use client";
-import {
-  StatLabel,
-  StatRoot,
-  StatUpTrend,
-  StatValueText,
-} from "@/components/ui/stat";
+import { StatLabel, StatRoot, StatValueText } from "@/components/ui/stat";
 import { config } from "@/config";
 import { Card, FormatNumber, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -38,10 +33,8 @@ export const Balance = () => {
   return (
     <Card.Root
       borderWidth={0}
-      w={["100%", "842px"]}
       height={"169px"}
-      pt={"30px"}
-      pl={"30px"}
+      p={"30px"}
       borderRadius={"16px"}
       boxShadow={"0px 4px 32px 0px rgba(0, 0, 0, 0.07)"}
     >
@@ -75,7 +68,7 @@ export const Balance = () => {
                 currency="USD"
               />
             </StatValueText>
-            <StatUpTrend
+            {/* <StatUpTrend
               py={"3px"}
               px={"10px"}
               bg={"#EBFFE8"}
@@ -87,7 +80,7 @@ export const Balance = () => {
               lineHeight={"22.452px"}
             >
               0.25%
-            </StatUpTrend>
+            </StatUpTrend> */}
           </HStack>
         </StatRoot>
       </Card.Body>

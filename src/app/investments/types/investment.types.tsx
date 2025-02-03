@@ -63,16 +63,15 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.percentageVariation}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={2}
           fixedDecimalScale
-          prefix="+"
           suffix={` %`}
         />
       </Stack>
     ),
-    header: "24h",
+    header: "Variación %",
   }),
 
   columnHelper.accessor("id", {
@@ -81,8 +80,8 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.pairVariation}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={3}
           fixedDecimalScale
           suffix={` USDT`}
@@ -90,8 +89,8 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.pairVariation}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={3}
           fixedDecimalScale
           suffix={` ${row.original.currency.name}`}
@@ -107,8 +106,8 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.pairInvestment}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={3}
           fixedDecimalScale
           suffix={` USDT`}
@@ -116,8 +115,8 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.currencyInvestment}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={3}
           fixedDecimalScale
           suffix={` ${row.original.currency.name}`}
@@ -133,20 +132,11 @@ export const InvestmentsColumns = [
         <NumericFormat
           displayType="text"
           value={row.original.pairAmount}
-          thousandSeparator="."
-          decimalSeparator=","
+          thousandSeparator=","
+          decimalSeparator="."
           decimalScale={3}
           fixedDecimalScale
           suffix={` USDT`}
-        />
-        <NumericFormat
-          displayType="text"
-          value={row.original.pairAmount}
-          thousandSeparator="."
-          decimalSeparator=","
-          decimalScale={3}
-          fixedDecimalScale
-          suffix={` ${row.original.currency.name}`}
         />
       </Stack>
     ),

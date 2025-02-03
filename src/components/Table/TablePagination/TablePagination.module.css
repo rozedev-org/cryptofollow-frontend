@@ -7,20 +7,20 @@
 }
 
 .pagination li :hover {
-  background-color: #306bbf;
+  background-color: #d6b9c2;
   color: white;
 }
 
 .paginationLink {
   border-radius: 8px;
-  border: 1px solid #306bbf;
+  border: 1px solid #d6b9c2;
   width: fit-content;
   margin: 0 0.5rem;
   padding: 6px 10px;
 }
 
 .paginationActive {
-  background-color: #306bbf;
+  background-color: #d6b9c2;
   color: white;
   margin: 0;
 }

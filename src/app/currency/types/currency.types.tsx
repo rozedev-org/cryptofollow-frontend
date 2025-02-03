@@ -55,8 +55,8 @@ export const CurrencyColumns = [
           <NumericFormat
             displayType="text"
             value={row.original.price}
-            thousandSeparator="."
-            decimalSeparator=","
+            thousandSeparator=","
+            decimalSeparator="."
             decimalScale={8}
             fixedDecimalScale
             suffix={` $`}
@@ -65,8 +65,8 @@ export const CurrencyColumns = [
           <NumericFormat
             displayType="text"
             value={row.original.price}
-            thousandSeparator="."
-            decimalSeparator=","
+            thousandSeparator=","
+            decimalSeparator="."
             fixedDecimalScale
             suffix={` $`}
           />
