@@ -13,7 +13,6 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { Input } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -21,14 +20,14 @@ import { toast } from "sonner";
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 import { useHandleData } from "@/app/states/useHandleData";
 import { useUserSession } from "@/app/states/useUserId";
-import { LoadItem } from "@/components/layout/loading";
-import { config } from "@/config";
-import { InvestmentIdentity } from "../types/investment.types";
 import { PaginationParams } from "@/common/interfaces/response.interface";
+import { LoadItem } from "@/components/layout/loading";
 import {
   NumberInputField,
   NumberInputRoot,
 } from "@/components/ui/number-input";
+import { config } from "@/config";
+import { InvestmentIdentity } from "../types/investment.types";
 
 interface InvestmentDialogUpdateProps {
   invest: InvestmentIdentity;

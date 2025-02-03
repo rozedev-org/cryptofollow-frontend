@@ -1,3 +1,8 @@
+import { useCurrencies } from "@/app/currency/hook/useCurrencies";
+import { useHandleData } from "@/app/states/useHandleData";
+import { useUserSession } from "@/app/states/useUserId";
+import { PaginationParams } from "@/common/interfaces/response.interface";
+import { LoadItem } from "@/components/layout/loading";
 import { Button } from "@/components/ui/button";
 import {
   DialogBody,
@@ -8,26 +13,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Formik } from "formik";
-import { useState } from "react";
-import { FaRegPlusSquare } from "react-icons/fa";
-import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
-import { toast } from "sonner";
 import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { config } from "@/config";
-import { LoadItem } from "@/components/layout/loading";
-import { useUserSession } from "@/app/states/useUserId";
-import { useHandleData } from "@/app/states/useHandleData";
-import { useCurrencies } from "@/app/currency/hook/useCurrencies";
-import { PaginationParams } from "@/common/interfaces/response.interface";
 import {
   NumberInputField,
   NumberInputRoot,
 } from "@/components/ui/number-input";
+import { config } from "@/config";
+import { Formik } from "formik";
+import { useState } from "react";
+import { FaRegPlusSquare } from "react-icons/fa";
+import { toast } from "sonner";
 
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
