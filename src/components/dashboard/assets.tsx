@@ -53,11 +53,7 @@ export const Assets = () => {
         <Card.Root
           borderWidth={0}
           w={"100%"}
-          height={"376px"}
-          pt={"30px"}
-          pl={"30px"}
-          pr={"32px"}
-          pb={"9px"}
+          p={"30px"}
           borderRadius={"16px"}
           boxShadow={"0px 4px 32px 0px rgba(0, 0, 0, 0.07)"}
         >
@@ -69,7 +65,7 @@ export const Assets = () => {
           >
             Activos
           </Card.Header>
-          <Card.Body display={"flex"} gap={"54px"}>
+          <Card.Body>
             <PaginatedTable
               meta={wallet.meta}
               data={wallet.data}
