@@ -24,6 +24,10 @@ import { useUserSession } from "@/app/states/useUserId";
 import { useHandleData } from "@/app/states/useHandleData";
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 import { PaginationParams } from "@/common/interfaces/response.interface";
+import {
+  NumberInputField,
+  NumberInputRoot,
+} from "@/components/ui/number-input";
 
 export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
@@ -33,6 +37,7 @@ export const InvestmentDialogForm = () => {
   const queryPamas: PaginationParams = {
     page: 1,
     take: 1,
+    getAll: true,
   };
   return (
     <DialogRoot
@@ -53,7 +58,7 @@ export const InvestmentDialogForm = () => {
       </DialogTrigger>
       <DialogContent p={"30px"}>
         <DialogHeader>
-          <DialogTitle pb={5}>Inversion en : </DialogTitle>
+          <DialogTitle pb={5}>Agregar Nueva Inversión </DialogTitle>
         </DialogHeader>
         <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
           <Formik
@@ -88,7 +93,13 @@ export const InvestmentDialogForm = () => {
                   body: JSON.stringify(defaultValue),
                   credentials: "include",
                 });
+
+                if (!response.ok) {
+                  throw new Error("Ha ocurrido un error al crear la inversion");
+                }
+
                 toast.success(`Se ha creado una inversion`);
+
                 console.log(response);
                 handleRefreshSignal(true);
                 setOpen(false);
@@ -104,17 +115,18 @@ export const InvestmentDialogForm = () => {
           >
             {({ handleChange, handleBlur, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
-                <Field label="Precio de Compra">
-                  <Input
-                    p={2}
-                    name="buyPrice"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+                <Field
+                  label="Precio de Compra"
+                  helperText="Precio de compra de la moneda. Los decimales se separan por '.' "
+                >
+                  <NumberInputRoot name="buyPrice" w={"100%"}>
+                    <NumberInputField onChange={handleChange} p={2} />
+                  </NumberInputRoot>
                 </Field>
-                <Field label="Seleccionar la mondeda" mt={4}>
+                <Field label="Seleccionar la moneda" mt={4}>
                   <NativeSelectRoot>
                     <NativeSelectField
+                      p={2}
                       placeholder="Selecciona mano"
                       name="currencyId"
                       onChange={handleChange}
@@ -128,24 +140,26 @@ export const InvestmentDialogForm = () => {
                     </NativeSelectField>
                   </NativeSelectRoot>
                 </Field>
-                <Field label="Inversion de moneda" mt={4}>
-                  <Input
-                    p={2}
-                    name="currencyInvestment"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+                <Field
+                  label="Inversion de moneda"
+                  mt={4}
+                  helperText="Cantidad de moneda a invertir. Los decimales se separan por '.'"
+                >
+                  <NumberInputRoot name="currencyInvestment" w={"100%"}>
+                    <NumberInputField onChange={handleChange} p={2} />
+                  </NumberInputRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}
                 {creating && <LoadItem />}
                 <Button
+                  p={2}
                   variant={"outline"}
                   type="submit"
                   disabled={isSubmitting}
                   mt={6}
                 >
-                  Enviar
+                  Guardar
                 </Button>
               </form>
             )}
