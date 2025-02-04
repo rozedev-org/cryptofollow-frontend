@@ -11,9 +11,9 @@ export const useCurrencies = () => {
     try {
       const { bff } = config;
       setIsLoading(true);
-      const { page, take } = params;
+      const { page, take, getAll } = params;
       const response = await fetch(
-        `${bff.url}/currency?page=${page}&take=${take}`,
+        `${bff.url}/currency?page=${page}&take=${take}&getAll=${getAll}`,
         {
           credentials: "include",
         }
