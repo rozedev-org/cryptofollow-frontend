@@ -149,6 +149,8 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                       name="currencyId"
                       onChange={handleChange}
                       onBlur={handleBlur}
+                      value={values.currencyId}
+                      p={2}
                     >
                       {currency.data.map((item, index) => (
                         <option key={index} value={item.id}>
