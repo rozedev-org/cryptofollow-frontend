@@ -17,6 +17,11 @@ export interface newCurrency {
   price: number;
 }
 
+export interface BinanceCurrency {
+  symbol: string;
+  price: string;
+}
+
 const columnHelper = createColumnHelper<CurrencyIdentity>();
 
 export const CurrencyColumns = [

@@ -1,6 +1,10 @@
 import { config } from "@/config";
 import { useState } from "react";
-import { CurrencyIdentity, newCurrency } from "../types/currency.types";
+import {
+  BinanceCurrency,
+  CurrencyIdentity,
+  newCurrency,
+} from "../types/currency.types";
 import {
   PaginatedResponse,
   PaginationParams,
@@ -90,4 +94,25 @@ export const useCreateCurrency = async (values: newCurrency) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const useBinanceCurrencies = () => {
+  const fetchBinanceCurrencies = async () => {
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/currency/binance/ticker/price`, {
+        credentials: "include",
+      }).then((res) => res.json());
+      setCurrency(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [currency, setCurrency] = useState<BinanceCurrency[]>([
+    { symbol: "", price: "" },
+  ]);
+
+  return { fetchBinanceCurrencies, currency };
 };
