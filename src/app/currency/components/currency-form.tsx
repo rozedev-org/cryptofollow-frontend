@@ -9,18 +9,39 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegPlusSquare } from "react-icons/fa";
-import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { toast } from "sonner";
 import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useHandleData } from "@/app/states/useHandleData";
+import { useBinanceCurrencies } from "../hook/useCurrencies";
+import { Input } from "@chakra-ui/react";
 
 export const CurrencyDialogForm = () => {
   const [open, setOpen] = useState(false);
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [search, setSearch] = useState("");
+  const { currency, fetchBinanceCurrencies } = useBinanceCurrencies();
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  useEffect(() => {
+    setSelectedPrice("");
+    if (open) {
+      fetchBinanceCurrencies();
+    }
+  }, [open]);
+
+  const handlePriceState = (symbol: string) => {
+    const selectedCurrency = currency.find((item) => item.symbol === symbol);
+    if (selectedCurrency) {
+      setSelectedPrice(selectedCurrency.price);
+    }
+  };
+  const filteredCurrency = currency
+    .filter((item) => item.symbol.toLowerCase().includes(search.toLowerCase()))
+    .slice(0, 5);
+
   return (
     <DialogRoot
       placement={"center"}
@@ -51,7 +72,11 @@ export const CurrencyDialogForm = () => {
             onSubmit={async (values, { setSubmitting }) => {
               setIsCreating(true);
               try {
-                const defaultValue = { ...values, pair: "USDT" };
+                const defaultValue = {
+                  ...values,
+                  price: selectedPrice,
+                  pair: "USDT",
+                };
                 const { bff } = config;
                 const response = await fetch(`${bff.url}/currency`, {
                   method: "POST",
@@ -77,28 +102,49 @@ export const CurrencyDialogForm = () => {
           >
             {({ handleChange, handleBlur, handleSubmit, isSubmitting }) => (
               <form onSubmit={handleSubmit}>
-                <Field label="Nombre de la Moneda">
+                <Field label="Buscar moneda:">
                   <Input
                     p={2}
-                    name="name"
-                    onChange={handleChange}
+                    list="cryptoList"
+                    id="name"
+                    placeholder="Ejemplo: BTC / DOGE"
+                    autoComplete="off"
+                    onChange={(e) => {
+                      handlePriceState(e.target.value);
+                      handleChange(e);
+                      setSearch(e.target.value);
+                    }}
                     onBlur={handleBlur}
                   />
                 </Field>
-                <Field label="Precio de la moneda" mt={4}>
+
+                <datalist id="cryptoList">
+                  {filteredCurrency.map((item, i) => (
+                    <option value={item.symbol} key={i}>
+                      {item.symbol}
+                    </option>
+                  ))}
+                </datalist>
+                <Field label="Precio de Moneda">
                   <Input
-                    p={2}
+                    placeholder="Precio"
                     name="price"
+                    p={2}
+                    value={selectedPrice}
                     onChange={handleChange}
                     onBlur={handleBlur}
+                    readOnly
                   />
                 </Field>
+
                 {creating && <LoadItem />}
+
                 <Button
                   variant={"outline"}
                   type="submit"
                   disabled={isSubmitting}
                   mt={6}
+                  p={2}
                 >
                   Enviar
                 </Button>
