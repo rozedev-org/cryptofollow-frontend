@@ -19,5 +19,8 @@ export const appRoutes = {
     profile: {
       url: () => "/profile",
     },
+    privacyPolicy: {
+      url: () => "/privacy",
+    },
   },
 };
