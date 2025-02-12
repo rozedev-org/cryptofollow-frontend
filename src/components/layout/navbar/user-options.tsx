@@ -57,12 +57,17 @@ export const NavBarUserOptions = () => {
             Perfil
           </MenuItem>
           <MenuItem
-            value="logout"
-            onClick={handleLogout}
+            value="privacy"
+            onClick={() => {
+              router.push(appRoutes.home.privacyPolicy.url());
+            }}
             p={2}
             borderTop={"sm"}
             borderColor={"gray.200"}
           >
+            Politicas de Privacidad
+          </MenuItem>
+          <MenuItem value="logout" onClick={handleLogout} p={2}>
             Cerrar Sesion
           </MenuItem>
         </MenuContent>
