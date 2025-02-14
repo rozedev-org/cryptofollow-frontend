@@ -11,7 +11,7 @@ export const LoadItem = () => {
         height="100%"
         align="center"
         justify="center"
-        bg="rgba(0, 0, 0, 0.5)"
+        bg="rgba(0, 0, 0, 0.3)"
         zIndex="9999"
       >
         <Spinner size="xl" color="blue.500" />
