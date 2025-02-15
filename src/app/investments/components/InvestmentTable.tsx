@@ -13,7 +13,7 @@ import { InvestmentDialogForm } from "./dialog-form";
 export const InvestmentTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
   const { fetchInvestments, invest } = useInvestments();
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
 
