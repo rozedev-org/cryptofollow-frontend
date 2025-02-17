@@ -25,6 +25,7 @@ export const InvestmentMenu = ({
     <MenuRoot>
       <MenuTrigger asChild>
         <Button
+          id="menu-table"
           w={"20px"}
           h={"18px"}
           bg="#ffffff"

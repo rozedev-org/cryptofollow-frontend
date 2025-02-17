@@ -4,11 +4,12 @@ import { useHandleData } from "@/app/states/useHandleData";
 import { PaginationParams } from "@/common/interfaces/response.interface";
 import { LoadItem } from "@/components/layout/loading";
 import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
-import { Heading, HStack } from "@chakra-ui/react";
+import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useCurrencies } from "../hook/useCurrencies";
 import { CurrencyColumns } from "../types/currency.types";
 import { CurrencyDialogForm } from "./currency-form";
+import { GuideCurrencyButton } from "./currency-guide-button";
 
 export const CurrencyTable = () => {
   const { handleRefreshSignal, refreshSignal } = useHandleData();
@@ -65,10 +66,11 @@ export const CurrencyTable = () => {
     <>
       {isLoadingPage && <LoadItem />}
       {!isLoadingPage && (
-        <>
+        <VStack w={"100%"} id="base">
           <HStack mr={"auto"} mb={"35px"}>
             <Heading>Monedas</Heading>
             <CurrencyDialogForm />
+            <GuideCurrencyButton />
           </HStack>
           <PaginatedTable
             meta={currency.meta}
@@ -78,7 +80,7 @@ export const CurrencyTable = () => {
             columns={CurrencyColumns}
             isLoadingData={isLoadingData}
           />
-        </>
+        </VStack>
       )}
     </>
   );
