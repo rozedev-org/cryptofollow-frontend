@@ -8,6 +8,7 @@ import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable
 import { WalletColumns } from "../types/wallet.types";
 import { PaginationParams } from "@/common/interfaces/response.interface";
 import { useHandleData } from "@/app/states/useHandleData";
+import { GuideWalletButton } from "./wallet-guide-button";
 
 export const WalletTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
@@ -61,9 +62,10 @@ export const WalletTable = () => {
     <>
       {isLoadingPage && <LoadItem />}
       {!isLoadingPage && (
-        <VStack w={"100%"}>
+        <VStack w={"100%"} id="base">
           <HStack mr={"auto"} mb={"35px"}>
             <Heading>Billetera</Heading>
+            <GuideWalletButton />
           </HStack>
           <PaginatedTable
             meta={wallet.meta}
