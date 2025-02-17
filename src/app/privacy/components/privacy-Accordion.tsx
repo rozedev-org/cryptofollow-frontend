@@ -4,8 +4,8 @@ import {
   AccordionItemTrigger,
   AccordionRoot,
 } from "@/components/ui/accordion";
-import { Heading, Text, Icon, Box } from "@chakra-ui/react";
-import { privacyOptions } from "@/constants/privacyAccordion.constant";
+import { Heading, Icon, Box } from "@chakra-ui/react";
+import { PRIVACY_OPTIONS } from "@/constants/privacyAccordion.constant";
 export const PrivacyAccordion = () => {
   return (
     <Box
@@ -21,7 +21,7 @@ export const PrivacyAccordion = () => {
         Políticas de Privacidad
       </Heading>
       <AccordionRoot multiple variant={"enclosed"} defaultValue={["info"]}>
-        {privacyOptions.map((item, i) => (
+        {PRIVACY_OPTIONS.map((item, i) => (
           <Box key={i}>
             <AccordionItem
               value={item.title}
@@ -35,9 +35,9 @@ export const PrivacyAccordion = () => {
                 {item.title}
               </AccordionItemTrigger>
               <AccordionItemContent p={4}>
-                <Text whiteSpace={"pre-wrap"} textAlign={"justify"}>
-                  {item.content}
-                </Text>
+                {/* <Text whiteSpace={"pre-wrap"} textAlign={"justify"}> */}
+                {item.content}
+                {/* </Text> */}
               </AccordionItemContent>
             </AccordionItem>
           </Box>
