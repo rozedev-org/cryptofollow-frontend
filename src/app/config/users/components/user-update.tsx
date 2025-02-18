@@ -18,11 +18,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
 import { Field } from "@/components/ui/field";
-import {
-  NativeSelectField,
-  NativeSelectRoot,
-} from "@/components/ui/native-select";
-import { roles } from "@/constants/userPage.constant";
 
 interface UserDialogUpdateProps {
   user: UserEntity;
@@ -65,8 +60,6 @@ export const UserDialogUpdate = (props: UserDialogUpdateProps) => {
               email: user.email,
               firstName: user.firstName,
               lastName: user.lastName,
-              password: user.password,
-              role: user.role,
             }}
             // validate={(values) => {
             //   const errors = {
@@ -152,35 +145,6 @@ export const UserDialogUpdate = (props: UserDialogUpdateProps) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                </Field>
-                <Field label="Contraseña" mt={4}>
-                  <Input
-                    value={values.password}
-                    maxLength={64}
-                    type="password"
-                    p={2}
-                    placeholder="Escriba su contraseña"
-                    name="password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                </Field>
-                <Field label="Rol" mt={4}>
-                  <NativeSelectRoot>
-                    <NativeSelectField
-                      value={values.role}
-                      p={2}
-                      name="role"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                    >
-                      {roles.map((item, i) => (
-                        <option key={i} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </NativeSelectField>
-                  </NativeSelectRoot>
                 </Field>
                 {/* {errors.email && touched.email && errors.email} */}
                 {/* {errors.password && touched.password && errors.password} */}

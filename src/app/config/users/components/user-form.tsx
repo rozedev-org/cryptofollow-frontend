@@ -22,7 +22,6 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { roles } from "@/constants/userPage.constant";
 
 export const UserDialogForm = () => {
   const [open, setOpen] = useState(false);
@@ -145,17 +144,14 @@ export const UserDialogForm = () => {
                 <Field label="Rol" mt={4}>
                   <NativeSelectRoot>
                     <NativeSelectField
-                      defaultValue=""
+                      placeholder="Selecciona el rol"
                       p={2}
                       name="role"
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      {roles.map((item, i) => (
-                        <option key={i} value={item}>
-                          {item}
-                        </option>
-                      ))}
+                      <option value="ADMIN">Administrador</option>
+                      <option value="USER">Usuario</option>
                     </NativeSelectField>
                   </NativeSelectRoot>
                 </Field>

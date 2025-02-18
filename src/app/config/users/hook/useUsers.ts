@@ -14,10 +14,13 @@ export const useUsers = () => {
     try {
       const { bff } = config;
       setIsLoading(true);
-      const {} = params;
-      const response = await fetch(`${bff.url}/users`, {
-        credentials: "include",
-      }).then((res) => res.json() as Promise<PaginatedResponse<UserEntity>>);
+      const { page, take } = params;
+      const response = await fetch(
+        `${bff.url}/users?page=${page}&take=${take}`,
+        {
+          credentials: "include",
+        }
+      ).then((res) => res.json() as Promise<PaginatedResponse<UserEntity>>);
 
       setUsers(response);
       setIsLoading(false);

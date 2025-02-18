@@ -12,13 +12,10 @@ import { IconButton, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { HiChevronDown } from "react-icons/hi2";
 import { Avatar } from "@/components/ui/avatar";
-import { useUser } from "@/app/config/users/hook/useUsers";
-import { useEffect } from "react";
 
 export const NavBarUserOptions = () => {
   const router = useRouter();
-  const { setIsLoggedIn, id } = useUserSession();
-  const { user, fetchUser } = useUser(id);
+  const { setIsLoggedIn, userLogged } = useUserSession();
   const handleLogout = () => {
     try {
       axiosInstace.post(`/auth/logout`);
@@ -28,17 +25,13 @@ export const NavBarUserOptions = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
   return (
     <>
       <MenuRoot>
         <MenuTrigger asChild>
           <IconButton aria-label="Notifications" bg={"white"}>
             <Avatar
-              src={user.picture || undefined}
+              src={userLogged.picture || undefined}
               variant="solid"
               bg={"pink.250"}
               colorScheme={"pink"}
@@ -48,9 +41,9 @@ export const NavBarUserOptions = () => {
             />
             <VStack alignItems={"start"}>
               <Text color={"black"}>
-                {user.firstName} {user.lastName}
+                {userLogged.firstName} {userLogged.lastName}
               </Text>
-              <Text color={"gray.500"}>{user.role}</Text>
+              <Text color={"gray.500"}>{userLogged.role}</Text>
             </VStack>
             <HiChevronDown size={40} color="black" />
           </IconButton>

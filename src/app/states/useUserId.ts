@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { DateTime } from "luxon";
 import { axiosInstace } from "../../common/axiosInstace";
-import { LoginEntity } from "../auth/login/types/login.types";
+import { LoginEntity, UserByLogin } from "../auth/login/types/login.types";
 
 type SessionState = {
   id: number;
@@ -12,6 +12,7 @@ type SessionState = {
   login: (username: string, password: string) => Promise<boolean>;
   sessionTimeout: NodeJS.Timeout | null;
   validateSession: () => Promise<boolean>;
+  userLogged: UserByLogin;
 };
 
 /**st
@@ -35,7 +36,6 @@ export const useUserSession = create<SessionState>((set) => ({
    * The timeout for the session.
    */
   sessionTimeout: null,
-
   /**
    * Logs in the user with the provided username and password.
    * @param email - The username.
@@ -93,7 +93,12 @@ export const useUserSession = create<SessionState>((set) => ({
         set({ isLoggedIn: false, isExpired: true, sessionTimeout: null });
       }, miliDiff);
 
-      set({ sessionTimeout, isLoggedIn: true, id: response.data.user.id });
+      set({
+        sessionTimeout,
+        isLoggedIn: true,
+        id: response.data.user.id,
+        userLogged: response.data.user,
+      });
 
       return true;
     } catch (e) {
@@ -101,5 +106,16 @@ export const useUserSession = create<SessionState>((set) => ({
       set({ isLoggedIn: false });
       return false;
     }
+  },
+  userLogged: {
+    id: 0,
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    isEnabled: false,
+    loginTries: 0,
+    role: "",
+    picture: "",
   },
 }));
