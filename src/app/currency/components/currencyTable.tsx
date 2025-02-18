@@ -16,7 +16,7 @@ export const CurrencyTable = () => {
   const { currency, fetchCurrencies } = useCurrencies();
 
   //Todo esto se ira para un componente de constantes o algo
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
 
@@ -51,7 +51,6 @@ export const CurrencyTable = () => {
 
   useEffect(() => {
     fetchData(1);
-    console.log(currency);
   }, []);
 
   useEffect(() => {
