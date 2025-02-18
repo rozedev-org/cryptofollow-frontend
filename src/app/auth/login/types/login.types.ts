@@ -11,4 +11,6 @@ export interface UserByLogin {
   lastName: string;
   isEnabled: boolean;
   loginTries: number;
+  role: string;
+  picture: string;
 }
