@@ -32,7 +32,7 @@ export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
-  const { currency, fetchCurrencies } = useCurrencies();
+  const { data, fetchCurrencies } = useCurrencies();
   const queryPamas: PaginationParams = {
     page: 1,
     take: 1,
@@ -131,7 +131,7 @@ export const InvestmentDialogForm = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     >
-                      {currency.data.map((item, index) => (
+                      {data.map((item, index) => (
                         <option key={index} value={item.id}>
                           {item.name}
                         </option>

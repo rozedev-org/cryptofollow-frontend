@@ -1,5 +1,5 @@
 import {
-  PaginatedResponse,
+  PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
 import { config } from "@/config";
@@ -8,30 +8,20 @@ import { useState } from "react";
 import { useHandleData } from "@/app/states/useHandleData";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { UsersApiHandler } from "@/app/api/config/users/users.api";
 
-export const useUsers = () => {
+export function useUsers() {
+  const usersApiHandler = new UsersApiHandler();
   const fetchUsers = async (params: PaginationParams) => {
-    try {
-      const { bff } = config;
-      setIsLoading(true);
-      const { page, take } = params;
-      const response = await fetch(
-        `${bff.url}/users?page=${page}&take=${take}`,
-        {
-          credentials: "include",
-        }
-      ).then((res) => res.json() as Promise<PaginatedResponse<UserEntity>>);
-
-      setUsers(response);
-      setIsLoading(false);
-      return response;
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
+    const response = await usersApiHandler.find(params);
+    if (usersApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      const { data, meta } = response;
+      handleSetNewData(data, meta);
     }
   };
-
-  const [users, setUsers] = useState<PaginatedResponse<UserEntity>>({
+  const [users, setUsers] = useState({
     data: [] as UserEntity[],
     meta: {
       page: 0,
@@ -42,15 +32,34 @@ export const useUsers = () => {
       hasNextPage: true,
     },
   });
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  return {
-    users,
-    fetchUsers,
-    isLoading,
+  const handleSetNewData = (newData: UserEntity[], newMeta: PaginationMeta) => {
+    setUsers(() => ({
+      data: newData,
+      meta: newMeta,
+    }));
   };
-};
+  const cleanState = () => {
+    setUsers({
+      data: [] as UserEntity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    });
+  };
+  return {
+    data: users.data,
+    meta: users.meta,
+    handleSetNewData,
+    setUsers,
+    cleanState,
+    fetchUsers,
+  };
+}
 
 export const useUser = (id: number) => {
   const fetchUser = async () => {

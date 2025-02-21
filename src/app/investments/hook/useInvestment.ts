@@ -13,7 +13,7 @@ import { InvestmentIdentity } from "../types/investment.types";
 
 export function useInvestments() {
   const investmentApiHandler = new InvestmentApiHandler();
-  const fetch = async (params: PaginationParams) => {
+  const fetchInvestments = async (params: PaginationParams) => {
     const response = await investmentApiHandler.find(params);
     if (investmentApiHandler.onError || !response) {
       cleanState();
@@ -61,7 +61,7 @@ export function useInvestments() {
     handleSetNewData,
     setInvest,
     cleanState,
-    fetch,
+    fetchInvestments,
   };
 }
 

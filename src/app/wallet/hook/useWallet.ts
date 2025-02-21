@@ -1,34 +1,23 @@
 import { useState } from "react";
 import { WalletIdentity } from "../types/wallet.types";
-import { config } from "@/config";
 import {
-  PaginatedResponse,
+  PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
+import { WalletApiHandler } from "@/app/api/wallet/wallet.api";
 
 export const useWallet = () => {
+  const walletApiHandler = new WalletApiHandler();
   const fetchWallet = async (params: PaginationParams) => {
-    try {
-      const { bff } = config;
-      setIsLoading(true);
-      const { page, take } = params;
-      const response = await fetch(
-        `${bff.url}/wallet/currencies?page=${page}&take=${take}`,
-        {
-          credentials: "include",
-        }
-      ).then((res) => res.json() as Promise<PaginatedResponse<WalletIdentity>>);
-
-      setWallet(response);
-      setIsLoading(false);
-      return response;
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
+    const response = await walletApiHandler.findCurrencies(params);
+    if (walletApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      const { data, meta } = response;
+      handleSetNewData(data, meta);
     }
   };
-  const [isLoading, setIsLoading] = useState(true);
-  const [wallet, setWallet] = useState<PaginatedResponse<WalletIdentity>>({
+  const [wallet, setWallet] = useState({
     data: [] as WalletIdentity[],
     meta: {
       page: 0,
@@ -39,10 +28,34 @@ export const useWallet = () => {
       hasNextPage: true,
     },
   });
-
+  const handleSetNewData = (
+    newData: WalletIdentity[],
+    newMeta: PaginationMeta
+  ) => {
+    setWallet(() => ({
+      data: newData,
+      meta: newMeta,
+    }));
+  };
+  const cleanState = () => {
+    setWallet({
+      data: [] as WalletIdentity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    });
+  };
   return {
-    wallet,
+    data: wallet.data,
+    meta: wallet.meta,
+    handleSetNewData,
+    setWallet,
+    cleanState,
     fetchWallet,
-    isLoading,
   };
 };

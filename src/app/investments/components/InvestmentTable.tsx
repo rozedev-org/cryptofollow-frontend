@@ -13,7 +13,7 @@ import { GuideInvestmentButton } from "./investment-guide-button";
 
 export const InvestmentTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
-  const { data, meta, fetch } = useInvestments();
+  const { data, meta, fetchInvestments } = useInvestments();
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -26,7 +26,7 @@ export const InvestmentTable = () => {
       take: perPage,
     };
 
-    await fetch(queryPamas);
+    await fetchInvestments(queryPamas);
     setIsLoadingPage(false);
     setIsLoadingData(false);
   };
@@ -41,7 +41,7 @@ export const InvestmentTable = () => {
       page,
       take: newPerPage,
     };
-    await fetch(queryPamas);
+    await fetchInvestments(queryPamas);
 
     setPerPage(newPerPage);
     setIsLoadingData(false);

@@ -12,6 +12,9 @@ export interface WalletIdentity {
   pairVariation: number;
   percentageVariation: number;
 }
+export interface BalanceIdentity {
+  balance: number;
+}
 
 const columnHelper = createColumnHelper<WalletIdentity>();
 

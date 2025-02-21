@@ -13,7 +13,7 @@ import { GuideCurrencyButton } from "./currency-guide-button";
 
 export const CurrencyTable = () => {
   const { handleRefreshSignal, refreshSignal } = useHandleData();
-  const { currency, fetchCurrencies } = useCurrencies();
+  const { data, fetchCurrencies, meta } = useCurrencies();
 
   //Todo esto se ira para un componente de constantes o algo
   const [perPage, setPerPage] = useState(10);
@@ -72,8 +72,8 @@ export const CurrencyTable = () => {
             <GuideCurrencyButton />
           </HStack>
           <PaginatedTable
-            meta={currency.meta}
-            data={currency.data}
+            meta={meta}
+            data={data}
             handlePageChange={handlePageChange}
             handlePerRowsChange={handlePerRowsChange}
             columns={CurrencyColumns}
