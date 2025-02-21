@@ -13,7 +13,7 @@ import { GuideInvestmentButton } from "./investment-guide-button";
 
 export const InvestmentTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
-  const { fetchInvestments, invest } = useInvestments();
+  const { data, meta, fetch } = useInvestments();
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -26,7 +26,7 @@ export const InvestmentTable = () => {
       take: perPage,
     };
 
-    await fetchInvestments(queryPamas);
+    await fetch(queryPamas);
     setIsLoadingPage(false);
     setIsLoadingData(false);
   };
@@ -41,7 +41,7 @@ export const InvestmentTable = () => {
       page,
       take: newPerPage,
     };
-    await fetchInvestments(queryPamas);
+    await fetch(queryPamas);
 
     setPerPage(newPerPage);
     setIsLoadingData(false);
@@ -70,8 +70,8 @@ export const InvestmentTable = () => {
             <GuideInvestmentButton />
           </HStack>
           <PaginatedTable
-            meta={invest.meta}
-            data={invest.data}
+            meta={meta}
+            data={data}
             handlePageChange={handlePageChange}
             handlePerRowsChange={handlePerRowsChange}
             columns={InvestmentsColumns}

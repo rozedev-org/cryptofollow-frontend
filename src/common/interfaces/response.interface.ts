@@ -22,3 +22,16 @@ export class PaginationParams {
   take: number = 8;
   getAll?: boolean;
 }
+
+export interface ErrorResponse {
+  message: string;
+  statusCode: string;
+}
+
+export interface PaginatedData<T> extends PaginatedResponse<T> {}
+
+export interface DeletedDataResponse {
+  message: string;
+  statusCode: string;
+  success: boolean;
+}
