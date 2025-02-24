@@ -15,9 +15,15 @@ export const appRoutes = {
     },
     config: {
       url: () => "/config",
+      users: {
+        url: () => "/config/users",
+      },
     },
     profile: {
       url: () => "/profile",
+    },
+    privacyPolicy: {
+      url: () => "/privacy",
     },
   },
 };

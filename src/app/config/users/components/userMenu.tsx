@@ -5,27 +5,21 @@ import {
   MenuContent,
   MenuItem,
 } from "@/components/ui/menu";
-import { InvestmentDialogDetail } from "./dialog-details";
-import { InvestmentDialogDelete } from "./dialog-delete";
-import { InvestmentDialogUpdate } from "./dialog-update";
-import { InvestmentIdentity } from "../types/investment.types";
+import { UserEntity } from "../types/users.types";
+import { UserDialogDelete } from "./user-delete";
+import { UserDialogUpdate } from "./user-update";
 
-export interface InvestmentMenuProps {
+export interface UserMenuProps {
   textButton?: string;
   iconButton?: React.ReactNode;
-  invest: InvestmentIdentity;
+  user: UserEntity;
 }
 
-export const InvestmentMenu = ({
-  textButton,
-  iconButton,
-  invest,
-}: InvestmentMenuProps) => {
+export const UsersMenu = ({ textButton, iconButton, user }: UserMenuProps) => {
   return (
     <MenuRoot>
       <MenuTrigger asChild>
         <Button
-          id="menu-table"
           w={"20px"}
           h={"18px"}
           bg="#ffffff"
@@ -38,14 +32,11 @@ export const InvestmentMenu = ({
         </Button>
       </MenuTrigger>
       <MenuContent>
-        <MenuItem value="detail" asChild>
-          <InvestmentDialogDetail invest={invest} />
-        </MenuItem>
         <MenuItem value="edit" asChild>
-          <InvestmentDialogUpdate invest={invest} />
+          <UserDialogUpdate user={user} />
         </MenuItem>
         <MenuItem value="delete" asChild>
-          <InvestmentDialogDelete invest={invest} />
+          <UserDialogDelete user={user} />
         </MenuItem>
       </MenuContent>
     </MenuRoot>

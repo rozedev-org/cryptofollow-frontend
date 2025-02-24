@@ -1,21 +1,17 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { useHandleData } from "@/app/states/useHandleData";
+import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
+import { VStack, HStack, Heading } from "@chakra-ui/react";
+import { UserColumns } from "../types/users.types";
+import { UserDialogForm } from "./user-form";
+import { useUsers } from "../hook/useUsers";
+import { useEffect, useState } from "react";
 import { PaginationParams } from "@/common/interfaces/response.interface";
 import { LoadItem } from "@/components/layout/loading";
-import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
-import { Heading, HStack, VStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useCurrencies } from "../hook/useCurrencies";
-import { CurrencyColumns } from "../types/currency.types";
-import { CurrencyDialogForm } from "./currency-form";
-import { GuideCurrencyButton } from "./currency-guide-button";
+import { useHandleData } from "@/app/states/useHandleData";
 
-export const CurrencyTable = () => {
-  const { handleRefreshSignal, refreshSignal } = useHandleData();
-  const { currency, fetchCurrencies } = useCurrencies();
-
-  //Todo esto se ira para un componente de constantes o algo
+export const UserTable = () => {
+  const { refreshSignal, handleRefreshSignal } = useHandleData();
+  const { fetchUsers, users } = useUsers();
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -28,7 +24,7 @@ export const CurrencyTable = () => {
       take: perPage,
     };
 
-    await fetchCurrencies(queryPamas);
+    await fetchUsers(queryPamas);
     setIsLoadingPage(false);
     setIsLoadingData(false);
   };
@@ -43,7 +39,7 @@ export const CurrencyTable = () => {
       page,
       take: newPerPage,
     };
-    await fetchCurrencies(queryPamas);
+    await fetchUsers(queryPamas);
 
     setPerPage(newPerPage);
     setIsLoadingData(false);
@@ -65,18 +61,17 @@ export const CurrencyTable = () => {
     <>
       {isLoadingPage && <LoadItem />}
       {!isLoadingPage && (
-        <VStack w={"100%"} id="base">
+        <VStack w={"100%"}>
           <HStack mr={"auto"} mb={"35px"}>
-            <Heading>Monedas</Heading>
-            <CurrencyDialogForm />
-            <GuideCurrencyButton />
+            <Heading>Usuarios</Heading>
+            <UserDialogForm />
           </HStack>
           <PaginatedTable
-            meta={currency.meta}
-            data={currency.data}
+            meta={users.meta}
+            data={users.data}
             handlePageChange={handlePageChange}
             handlePerRowsChange={handlePerRowsChange}
-            columns={CurrencyColumns}
+            columns={UserColumns}
             isLoadingData={isLoadingData}
           />
         </VStack>

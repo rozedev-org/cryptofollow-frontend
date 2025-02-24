@@ -17,12 +17,17 @@ export interface newCurrency {
   price: number;
 }
 
+export interface BinanceCurrency {
+  symbol: string;
+  price: string;
+}
+
 const columnHelper = createColumnHelper<CurrencyIdentity>();
 
 export const CurrencyColumns = [
   columnHelper.accessor("id", {
     cell: (item) => (
-      <Stack>
+      <Stack w={"100%"}>
         <CurrencyMenu
           currency={item.row.original}
           iconButton={<BiDotsHorizontal color="black" />}
@@ -33,7 +38,7 @@ export const CurrencyColumns = [
   }),
   columnHelper.accessor("id", {
     cell: ({ row }) => (
-      <Stack mr={"56px"} mt={"30px"} mb={"30px"}>
+      <Stack mr={"56px"} mt={"30px"} mb={"30px"} id="currency">
         <Text fontWeight="bold">{row.original.name}</Text>
       </Stack>
     ),
@@ -41,7 +46,7 @@ export const CurrencyColumns = [
   }),
   columnHelper.accessor("id", {
     cell: ({ row }) => (
-      <Stack mr={"56px"} mt={"30px"} mb={"30px"}>
+      <Stack mr={"56px"} mt={"30px"} mb={"30px"} id="reference">
         <Text fontWeight="bold">{row.original.pair}</Text>
       </Stack>
     ),
@@ -53,6 +58,7 @@ export const CurrencyColumns = [
       <>
         {row.original.price <= 1 ? (
           <NumericFormat
+            id="price"
             displayType="text"
             value={row.original.price}
             thousandSeparator=","
@@ -63,6 +69,7 @@ export const CurrencyColumns = [
           />
         ) : (
           <NumericFormat
+            id="price"
             displayType="text"
             value={row.original.price}
             thousandSeparator=","

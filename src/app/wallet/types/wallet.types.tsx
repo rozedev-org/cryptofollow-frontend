@@ -18,7 +18,7 @@ const columnHelper = createColumnHelper<WalletIdentity>();
 export const WalletColumns = [
   columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
-      <Stack mt={"25px"} mb={"6px"}>
+      <Stack mt={"25px"} mb={"6px"} id="name">
         <Text fontWeight="bold">{row.original.currency.name}</Text>
         <Text fontSize="sm" color="gray.500">
           {row.original.currency.name} / USDT
@@ -29,13 +29,16 @@ export const WalletColumns = [
   }),
 
   columnHelper.accessor("currencyId", {
-    cell: ({ row }) => <Text>{row.original.currency.price} USDT</Text>,
+    cell: ({ row }) => (
+      <Text id="price">{row.original.currency.price} USDT</Text>
+    ),
     header: "Precio",
   }),
 
   columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
       <Stack
+        id="variaton"
         color={row.original.percentageVariation > 0 ? "green.500" : "red.500"}
       >
         <NumericFormat
@@ -54,7 +57,7 @@ export const WalletColumns = [
 
   columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
-      <Stack>
+      <Stack id="gain">
         <NumericFormat
           displayType="text"
           value={row.original.pairVariation}
@@ -80,7 +83,7 @@ export const WalletColumns = [
 
   columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
-      <Stack>
+      <Stack id="invest">
         <NumericFormat
           displayType="text"
           value={row.original.pairInvestment}
@@ -106,7 +109,7 @@ export const WalletColumns = [
 
   columnHelper.accessor("currencyId", {
     cell: ({ row }) => (
-      <Stack>
+      <Stack id="import">
         <NumericFormat
           displayType="text"
           value={row.original.pairAmount}

@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
 import { useInvestments } from "../hook/useInvestment";
 import { InvestmentsColumns } from "../types/investment.types";
 import { InvestmentDialogForm } from "./dialog-form";
+import { GuideInvestmentButton } from "./investment-guide-button";
 
 export const InvestmentTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
   const { fetchInvestments, invest } = useInvestments();
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
 
@@ -62,10 +63,11 @@ export const InvestmentTable = () => {
     <>
       {isLoadingPage && <LoadItem />}
       {!isLoadingPage && (
-        <VStack w={"100%"}>
+        <VStack w={"100%"} id="base">
           <HStack mr={"auto"} mb={"35px"}>
             <Heading>Inversiones</Heading>
             <InvestmentDialogForm />
+            <GuideInvestmentButton />
           </HStack>
           <PaginatedTable
             meta={invest.meta}

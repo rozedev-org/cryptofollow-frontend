@@ -15,7 +15,7 @@ import { Avatar } from "@/components/ui/avatar";
 
 export const NavBarUserOptions = () => {
   const router = useRouter();
-  const { setIsLoggedIn } = useUserSession();
+  const { setIsLoggedIn, userLogged } = useUserSession();
   const handleLogout = () => {
     try {
       axiosInstace.post(`/auth/logout`);
@@ -31,8 +31,8 @@ export const NavBarUserOptions = () => {
         <MenuTrigger asChild>
           <IconButton aria-label="Notifications" bg={"white"}>
             <Avatar
+              src={userLogged.picture || undefined}
               variant="solid"
-              name="Juan Carlos Jimenez"
               bg={"pink.250"}
               colorScheme={"pink"}
               w={"40px"}
@@ -40,8 +40,10 @@ export const NavBarUserOptions = () => {
               borderRadius={"20px"}
             />
             <VStack alignItems={"start"}>
-              <Text color={"black"}>Juan Jimenez</Text>
-              <Text color={"gray.500"}>Admin</Text>
+              <Text color={"black"}>
+                {userLogged.firstName} {userLogged.lastName}
+              </Text>
+              <Text color={"gray.500"}>{userLogged.role}</Text>
             </VStack>
             <HiChevronDown size={40} color="black" />
           </IconButton>
@@ -57,12 +59,17 @@ export const NavBarUserOptions = () => {
             Perfil
           </MenuItem>
           <MenuItem
-            value="logout"
-            onClick={handleLogout}
+            value="privacy"
+            onClick={() => {
+              router.push(appRoutes.home.privacyPolicy.url());
+            }}
             p={2}
             borderTop={"sm"}
             borderColor={"gray.200"}
           >
+            Politicas de Privacidad
+          </MenuItem>
+          <MenuItem value="logout" onClick={handleLogout} p={2}>
             Cerrar Sesion
           </MenuItem>
         </MenuContent>
