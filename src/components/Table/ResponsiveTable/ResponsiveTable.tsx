@@ -39,10 +39,9 @@ export function ResponsiveDataTable<Data extends object>({
       {!isLoadingData && (
         <Table.Root
           stickyHeader
-
           // size={"sm"}
 
-          // className={`${styles.responsive}`}
+          className={`${styles.responsive}`}
         >
           <Table.Header>
             {table.getHeaderGroups().map((headerGroup) => (
