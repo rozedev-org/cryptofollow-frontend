@@ -2,6 +2,7 @@
 import { Box, IconButton, VStack } from "@chakra-ui/react";
 import { SideBarLogo } from "./logo";
 
+import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
 import {
   DrawerBackdrop,
   DrawerBody,
@@ -12,42 +13,56 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { BiGridVertical } from "react-icons/bi";
-import { SidebarList } from "./sidebar-list";
 import { useState } from "react";
+import { BiMenu } from "react-icons/bi";
+import { SidebarList } from "./sidebar-list";
 
 export const Sidebar = () => {
+  const { isMobile, isTablet } = useResponsiveInfo();
   return (
-    <>
-      <VStack h={"100vh"} w={"256px"} gap={0} display={["none", "flex"]}>
+    <aside>
+      <VStack
+        borderRightColor={"#e2e8f0"}
+        borderRightWidth={"1px"}
+        h={"100vh"}
+        w={"256px"}
+        gap={0}
+        display={isMobile || isTablet ? "none" : "flex"}
+        bg={"#ffffff"}
+      >
         <SideBarLogo />
         <SidebarList />
       </VStack>
       <MobileSidebar />
-    </>
+    </aside>
   );
 };
 
 export const MobileSidebar = () => {
+  const { isMobile, isTablet } = useResponsiveInfo();
   const [open, setOpen] = useState(false);
   const onClose = () => setOpen(false);
   return (
     <Box
-      position={["absolute", "none"]}
-      top={7}
+      position={isMobile || isTablet ? "absolute" : "none"}
+      top={2}
       left={3}
-      display={["flex", "none"]}
+      display={isMobile || isTablet ? "flex" : "none"}
     >
       <DrawerRoot
         placement={"start"}
-        size={"full"}
         open={open}
         onOpenChange={(e) => setOpen(e.open)}
       >
         <DrawerBackdrop />
         <DrawerTrigger asChild>
-          <IconButton aria-label="Search database" bg={"pink.250"}>
-            <BiGridVertical />
+          <IconButton
+            aria-label="Sidebar button"
+            variant={"ghost"}
+            h={10}
+            w={4}
+          >
+            <BiMenu />
           </IconButton>
         </DrawerTrigger>
         <DrawerContent>

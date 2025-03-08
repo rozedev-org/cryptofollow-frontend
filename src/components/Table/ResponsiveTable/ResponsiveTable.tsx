@@ -37,7 +37,13 @@ export function ResponsiveDataTable<Data extends object>({
       {isLoadingData && <LoadingTable />}
 
       {!isLoadingData && (
-        <Table.Root stickyHeader size={"sm"} className={`${styles.responsive}`}>
+        <Table.Root
+          stickyHeader
+
+          // size={"sm"}
+
+          // className={`${styles.responsive}`}
+        >
           <Table.Header>
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Row key={`table-header-group-row-${uuidv4()}`}>
@@ -49,18 +55,21 @@ export function ResponsiveDataTable<Data extends object>({
                     <Table.ColumnHeader
                       key={`table-column-header-${uuidv4()}`}
                       onClick={header.column.getToggleSortingHandler()}
-                      color={"#4A5568"}
-                      py={"4px"}
-                      px={"16px"}
-                      fontWeight={700}
-                      //isNumeric={meta?.isNumeric} revisar
+                      color={"#64748b"}
+                      py={"0.75rem"}
+                      px={"1rem"}
+                      fontWeight={500}
+                      textAlign={"left"}
+                      fontSize={"0.75rem"}
+                      lineHeight={"1rem"}
+                      bg={"#f1f5f94d"}
+                      borderBottomColor={"#e2e8f066"}
+                      borderBottomWidth={"1px"}
                     >
                       {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
-                      )
-                        ?.toString()
-                        .toUpperCase()}
+                      )?.toString()}
 
                       <chakra.span pl="4">
                         {header.column.getIsSorted() ? (

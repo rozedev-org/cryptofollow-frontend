@@ -19,13 +19,13 @@ export const DefaultLayout = ({
   }, []);
 
   return (
-    <Flex w={"100%"} data-component={"main-layout"} gap={4}>
+    <Flex w={"100%"} data-component={"main-layout"} gap={0}>
       {loadingPage && <LoadItem />}
       {!loadingPage && (
         <>
           {/* Sidebar */}
           {isLoggedIn && <Sidebar />}
-          <Flex w={"100%"} h={"100vh"} flexDir={"column"}>
+          <Flex w={"100%"} flexDir={"column"}>
             {/* Navbar */}
             {isLoggedIn && <Navbar />}
             {/* Content */}
