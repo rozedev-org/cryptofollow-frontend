@@ -1,7 +1,9 @@
 "use client";
-import { axiosInstace } from "@/common/axiosInstace";
 import { useUserSession } from "@/app/states/useUserId";
 import { appRoutes } from "@/appRoutes";
+import { axiosInstace } from "@/common/axiosInstace";
+import { Avatar } from "@/components/ui/avatar";
+import { ColorModeIcon, useColorMode } from "@/components/ui/color-mode";
 import {
   MenuContent,
   MenuItem,
@@ -10,10 +12,10 @@ import {
 } from "@/components/ui/menu";
 import { IconButton, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { HiChevronDown } from "react-icons/hi2";
-import { Avatar } from "@/components/ui/avatar";
 
 export const NavBarUserOptions = () => {
+  const { toggleColorMode } = useColorMode();
+
   const router = useRouter();
   const { setIsLoggedIn, userLogged } = useUserSession();
   const handleLogout = () => {
@@ -30,22 +32,21 @@ export const NavBarUserOptions = () => {
       <MenuRoot>
         <MenuTrigger asChild>
           <IconButton aria-label="Notifications" bg={"white"}>
-            <Avatar
-              src={userLogged.picture || undefined}
-              variant="solid"
-              bg={"pink.250"}
-              colorScheme={"pink"}
-              w={"40px"}
-              h={"40px"}
-              borderRadius={"20px"}
-            />
-            <VStack alignItems={"start"}>
-              <Text color={"black"}>
+            <VStack alignItems={"end"}>
+              <Text color={"black"} fontSize={"sm"}>
                 {userLogged.firstName} {userLogged.lastName}
               </Text>
+
               <Text color={"gray.500"}>{userLogged.role}</Text>
             </VStack>
-            <HiChevronDown size={40} color="black" />
+            <Avatar
+              size={"sm"}
+              colorPalette={"pink"}
+              bg={"pink.50"}
+              shape="rounded"
+              borderRadius={"20px"}
+              name={`${userLogged.firstName} ${userLogged.lastName}`}
+            />
           </IconButton>
         </MenuTrigger>
         <MenuContent>
@@ -57,6 +58,11 @@ export const NavBarUserOptions = () => {
             }}
           >
             Perfil
+          </MenuItem>
+
+          <MenuItem value="colorMode" p={2} onClick={toggleColorMode}>
+            <ColorModeIcon />
+            Color mode
           </MenuItem>
           <MenuItem
             value="privacy"

@@ -92,7 +92,7 @@ export const GuideInvestmentButton = () => {
     driverInvestments.drive();
   };
   return (
-    <IconButton bg={"#FFFFFF"} color={"black"} onClick={handleGuide}>
+    <IconButton color={"black"} variant="plain" onClick={handleGuide}>
       <FiHelpCircle />
     </IconButton>
   );

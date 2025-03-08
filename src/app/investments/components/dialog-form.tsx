@@ -25,7 +25,7 @@ import {
 import { config } from "@/config";
 import { Formik } from "formik";
 import { useState } from "react";
-import { FaRegPlusSquare } from "react-icons/fa";
+import { BiPlus } from "react-icons/bi";
 import { toast } from "sonner";
 
 export const InvestmentDialogForm = () => {
@@ -46,13 +46,17 @@ export const InvestmentDialogForm = () => {
     >
       <DialogTrigger asChild>
         <Button
-          variant="plain"
+          ml={"auto"}
+          p={2}
+          borderRadius={"md"}
+          variant="outline"
           onClick={() => {
             fetchCurrencies(queryPamas);
             setOpen(true);
           }}
         >
-          <FaRegPlusSquare />
+          <BiPlus />
+          Agregar Inversión
         </Button>
       </DialogTrigger>
       <DialogContent p={"30px"}>
