@@ -1,13 +1,16 @@
 "use client";
 import { useWallet } from "@/app/wallet/hook/useWallet";
 import { PaginationParams } from "@/common/interfaces/response.interface";
-import { Card } from "@chakra-ui/react";
+import { Card, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { PaginatedTable } from "../Table/PaginatedTable/PaginatedTable";
 import { WalletColumns } from "@/app/wallet/types/wallet.types";
 import { LoadItem } from "../layout/loading";
+import { InvestmentDialogForm } from "@/app/investments/components/dialog-form";
+import { useHandleData } from "@/app/states/useHandleData";
 
 export const Assets = () => {
+  const { refreshSignal, handleRefreshSignal } = useHandleData();
   const { fetchWallet, data, meta } = useWallet();
   const [perPage, setPerPage] = useState(5);
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -46,6 +49,14 @@ export const Assets = () => {
     fetchData(1);
   }, []);
 
+  useEffect(() => {
+    if (refreshSignal) {
+      setIsLoadingData(true);
+      fetchData(1);
+      handleRefreshSignal(false);
+    }
+  }, [refreshSignal]);
+
   return (
     <>
       {isLoadingPage && <LoadItem />}
@@ -57,14 +68,18 @@ export const Assets = () => {
           borderRadius={"16px"}
           boxShadow={"0px 4px 32px 0px rgba(0, 0, 0, 0.07)"}
         >
-          <Card.Header
-            color={"#1A1B2F"}
-            fontSize={"18px"}
-            fontWeight={500}
-            pb={"23px"}
-          >
-            Activos
-          </Card.Header>
+          <HStack p={2}>
+            <Card.Header
+              color={"#1A1B2F"}
+              fontSize={"18px"}
+              fontWeight={500}
+              pb={"23px"}
+            >
+              Activos
+            </Card.Header>
+            <InvestmentDialogForm />
+          </HStack>
+
           <Card.Body>
             <PaginatedTable
               meta={meta}
