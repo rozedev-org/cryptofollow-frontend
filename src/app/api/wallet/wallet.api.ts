@@ -4,10 +4,7 @@ import {
 } from "@/common/interfaces/response.interface";
 import { config } from "@/config";
 import ApiHelper from "../ApiHelper";
-import {
-  BalanceIdentity,
-  WalletIdentity,
-} from "@/app/wallet/types/wallet.types";
+import { BalanceResponse, WalletResponse } from "./types/wallet.api.types";
 
 export class WalletApiHandler {
   baseUrl: string = "";
@@ -21,7 +18,7 @@ export class WalletApiHandler {
   }
 
   findBalance = async () => {
-    const apiHelper = new ApiHelper<PaginatedData<BalanceIdentity>>();
+    const apiHelper = new ApiHelper<PaginatedData<BalanceResponse>>();
     apiHelper.config("GET", this.url.find());
     const response = await apiHelper.do();
     if (response.statusText !== "OK") {
@@ -31,7 +28,7 @@ export class WalletApiHandler {
   };
 
   findCurrencies = async (queryParams: PaginationParams) => {
-    const apiHelper = new ApiHelper<PaginatedData<WalletIdentity>>();
+    const apiHelper = new ApiHelper<PaginatedData<WalletResponse>>();
     apiHelper.config("GET", this.url.findCurrencies());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
