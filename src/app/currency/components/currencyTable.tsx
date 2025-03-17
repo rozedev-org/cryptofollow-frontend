@@ -10,8 +10,12 @@ import { useCurrencies } from "../hook/useCurrencies";
 import { CurrencyColumns } from "../types/currency.types";
 import { CurrencyDialogForm } from "./currency-form";
 import { GuideCurrencyButton } from "./currency-guide-button";
+import { useUserSession } from "@/app/states/useUserId";
+import { useRouter } from "next/navigation";
+import { appRoutes } from "@/appRoutes";
 
 export const CurrencyTable = () => {
+  const { userLogged } = useUserSession();
   const { handleRefreshSignal, refreshSignal } = useHandleData();
   const { data, fetchCurrencies, meta } = useCurrencies();
 
@@ -19,7 +23,7 @@ export const CurrencyTable = () => {
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
-
+  const router = useRouter();
   const fetchData = async (page: number) => {
     setIsLoadingData(true);
 
@@ -50,7 +54,11 @@ export const CurrencyTable = () => {
   };
 
   useEffect(() => {
-    fetchData(1);
+    if (userLogged.role === "USER") {
+      router.push(appRoutes.home.url());
+    } else {
+      fetchData(1);
+    }
   }, []);
 
   useEffect(() => {
