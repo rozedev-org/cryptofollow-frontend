@@ -18,7 +18,7 @@ import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
 export const Investments = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
   const { isMobile } = useResponsiveInfo();
-  const { fetchInvestments, invest } = useInvestments();
+  const { fetchInvestments, data, meta } = useInvestments();
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -76,7 +76,7 @@ export const Investments = () => {
             <GuideInvestmentButton />
             <InvestmentDialogForm />
           </HStack>
-          
+
           <PortfolioSummary />
 
           <VStack
@@ -161,8 +161,8 @@ export const Investments = () => {
             </HStack>
 
             <PaginatedTable
-              meta={invest.meta}
-              data={invest.data}
+              meta={meta}
+              data={data}
               handlePageChange={handlePageChange}
               handlePerRowsChange={handlePerRowsChange}
               columns={InvestmentsColumns}
