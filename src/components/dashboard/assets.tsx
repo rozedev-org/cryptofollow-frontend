@@ -8,7 +8,7 @@ import { WalletColumns } from "@/app/wallet/types/wallet.types";
 import { LoadItem } from "../layout/loading";
 
 export const Assets = () => {
-  const { fetchWallet, wallet } = useWallet();
+  const { fetchWallet, data, meta } = useWallet();
   const [perPage, setPerPage] = useState(5);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -67,8 +67,8 @@ export const Assets = () => {
           </Card.Header>
           <Card.Body>
             <PaginatedTable
-              meta={wallet.meta}
-              data={wallet.data}
+              meta={meta}
+              data={data}
               handlePageChange={handlePageChange}
               handlePerRowsChange={handlePerRowsChange}
               columns={WalletColumns}

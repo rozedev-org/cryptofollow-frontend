@@ -11,7 +11,7 @@ import { useHandleData } from "@/app/states/useHandleData";
 
 export const UserTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
-  const { fetchUsers, users } = useUsers();
+  const { data, fetchUsers, meta } = useUsers();
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -67,8 +67,8 @@ export const UserTable = () => {
             <UserDialogForm />
           </HStack>
           <PaginatedTable
-            meta={users.meta}
-            data={users.data}
+            meta={meta}
+            data={data}
             handlePageChange={handlePageChange}
             handlePerRowsChange={handlePerRowsChange}
             columns={UserColumns}

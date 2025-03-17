@@ -1,39 +1,28 @@
 import { useState } from "react";
 import { config } from "@/config";
 import {
-  PaginatedResponse,
+  PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
-import { InvestmentIdentity, newInvestment } from "../types/investment.types";
 import { useForm } from "react-hook-form";
 import { useHandleData } from "@/app/states/useHandleData";
 import { toast } from "sonner";
+import { InvestmentApiHandler } from "@/app/api/investments/investments.api";
+import { NewInvestInterface } from "@/app/api/investments/types/investments.api.types";
+import { InvestmentIdentity } from "../types/investment.types";
 
-export const useInvestments = () => {
+export function useInvestments() {
+  const investmentApiHandler = new InvestmentApiHandler();
   const fetchInvestments = async (params: PaginationParams) => {
-    try {
-      const { bff } = config;
-      setIsLoading(true);
-      const { page, take } = params;
-      const response = await fetch(
-        `${bff.url}/investments?page=${page}&take=${take}`,
-        {
-          credentials: "include",
-        }
-      ).then(
-        (res) => res.json() as Promise<PaginatedResponse<InvestmentIdentity>>
-      );
-
-      setInvest(response);
-      setIsLoading(false);
-      return response;
-    } catch (error) {
-      setIsLoading(false);
-      console.log(error);
+    const response = await investmentApiHandler.find(params);
+    if (investmentApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      const { data, meta } = response;
+      handleSetNewData(data, meta);
     }
   };
-
-  const [invest, setInvest] = useState<PaginatedResponse<InvestmentIdentity>>({
+  const [invest, setInvest] = useState({
     data: [] as InvestmentIdentity[],
     meta: {
       page: 0,
@@ -44,15 +33,37 @@ export const useInvestments = () => {
       hasNextPage: true,
     },
   });
-
-  const [isLoading, setIsLoading] = useState(true);
-
-  return {
-    invest,
-    fetchInvestments,
-    isLoading,
+  const handleSetNewData = (
+    newData: InvestmentIdentity[],
+    newMeta: PaginationMeta
+  ) => {
+    setInvest(() => ({
+      data: newData,
+      meta: newMeta,
+    }));
   };
-};
+  const cleanState = () => {
+    setInvest({
+      data: [] as InvestmentIdentity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    });
+  };
+  return {
+    data: invest.data,
+    meta: invest.meta,
+    handleSetNewData,
+    setInvest,
+    cleanState,
+    fetchInvestments,
+  };
+}
 
 export const useInvestment = (id: number) => {
   const fetchInvest = async () => {
@@ -93,7 +104,7 @@ export const useInvestment = (id: number) => {
   return { fetchInvest, invest, setInvest, isLoading };
 };
 
-export const useCreateInvestmentOld = async (values: newInvestment) => {
+export const useCreateInvestmentOld = async (values: NewInvestInterface) => {
   try {
     const { bff } = config;
 
@@ -111,7 +122,7 @@ export const useCreateInvestmentOld = async (values: newInvestment) => {
 export const useCreateInvestment = (userId: number) => {
   const { setIsCreating, handleRefreshSignal } = useHandleData();
 
-  const investmentForm = useForm<newInvestment>({
+  const investmentForm = useForm<NewInvestInterface>({
     defaultValues: {
       buyPrice: 0,
       currencyId: 0,

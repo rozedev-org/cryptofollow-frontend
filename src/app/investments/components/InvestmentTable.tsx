@@ -76,7 +76,7 @@ export const Investments = () => {
             <GuideInvestmentButton />
             <InvestmentDialogForm />
           </HStack>
-
+          
           <PortfolioSummary />
 
           <VStack

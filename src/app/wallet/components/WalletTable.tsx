@@ -12,7 +12,7 @@ import { GuideWalletButton } from "./wallet-guide-button";
 
 export const WalletTable = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
-  const { fetchWallet, wallet } = useWallet();
+  const { data, meta, fetchWallet } = useWallet();
   const [perPage, setPerPage] = useState(5);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
@@ -68,8 +68,8 @@ export const WalletTable = () => {
             <GuideWalletButton />
           </HStack>
           <PaginatedTable
-            meta={wallet.meta}
-            data={wallet.data}
+            meta={meta}
+            data={data}
             handlePageChange={handlePageChange}
             handlePerRowsChange={handlePerRowsChange}
             columns={WalletColumns}
