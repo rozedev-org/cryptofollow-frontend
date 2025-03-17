@@ -25,8 +25,6 @@ export const Balance = () => {
 
       if (res.status === 401) {
         router.push(appRoutes.home.login.url());
-      } else {
-        throw new Error("Failed to fetch wallet data");
       }
 
       const walletResponse: WalletResponse = await res.json();
