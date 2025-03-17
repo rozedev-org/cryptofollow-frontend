@@ -43,6 +43,7 @@
 .scroll {
   overflow: scroll;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 .scroll::-webkit-scrollbar {
   width: 7px;

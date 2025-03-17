@@ -1,10 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { InvestmentMenu } from "../components/InvestmentMenu";
 import { BiDotsHorizontal } from "react-icons/bi";
-import { Stack, Text } from "@chakra-ui/react";
+import { HStack, Stack, Text } from "@chakra-ui/react";
 import { NumericFormat } from "react-number-format";
 import { CurrencyIdentity } from "@/app/currency/types/currency.types";
-
+import { CustomClipboard } from "@/components/ui/clipboard/index";
 export interface InvestmentIdentity {
   id: number;
   buyPrice: number;
@@ -115,15 +115,19 @@ export const InvestmentsColumns = [
           fixedDecimalScale
           suffix={` USDT`}
         />
-        <NumericFormat
-          displayType="text"
-          value={row.original.currencyInvestment}
-          thousandSeparator=","
-          decimalSeparator="."
-          decimalScale={3}
-          fixedDecimalScale
-          suffix={` ${row.original.currency.name}`}
-        />
+        <HStack>
+          <NumericFormat
+            displayType="text"
+            value={row.original.currencyInvestment}
+            thousandSeparator=","
+            decimalSeparator="."
+            decimalScale={3}
+            fixedDecimalScale
+            suffix={` ${row.original.currency.name}`}
+          />
+
+          <CustomClipboard value={row.original.currencyInvestment} />
+        </HStack>
       </Stack>
     ),
     header: "Inversión",

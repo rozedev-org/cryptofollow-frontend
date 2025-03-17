@@ -1,28 +1,26 @@
-import { ColorModeButton } from "@/components/ui/color-mode";
 import { Flex } from "@chakra-ui/react";
-import { NotificationButton } from "./notification-button";
-import { SearchButton } from "./search-button";
 import { NavBarUserOptions } from "./user-options";
 
 export const Navbar = () => {
   return (
     <Flex
+      bg={"#ffffff"}
       data-component={"navbar"}
       alignItems={"center"}
       justifyContent={"flex-end"}
       pl={2}
       pr={2}
-      // py={"27px"}
-      // px={"29px"}
-      h={"90px"}
-      // style={{ width: "Calc(100vw - 256px)" }}
+      borderColor={"#e2e8f0"}
+      borderBottomWidth={"1px"}
+      h={"4rem"}
       w={"100%"}
+      gap={4}
     >
       {/* <NavbarTitle /> */}
-      <SearchButton />
-      <NotificationButton />
+      {/* <SearchButton /> */}
+      {/* <NotificationButton /> */}
+      {/* <ColorModeButton /> */}
       <NavBarUserOptions />
-      <ColorModeButton />
     </Flex>
   );
 };

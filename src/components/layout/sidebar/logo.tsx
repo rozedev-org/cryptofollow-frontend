@@ -3,15 +3,22 @@ import Image from "next/image";
 
 export const SideBarLogo = () => {
   return (
-    <HStack gap={"7px"} h={"90px"}>
+    <HStack
+      w={"100%"}
+      gap={"7px"}
+      h={"4rem"}
+      borderColor={"#e2e8f0"}
+      borderBottomWidth={"1px"}
+      padding={"0 16px"}
+    >
       <Image src={"/logo.png"} alt="App Logo" width={"38"} height={"37"} />
       <Heading
         color={"#1A1B2F"}
-        fontSize={"14px"}
+        fontSize={"1.125rem"}
         fontWeight={"700"}
-        lineHeight={"normal"}
+        lineHeight={"1.75rem"}
       >
-        CryptoFollow
+        CRYPTO FOLLOW
       </Heading>
     </HStack>
   );

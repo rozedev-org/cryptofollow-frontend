@@ -7,7 +7,8 @@ export const BasePage = (props: BasePageProps) => {
       w={"100%"}
       data-component={"base-page"}
       overflowX="auto"
-      p={[2, 0]}
+      px={"16px"}
+      py={"24px"}
       {...props}
     >
       {props.children}
