@@ -1,7 +1,9 @@
 "use client";
+import { appRoutes } from "@/appRoutes";
 import { StatLabel, StatRoot, StatValueText } from "@/components/ui/stat";
 import { config } from "@/config";
 import { Card, FormatNumber, HStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface WalletResponse {
@@ -9,6 +11,7 @@ interface WalletResponse {
 }
 
 export const Balance = () => {
+  const router = useRouter();
   const { bff } = config;
   const [wallet, setWallet] = useState<{ balance: number }>({
     balance: 0,
@@ -20,8 +23,8 @@ export const Balance = () => {
         credentials: "include",
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch wallet data");
+      if (res.status === 401) {
+        router.push(appRoutes.home.login.url());
       }
 
       const walletResponse: WalletResponse = await res.json();

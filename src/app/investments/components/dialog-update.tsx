@@ -36,7 +36,7 @@ interface InvestmentDialogUpdateProps {
 export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
   const { id } = useUserSession();
-  const { currency, fetchCurrencies } = useCurrencies();
+  const { data, fetchCurrencies } = useCurrencies();
   const { invest } = props;
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
   const queryPamas: PaginationParams = {
@@ -152,7 +152,7 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
                       value={values.currencyId}
                       p={2}
                     >
-                      {currency.data.map((item, index) => (
+                      {data.map((item, index) => (
                         <option key={index} value={item.id}>
                           {item.name}
                         </option>
