@@ -1,4 +1,3 @@
-import { config } from "@/config";
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -12,7 +11,6 @@ interface QueryParamsInterface {
 
 export const instance = axios.create({
   withCredentials: true,
-  baseURL: config.bff.url,
 });
 
 export default class ApiHelper<T> {
