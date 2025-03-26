@@ -29,6 +29,7 @@ export class WalletApiHandler {
 
   findCurrencies = async (queryParams: PaginationParams) => {
     const apiHelper = new ApiHelper<PaginatedData<WalletResponse>>();
+    console.log("object :>> ", this.url.findCurrencies());
     apiHelper.config("GET", this.url.findCurrencies());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
