@@ -13,7 +13,8 @@ import { GuideCurrencyButton } from "./currency-guide-button";
 
 export const CurrencyTable = () => {
   const { handleRefreshSignal, refreshSignal } = useHandleData();
-  const { data, fetchCurrencies, meta } = useCurrencies();
+  const { currency, fetchCurrencies } = useCurrencies();
+  const { data, meta } = currency;
 
   //Todo esto se ira para un componente de constantes o algo
   const [perPage, setPerPage] = useState(10);

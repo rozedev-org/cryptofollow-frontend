@@ -32,7 +32,8 @@ export const InvestmentDialogForm = () => {
   const { id } = useUserSession();
   const [open, setOpen] = useState(false);
   const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
-  const { data, fetchCurrencies } = useCurrencies();
+  const { currency, fetchCurrencies } = useCurrencies();
+  const { data } = currency;
   const queryPamas: PaginationParams = {
     page: 1,
     take: 1,
