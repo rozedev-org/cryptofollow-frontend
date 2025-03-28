@@ -18,7 +18,8 @@ import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
 export const Investments = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
   const { isMobile } = useResponsiveInfo();
-  const { fetchInvestments, data, meta } = useInvestments();
+  const { fetchInvestments, invest } = useInvestments();
+  const { data, meta } = invest;
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);

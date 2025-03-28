@@ -6,44 +6,90 @@ import {
   newCurrency,
 } from "../types/currency.types";
 import {
+  PaginatedResponse,
   PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
 import { CurrencyApiHandler } from "@/app/api/currency/currency.api";
 
-export function useCurrencies() {
-  const currenciesApiHandler = new CurrencyApiHandler();
+// export function useCurrencies() {
+//   const currenciesApiHandler = new CurrencyApiHandler();
+//   const fetchCurrencies = async (params: PaginationParams) => {
+//     const response = await currenciesApiHandler.find(params);
+//     if (currenciesApiHandler.onError || !response) {
+//       cleanState();
+//     } else {
+//       const { data, meta } = response;
+//       handleSetNewData(data, meta);
+//     }
+//   };
+//   const [currency, setCurrency] = useState({
+//     data: [] as CurrencyIdentity[],
+//     meta: {
+//       page: 0,
+//       take: 0,
+//       itemCount: 0,
+//       pageCount: 0,
+//       hasPreviousPage: false,
+//       hasNextPage: true,
+//     },
+//   });
+//   const handleSetNewData = (
+//     newData: CurrencyIdentity[],
+//     newMeta: PaginationMeta
+//   ) => {
+//     setCurrency(() => ({
+//       data: newData,
+//       meta: newMeta,
+//     }));
+//   };
+//   const cleanState = () => {
+//     setCurrency({
+//       data: [] as CurrencyIdentity[],
+//       meta: {
+//         page: 0,
+//         take: 0,
+//         itemCount: 0,
+//         pageCount: 0,
+//         hasPreviousPage: false,
+//         hasNextPage: true,
+//       },
+//     });
+//   };
+//   return {
+//     data: currency.data,
+//     meta: currency.meta,
+//     handleSetNewData,
+//     setCurrency,
+//     cleanState,
+//     fetchCurrencies,
+//   };
+// }
+
+export const useCurrencies = () => {
   const fetchCurrencies = async (params: PaginationParams) => {
-    const response = await currenciesApiHandler.find(params);
-    if (currenciesApiHandler.onError || !response) {
-      cleanState();
-    } else {
-      const { data, meta } = response;
-      handleSetNewData(data, meta);
+    try {
+      const { bff } = config;
+      setIsLoading(true);
+      const { page, take, getAll } = params;
+      const response = await fetch(
+        `${bff.url}/currency?page=${page}&take=${take}&getAll=${getAll}`,
+        {
+          credentials: "include",
+        }
+      ).then(
+        (res) => res.json() as Promise<PaginatedResponse<CurrencyIdentity>>
+      );
+      setCurrency(response);
+      setIsLoading(false);
+      return response;
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
     }
   };
-  const [currency, setCurrency] = useState({
-    data: [] as CurrencyIdentity[],
-    meta: {
-      page: 0,
-      take: 0,
-      itemCount: 0,
-      pageCount: 0,
-      hasPreviousPage: false,
-      hasNextPage: true,
-    },
-  });
-  const handleSetNewData = (
-    newData: CurrencyIdentity[],
-    newMeta: PaginationMeta
-  ) => {
-    setCurrency(() => ({
-      data: newData,
-      meta: newMeta,
-    }));
-  };
-  const cleanState = () => {
-    setCurrency({
+  const [currency, setCurrency] = useState<PaginatedResponse<CurrencyIdentity>>(
+    {
       data: [] as CurrencyIdentity[],
       meta: {
         page: 0,
@@ -53,17 +99,16 @@ export function useCurrencies() {
         hasPreviousPage: false,
         hasNextPage: true,
       },
-    });
-  };
+    }
+  );
+  const [isLoading, setIsLoading] = useState(true);
+
   return {
-    data: currency.data,
-    meta: currency.meta,
-    handleSetNewData,
-    setCurrency,
-    cleanState,
     fetchCurrencies,
+    isLoading,
+    currency,
   };
-}
+};
 
 export const useCurrency = (id: number) => {
   const currencyApiHandler = new CurrencyApiHandler();
