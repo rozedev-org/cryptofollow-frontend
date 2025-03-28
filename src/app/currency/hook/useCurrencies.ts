@@ -1,3 +1,8 @@
+import { CurrencyApiHandler } from "@/app/api/currency/currency.api";
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from "@/common/interfaces/response.interface";
 import { config } from "@/config";
 import { useState } from "react";
 import {
@@ -5,12 +10,6 @@ import {
   CurrencyIdentity,
   newCurrency,
 } from "../types/currency.types";
-import {
-  PaginatedResponse,
-  PaginationMeta,
-  PaginationParams,
-} from "@/common/interfaces/response.interface";
-import { CurrencyApiHandler } from "@/app/api/currency/currency.api";
 
 // export function useCurrencies() {
 //   const currenciesApiHandler = new CurrencyApiHandler();
