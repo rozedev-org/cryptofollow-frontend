@@ -54,7 +54,7 @@ export const Investments = () => {
 
   useEffect(() => {
     fetchData(1);
-  }, [fetchData]);
+  }, []);
 
   useEffect(() => {
     if (refreshSignal) {
