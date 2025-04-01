@@ -2,6 +2,7 @@ import { NewInvestInterface } from "@/app/api/investments/types/investments.api.
 import { useHandleData } from "@/app/states/useHandleData";
 import {
   PaginatedResponse,
+  PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
 import { config } from "@/config";
@@ -9,60 +10,67 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { InvestmentIdentity } from "../types/investment.types";
+import { InvestmentApiHandler } from "@/app/api/investments/investments.api";
 
-// export function useInvestments() {
-//   const investmentApiHandler = new InvestmentApiHandler();
-//   const fetchInvestments = async (params: PaginationParams) => {
-//     const response = await investmentApiHandler.find(params);
-//     if (investmentApiHandler.onError || !response) {
-//       cleanState();
-//     } else {
-//       const { data, meta } = response;
-//       handleSetNewData(data, meta);
-//     }
-//   };
-//   const [invest, setInvest] = useState({
-//     data: [] as InvestmentIdentity[],
-//     meta: {
-//       page: 0,
-//       take: 0,
-//       itemCount: 0,
-//       pageCount: 0,
-//       hasPreviousPage: false,
-//       hasNextPage: true,
-//     },
-//   });
-//   const handleSetNewData = (
-//     newData: InvestmentIdentity[],
-//     newMeta: PaginationMeta
-//   ) => {
-//     setInvest(() => ({
-//       data: newData,
-//       meta: newMeta,
-//     }));
-//   };
-//   const cleanState = () => {
-//     setInvest({
-//       data: [] as InvestmentIdentity[],
-//       meta: {
-//         page: 0,
-//         take: 0,
-//         itemCount: 0,
-//         pageCount: 0,
-//         hasPreviousPage: false,
-//         hasNextPage: true,
-//       },
-//     });
-//   };
-//   return {
-//     invest,
-//     handleSetNewData,
-//     setInvest,
-//     cleanState,
-//     fetchInvestments,
-//   };
-// }
-export const useInvestments = () => {
+export function useInvestments() {
+  const investmentApiHandler = new InvestmentApiHandler();
+  const fetchInvestments = async (params: PaginationParams) => {
+    const response = await investmentApiHandler.find(params);
+    if (investmentApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      const { data, meta } = response;
+      handleSetNewData(data, meta);
+    }
+  };
+  const [invest, setInvest] = useState({
+    data: [] as InvestmentIdentity[],
+    meta: {
+      page: 0,
+      take: 0,
+      itemCount: 0,
+      pageCount: 0,
+      hasPreviousPage: false,
+      hasNextPage: true,
+    },
+  });
+  const handleSetNewData = (
+    newData: InvestmentIdentity[],
+    newMeta: PaginationMeta
+  ) => {
+    setInvest(() => ({
+      data: newData,
+      meta: newMeta,
+    }));
+
+    setInvest((state) => ({
+      ...state,
+      data: newData,
+      meta: newMeta,
+    }));
+  };
+  const cleanState = () => {
+    setInvest({
+      data: [] as InvestmentIdentity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    });
+  };
+  return {
+    invest,
+    handleSetNewData,
+    setInvest,
+    cleanState,
+    fetchInvestments,
+  };
+}
+export const useInvestments2 = () => {
   const fetchInvestments = async (params: PaginationParams) => {
     try {
       const { bff } = config;
