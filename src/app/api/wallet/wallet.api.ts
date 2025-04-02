@@ -18,7 +18,7 @@ export class WalletApiHandler {
   }
 
   findBalance = async () => {
-    const apiHelper = new ApiHelper<PaginatedData<BalanceResponse>>();
+    const apiHelper = new ApiHelper<BalanceResponse>();
     apiHelper.config("GET", this.url.find());
     const response = await apiHelper.do();
     if (response.statusText !== "OK") {
