@@ -1,36 +1,13 @@
 "use client";
-import { appRoutes } from "@/appRoutes";
-import { StatLabel, StatRoot, StatValueText } from "@/components/ui/stat";
-import { config } from "@/config";
-import { Card, FormatNumber, HStack } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
-interface WalletResponse {
-  balance: number;
-}
+import { useBalance } from "@/app/wallet/hook/useWallet";
+import { Badge, Card, FormatNumber, HStack, Stat } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { HiArrowDown, HiArrowNarrowUp } from "react-icons/hi";
 
 export const Balance = () => {
-  const router = useRouter();
-  const { bff } = config;
-  const [wallet, setWallet] = useState<{ balance: number }>({
-    balance: 0,
-  });
-
+  const { fetchBalance, data } = useBalance();
   useEffect(() => {
-    async function load() {
-      const res = await fetch(`${bff.url}/wallet`, {
-        credentials: "include",
-      });
-
-      if (res.status === 401) {
-        router.push(appRoutes.home.login.url());
-      }
-
-      const walletResponse: WalletResponse = await res.json();
-      setWallet((state) => ({ ...state, balance: walletResponse.balance }));
-    }
-    load();
+    fetchBalance();
   }, []);
 
   return (
@@ -50,42 +27,37 @@ export const Balance = () => {
         Balance
       </Card.Header>
       <Card.Body>
-        <StatRoot>
-          <StatLabel
-            color={"#969696"}
-            fontSize={"14px"}
-            fontWeight={400}
-            letterSpacing={"0.28px"}
-          >
-            Balance Total
-          </StatLabel>
-          <HStack gap={"34px"}>
-            <StatValueText
-              fontSize={"21px"}
-              fontWeight={"500"}
-              color={"#1A1B2F"}
-            >
+        <Stat.Root>
+          <Stat.Label>Balance Total</Stat.Label>
+          <HStack>
+            <Stat.ValueText>
               <FormatNumber
-                value={wallet.balance}
+                value={data.balance}
                 style="currency"
                 currency="USD"
               />
-            </StatValueText>
-            {/* <StatUpTrend
-              py={"3px"}
-              px={"10px"}
-              bg={"#EBFFE8"}
-              borderRadius={"6px"}
-              variant="plain"
-              color={"#1FCB4F"}
-              fontSize={"12px"}
-              fontWeight={500}
-              lineHeight={"22.452px"}
-            >
-              0.25%
-            </StatUpTrend> */}
+            </Stat.ValueText>
+            {100 > 0 ? (
+              <Badge colorPalette="green" borderRadius={"6px"} p={2}>
+                <HiArrowNarrowUp />+{100}%
+              </Badge>
+            ) : (
+              <Badge colorPalette="red" borderRadius={"6px"} p={2}>
+                <HiArrowDown />-{100}%
+              </Badge>
+            )}
+            {/* {data.variation > 0 ? (
+              <Badge colorPalette="green" borderRadius={"6px"} p={2}>
+                <HiArrowNarrowUp />+{data.variation}%
+              </Badge>
+            ) : (
+              <Badge colorPalette="red" borderRadius={"6px"} p={2}>
+                <HiArrowDown />-{data.variation}%
+              </Badge>
+            )} */}
           </HStack>
-        </StatRoot>
+          <Stat.HelpText>Actualizado hace : 20 minutos</Stat.HelpText>
+        </Stat.Root>
       </Card.Body>
     </Card.Root>
   );
