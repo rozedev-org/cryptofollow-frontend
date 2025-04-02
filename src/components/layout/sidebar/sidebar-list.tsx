@@ -5,11 +5,13 @@ import { For, VStack } from "@chakra-ui/react";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
+import { useUserSession } from "@/app/states/useUserId";
 export interface SidebarButtonProps {
   name: string;
   icon: ReactNode;
   route: string;
   onClose?: () => void;
+  adminOnly: boolean;
 }
 const SidebarButton = ({ name, route, onClose, icon }: SidebarButtonProps) => {
   const [isActive, setIsActive] = useState(false);
@@ -53,16 +55,19 @@ export interface SidebarListProps {
   onClose?: () => void;
 }
 export const SidebarList = ({ onClose }: SidebarListProps) => {
+  const { userLogged } = useUserSession();
   return (
     <VStack gap={"4px"} w={"100%"} paddingTop={"1rem"} px="12px">
       <For each={SIDEBAR_LIST} fallback={<div>Empty</div>}>
-        {(item, index) => (
-          <SidebarButton
-            {...item}
-            key={`Sidebar-item-${index}`}
-            onClose={onClose}
-          />
-        )}
+        {(item, index) =>
+          (userLogged.role === "ADMIN" || !item.adminOnly) && (
+            <SidebarButton
+              key={`Sidebar-item-${index}`}
+              {...item}
+              onClose={onClose}
+            />
+          )
+        }
       </For>
     </VStack>
   );
