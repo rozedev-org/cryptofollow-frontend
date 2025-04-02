@@ -10,12 +10,16 @@ import { useCurrencies } from "../hook/useCurrencies";
 import { CurrencyColumns } from "../types/currency.types";
 import { CurrencyDialogForm } from "./currency-form";
 import { GuideCurrencyButton } from "./currency-guide-button";
+import { useUserSession } from "@/app/states/useUserId";
+import { useRouter } from "next/navigation";
+import { appRoutes } from "@/appRoutes";
 
 export const CurrencyTable = () => {
+  const { userLogged } = useUserSession();
   const { handleRefreshSignal, refreshSignal } = useHandleData();
   const { currency, fetchCurrencies } = useCurrencies();
   const { data, meta } = currency;
-
+  const router = useRouter();
   //Todo esto se ira para un componente de constantes o algo
   const [perPage, setPerPage] = useState(10);
   const [isLoadingData, setIsLoadingData] = useState(false);
@@ -51,7 +55,11 @@ export const CurrencyTable = () => {
   };
 
   useEffect(() => {
-    fetchData(1);
+    if (userLogged.role == "USER") {
+      router.push(appRoutes.home.url());
+    } else {
+      fetchData(1);
+    }
   }, []);
 
   useEffect(() => {
