@@ -5,11 +5,14 @@ import {
 } from "@/common/interfaces/response.interface";
 import { config } from "@/config";
 import { useState } from "react";
+import { BinanceCurrency, CurrencyIdentity } from "../types/currency.types";
+import { useForm } from "react-hook-form";
+import { useHandleData } from "@/app/states/useHandleData";
+import { toast } from "sonner";
 import {
-  BinanceCurrency,
-  CurrencyIdentity,
-  newCurrency,
-} from "../types/currency.types";
+  NewCurrencyInterface,
+  UpdateCurrencyInterface,
+} from "@/app/api/currency/types/currency.api.types";
 
 // export function useCurrencies() {
 //   const currenciesApiHandler = new CurrencyApiHandler();
@@ -140,33 +143,34 @@ export const useCurrency = (id: number) => {
   };
 };
 
-export const useCreateCurrency = async (values: newCurrency) => {
-  const currencyApiHandler = new CurrencyApiHandler();
-  const create = async () => {
-    const response = await currencyApiHandler.create(values);
-    if (currencyApiHandler.onError || !response) {
-      console.log("error");
-    } else {
-      console.log(response);
-    }
-  };
-  return { create };
-};
-export const useUpdateCurrency = async (
-  currencyId: number,
-  values: CurrencyIdentity
-) => {
-  const currencyApiHandler = new CurrencyApiHandler();
-  const update = async () => {
-    const response = await currencyApiHandler.update(currencyId, values);
-    if (currencyApiHandler.onError || !response) {
-      console.log("error");
-    } else {
-      console.log(response);
-    }
-  };
-  return { update };
-};
+// export const useCreateCurrency = async (values: newCurrency) => {
+//   const currencyApiHandler = new CurrencyApiHandler();
+//   const create = async () => {
+//     const response = await currencyApiHandler.create(values);
+//     if (currencyApiHandler.onError || !response) {
+//       console.log("error");
+//     } else {
+//       console.log(response);
+//     }
+//   };
+//   return { create };
+// };
+// export const useUpdateCurrency = async (
+//   currencyId: number,
+//   values: CurrencyIdentity
+// ) => {
+//   const currencyApiHandler = new CurrencyApiHandler();
+//   const update = async () => {
+//     const response = await currencyApiHandler.update(currencyId, values);
+//     if (currencyApiHandler.onError || !response) {
+//       console.log("error");
+//     } else {
+//       console.log(response);
+//     }
+//   };
+//   return { update };
+// };
+
 export const useDeleteCurrency = async (currencyId: number) => {
   const currencyApiHandler = new CurrencyApiHandler();
   const create = async () => {
@@ -199,4 +203,84 @@ export const useBinanceCurrencies = () => {
   ]);
 
   return { fetchBinanceCurrencies, currency };
+};
+export const useCreateCurrency = (setOpen: (open: boolean) => void) => {
+  const { setIsCreating, handleRefreshSignal } = useHandleData();
+
+  const currencyForm = useForm<NewCurrencyInterface>({
+    defaultValues: {
+      name: "",
+      price: 0,
+      pair: "",
+    },
+  });
+
+  const onSubmit = currencyForm.handleSubmit(async (values) => {
+    console.log(values);
+    setIsCreating(true);
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/currency`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      });
+      toast.success(`Se ha creado una moneda con éxito`);
+      console.log(response);
+      handleRefreshSignal(true);
+      setIsCreating(false);
+      setOpen(false);
+    } catch (error) {
+      toast.error("Ha ocurrido un error al crear una moneda");
+      console.log(error);
+      setIsCreating(false);
+      setOpen(false);
+    }
+  });
+
+  return { currencyForm, onSubmit };
+};
+
+export const useUpdateCurrency = (
+  data: CurrencyIdentity,
+  setOpen: (open: boolean) => void
+) => {
+  const { setIsCreating, handleRefreshSignal } = useHandleData();
+
+  const updateCurrencyForm = useForm<UpdateCurrencyInterface>({
+    defaultValues: {
+      name: data.name,
+      pair: data.pair,
+      price: data.price,
+    },
+  });
+
+  const onSubmit = updateCurrencyForm.handleSubmit(async (values) => {
+    setIsCreating(true);
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/currency/${data.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      });
+      toast.success(`Se ha Actualizado una Moneda con éxito`);
+      console.log(response);
+      handleRefreshSignal(true);
+      setIsCreating(false);
+      setOpen(false);
+    } catch (error) {
+      toast.error("Ha ocurrido un error al actualizar la Moneda");
+      console.log(error);
+      setIsCreating(false);
+    }
+  });
+
+  return { updateCurrencyForm, onSubmit };
 };

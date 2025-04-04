@@ -8,15 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
-import { toast } from "sonner";
-import { config } from "@/config";
 import { LoadItem } from "@/components/layout/loading";
 import { useHandleData } from "@/app/states/useHandleData";
 import { CurrencyIdentity } from "../types/currency.types";
+import { useBinanceCurrencies, useUpdateCurrency } from "../hook/useCurrencies";
 
 interface CurrencyDialogUpdateProps {
   currency: CurrencyIdentity;
@@ -24,8 +22,32 @@ interface CurrencyDialogUpdateProps {
 
 export const CurrencyDialogUpdate = (props: CurrencyDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
-  const { currency } = props;
-  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const [selectedPrice, setSelectedPrice] = useState(props.currency.price);
+  const [search, setSearch] = useState("");
+  const { currency, fetchBinanceCurrencies } = useBinanceCurrencies();
+  const { updateCurrencyForm, onSubmit } = useUpdateCurrency(
+    props.currency,
+    setOpen
+  );
+  const { creating } = useHandleData();
+  useEffect(() => {
+    if (open) {
+      fetchBinanceCurrencies();
+    }
+  }, [open]);
+
+  const handlePriceState = (symbol: string) => {
+    const selectedCurrency = currency.find((item) => item.symbol === symbol);
+    if (selectedCurrency) {
+      const price = Number(selectedCurrency.price);
+      setSelectedPrice(price);
+      updateCurrencyForm.setValue("price", price);
+    }
+  };
+  const filteredCurrency = currency
+    .filter((item) => item.symbol.toLowerCase().includes(search.toLowerCase()))
+    .slice(0, 5);
+
   return (
     <DialogRoot
       placement={"center"}
@@ -45,82 +67,54 @@ export const CurrencyDialogUpdate = (props: CurrencyDialogUpdateProps) => {
       </DialogTrigger>
       <DialogContent p={"30px"}>
         <DialogHeader>
-          <DialogTitle pb={5}>Moneda : {currency.name}</DialogTitle>
+          <DialogTitle pb={5}>Moneda : {props.currency.name}</DialogTitle>
         </DialogHeader>
         <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
-          <Formik
-            initialValues={{
-              name: currency.name,
-              pair: currency.pair,
-              price: currency.price,
-            }}
-            onSubmit={async (values, { setSubmitting }) => {
-              setIsCreating(true);
-              try {
-                const { bff } = config;
-                const response = await fetch(
-                  `${bff.url}/currency/${currency.id}`,
-                  {
-                    credentials: "include",
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(values),
-                  }
-                );
-                console.log(response);
-                handleRefreshSignal(true);
-                setOpen(false);
-                setIsCreating(false);
-                toast.success(`Se ha actualizado una Moneda`);
-              } catch (error) {
-                console.log(error);
-                setOpen(true);
-                setIsCreating(false);
-                toast.error("Ha ocurrido un error al actualizar la Moneda");
-              }
-              setSubmitting(false);
-            }}
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Field label="Nombre de la Moneda">
-                  <Input
-                    p={2}
-                    name="name"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.name}
-                  />
-                </Field>
-                <Field label="Precio" mt={4}>
-                  <Input
-                    p={2}
-                    name="price"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.price}
-                  />
-                </Field>
-                {creating && <LoadItem />}
-                <Button
-                  variant={"outline"}
-                  type="submit"
-                  disabled={isSubmitting}
-                  mt={6}
-                >
-                  Enviar
-                </Button>
-              </form>
-            )}
-          </Formik>
+          <form onSubmit={onSubmit}>
+            <Field label="Buscar moneda:">
+              <Input
+                defaultValue={props.currency.name}
+                p={2}
+                list="cryptoList"
+                id="name"
+                placeholder="Ejemplo: BTC / DOGE"
+                autoComplete="off"
+                onChange={(e) => {
+                  handlePriceState(e.target.value);
+                  setSearch(e.target.value);
+                  updateCurrencyForm.setValue("name", e.target.value);
+                  updateCurrencyForm.setValue("pair", "USDT");
+                }}
+              />
+            </Field>
+            <datalist id="cryptoList">
+              {filteredCurrency.map((item, i) => (
+                <option value={item.symbol} key={i}>
+                  {item.symbol}
+                </option>
+              ))}
+            </datalist>
+            <Field label="Precio de Moneda">
+              <Input
+                value={selectedPrice}
+                placeholder="Precio"
+                name="price"
+                p={2}
+                readOnly
+              />
+            </Field>
+
+            {creating && <LoadItem />}
+            <Button
+              variant={"outline"}
+              type="submit"
+              disabled={creating}
+              mt={6}
+              p={2}
+            >
+              Enviar
+            </Button>
+          </form>
         </DialogBody>
         <DialogCloseTrigger />
       </DialogContent>
