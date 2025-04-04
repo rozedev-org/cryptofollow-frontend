@@ -13,21 +13,17 @@ import {
   NativeSelectField,
   NativeSelectRoot,
 } from "@/components/ui/native-select";
-import { Formik } from "formik";
 import { useState } from "react";
-import { toast } from "sonner";
-
 import { useCurrencies } from "@/app/currency/hook/useCurrencies";
 import { useHandleData } from "@/app/states/useHandleData";
-import { useUserSession } from "@/app/states/useUserId";
 import { PaginationParams } from "@/common/interfaces/response.interface";
-import { LoadItem } from "@/components/layout/loading";
 import {
   NumberInputField,
   NumberInputRoot,
 } from "@/components/ui/number-input";
-import { config } from "@/config";
 import { InvestmentIdentity } from "../types/investment.types";
+import { useUpdateInvestment } from "../hook/useInvestment";
+import { useUserSession } from "@/app/states/useUserId";
 
 interface InvestmentDialogUpdateProps {
   invest: InvestmentIdentity;
@@ -35,11 +31,15 @@ interface InvestmentDialogUpdateProps {
 
 export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
   const [open, setOpen] = useState(false);
-  const { id } = useUserSession();
   const { currency, fetchCurrencies } = useCurrencies();
-  const { data } = currency;
   const { invest } = props;
-  const { creating, setIsCreating, handleRefreshSignal } = useHandleData();
+  const { id } = useUserSession();
+  const { creating } = useHandleData();
+  const { onSubmit, updateInvestmentForm } = useUpdateInvestment(
+    invest,
+    setOpen,
+    id
+  );
   const queryPamas: PaginationParams = {
     page: 1,
     take: 1,
@@ -69,125 +69,113 @@ export const InvestmentDialogUpdate = (props: InvestmentDialogUpdateProps) => {
           <DialogTitle pb={5}>Inversion en : </DialogTitle>
         </DialogHeader>
         <DialogBody pb="8" borderBottom={"solid thin #e4e4e7"}>
-          <Formik
-            initialValues={{
-              buyPrice: invest.buyPrice,
-              currencyInvestment: invest.currencyInvestment,
-              currencyId: invest.currencyId,
-              userId: 1,
-            }}
-            // validate={(values) => {
-            //   const errors = {
-            //     buyPrice: "",
-            //     currencyInvestment: "",
-            //     currencyId: "",
-            //     userId: "",
-            //   };
-            //   if ((values.userId = 0)) {
-            //     errors.userId = "Required";
-            //   }
-            //   return errors;
-            // }}
-            onSubmit={async (values, { setSubmitting }) => {
-              setIsCreating(true);
-              try {
-                const { bff } = config;
-                const defaultValue = { ...values, userId: id };
-                const response = await fetch(
-                  `${bff.url}/investments/${invest.id}`,
-                  {
-                    credentials: "include",
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(defaultValue),
-                  }
-                );
-
-                if (!response.ok) {
-                  throw new Error("Error al actualizar la inversion");
-                }
-
-                toast.success(`Se ha actualizado una inversion`);
-                console.log(response);
-                handleRefreshSignal(true);
-                setOpen(false);
-                setIsCreating(false);
-              } catch (error) {
-                toast.error("Ha ocurrido un error al actualizar la inversion");
-                console.log(error);
-                setOpen(true);
-                setIsCreating(false);
+          <form onSubmit={onSubmit}>
+            <Field
+              label="Precio de Compra"
+              helperText="Precio de compra de la moneda. Los decimales se separan por '.' "
+              invalid={!!updateInvestmentForm.formState.errors.buyPrice}
+              errorText={
+                updateInvestmentForm.formState.errors.buyPrice?.message
               }
-              setSubmitting(false);
-            }}
-          >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-            }) => (
-              <form onSubmit={handleSubmit}>
-                <Field
-                  label="Precio de Compra"
-                  helperText="Precio de compra de la moneda. Los decimales se separan por '.' "
+            >
+              <NumberInputRoot name="buyPrice" w={"100%"}>
+                <NumberInputField
+                  onChange={(e) => {
+                    let newValue = e.target.value;
+                    newValue = newValue.replace(",", ".");
+                    newValue = newValue.replace(/[^0-9.]/g, "");
+                    const numericValue = parseFloat(newValue);
+                    if (isNaN(numericValue)) {
+                      updateInvestmentForm.setError("buyPrice", {
+                        type: "manual",
+                        message: "El valor ingresado no es un número válido",
+                      });
+                    } else {
+                      updateInvestmentForm.setValue("buyPrice", numericValue);
+                    }
+                  }}
+                  p={2}
+                  defaultValue={invest.buyPrice}
+                />
+              </NumberInputRoot>
+            </Field>
+            <Field
+              label="Seleccionar la mondeda"
+              mt={4}
+              invalid={!!updateInvestmentForm.formState.errors.currencyId}
+              errorText={
+                updateInvestmentForm.formState.errors.currencyId?.message
+              }
+            >
+              <NativeSelectRoot>
+                <NativeSelectField
+                  value={invest.currencyId}
+                  p={2}
+                  placeholder="Seleccionar moneda"
+                  {...updateInvestmentForm.register("currencyId", {
+                    required: "Este campo es requerido",
+                  })}
+                  onChange={(e) => {
+                    updateInvestmentForm.setValue(
+                      "currencyId",
+                      parseInt(e.target.value)
+                    );
+                  }}
                 >
-                  <NumberInputRoot name="buyPrice" w={"100%"}>
-                    <NumberInputField
-                      onChange={handleChange}
-                      p={2}
-                      defaultValue={values.buyPrice}
-                    />
-                  </NumberInputRoot>
-                </Field>
-                <Field label="Seleccionar la mondeda" mt={4}>
-                  <NativeSelectRoot>
-                    <NativeSelectField
-                      placeholder="Selecciona mano"
-                      name="currencyId"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.currencyId}
-                      p={2}
-                    >
-                      {data.map((item, index) => (
-                        <option key={index} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </NativeSelectField>
-                  </NativeSelectRoot>
-                </Field>
-                <Field
-                  label="Inversion de moneda"
-                  mt={4}
-                  helperText="Cantidad de moneda a invertir. Los decimales se separan por '.'"
-                >
-                  <NumberInputRoot name="currencyInvestment" w={"100%"}>
-                    <NumberInputField
-                      onChange={handleChange}
-                      p={2}
-                      defaultValue={values.currencyInvestment}
-                    />
-                  </NumberInputRoot>
-                </Field>
-                {/* {errors.email && touched.email && errors.email} */}
-                {/* {errors.password && touched.password && errors.password} */}
-                {creating && <LoadItem />}
-                <Button
-                  variant={"outline"}
-                  type="submit"
-                  disabled={isSubmitting}
-                  mt={6}
-                >
-                  Enviar
-                </Button>
-              </form>
-            )}
-          </Formik>
+                  {currency.data.map((item, index) => (
+                    <option key={index} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
+                </NativeSelectField>
+              </NativeSelectRoot>
+            </Field>
+            <Field
+              label="Inversion de moneda"
+              mt={4}
+              helperText="Cantidad de moneda a invertir. Los decimales se separan por '.'"
+              invalid={
+                !!updateInvestmentForm.formState.errors.currencyInvestment
+              }
+              errorText={
+                updateInvestmentForm.formState.errors.currencyInvestment
+                  ?.message
+              }
+            >
+              <NumberInputRoot name="currencyInvestment" w={"100%"}>
+                <NumberInputField
+                  defaultValue={invest.currencyInvestment}
+                  onChange={(e) => {
+                    let newValue = e.target.value;
+                    newValue = newValue.replace(",", ".");
+                    newValue = newValue.replace(/[^0-9.]/g, "");
+                    const numericValue = parseFloat(newValue);
+                    if (isNaN(numericValue)) {
+                      updateInvestmentForm.setError("buyPrice", {
+                        type: "manual",
+                        message: "El valor ingresado no es un número válido",
+                      });
+                    } else {
+                      updateInvestmentForm.setValue(
+                        "currencyInvestment",
+                        numericValue
+                      );
+                    }
+                  }}
+                  p={2}
+                />
+              </NumberInputRoot>
+            </Field>
+            <Button
+              loading={creating}
+              variant={"outline"}
+              type="submit"
+              p={2}
+              mt={6}
+            >
+              Enviar
+            </Button>
+          </form>
         </DialogBody>
         <DialogCloseTrigger />
       </DialogContent>
