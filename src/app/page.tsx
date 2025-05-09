@@ -1,6 +1,8 @@
 import { Assets } from "@/components/dashboard/assets";
 import { Balance } from "@/components/dashboard/balance";
 import { BasePage } from "@/components/layout/base-page/base-page";
+export const revalidate = 0;
+
 export default function Dashboard() {
   return (
     <BasePage

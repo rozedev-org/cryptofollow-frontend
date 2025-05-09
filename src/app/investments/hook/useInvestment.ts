@@ -1,7 +1,11 @@
-import { NewInvestInterface } from "@/app/api/investments/types/investments.api.types";
+import {
+  NewInvestInterface,
+  UpdateInvestmentInterface,
+} from "@/app/api/investments/types/investments.api.types";
 import { useHandleData } from "@/app/states/useHandleData";
 import {
   PaginatedResponse,
+  PaginationMeta,
   PaginationParams,
 } from "@/common/interfaces/response.interface";
 import { config } from "@/config";
@@ -9,60 +13,67 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { InvestmentIdentity } from "../types/investment.types";
+import { InvestmentApiHandler } from "@/app/api/investments/investments.api";
 
-// export function useInvestments() {
-//   const investmentApiHandler = new InvestmentApiHandler();
-//   const fetchInvestments = async (params: PaginationParams) => {
-//     const response = await investmentApiHandler.find(params);
-//     if (investmentApiHandler.onError || !response) {
-//       cleanState();
-//     } else {
-//       const { data, meta } = response;
-//       handleSetNewData(data, meta);
-//     }
-//   };
-//   const [invest, setInvest] = useState({
-//     data: [] as InvestmentIdentity[],
-//     meta: {
-//       page: 0,
-//       take: 0,
-//       itemCount: 0,
-//       pageCount: 0,
-//       hasPreviousPage: false,
-//       hasNextPage: true,
-//     },
-//   });
-//   const handleSetNewData = (
-//     newData: InvestmentIdentity[],
-//     newMeta: PaginationMeta
-//   ) => {
-//     setInvest(() => ({
-//       data: newData,
-//       meta: newMeta,
-//     }));
-//   };
-//   const cleanState = () => {
-//     setInvest({
-//       data: [] as InvestmentIdentity[],
-//       meta: {
-//         page: 0,
-//         take: 0,
-//         itemCount: 0,
-//         pageCount: 0,
-//         hasPreviousPage: false,
-//         hasNextPage: true,
-//       },
-//     });
-//   };
-//   return {
-//     invest,
-//     handleSetNewData,
-//     setInvest,
-//     cleanState,
-//     fetchInvestments,
-//   };
-// }
-export const useInvestments = () => {
+export function useInvestments() {
+  const investmentApiHandler = new InvestmentApiHandler();
+  const fetchInvestments = async (params: PaginationParams) => {
+    const response = await investmentApiHandler.find(params);
+    if (investmentApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      const { data, meta } = response;
+      handleSetNewData(data, meta);
+    }
+  };
+  const [invest, setInvest] = useState({
+    data: [] as InvestmentIdentity[],
+    meta: {
+      page: 0,
+      take: 0,
+      itemCount: 0,
+      pageCount: 0,
+      hasPreviousPage: false,
+      hasNextPage: true,
+    },
+  });
+  const handleSetNewData = (
+    newData: InvestmentIdentity[],
+    newMeta: PaginationMeta
+  ) => {
+    setInvest(() => ({
+      data: newData,
+      meta: newMeta,
+    }));
+
+    setInvest((state) => ({
+      ...state,
+      data: newData,
+      meta: newMeta,
+    }));
+  };
+  const cleanState = () => {
+    setInvest({
+      data: [] as InvestmentIdentity[],
+      meta: {
+        page: 0,
+        take: 0,
+        itemCount: 0,
+        pageCount: 0,
+        hasPreviousPage: false,
+        hasNextPage: true,
+      },
+    });
+  };
+  return {
+    invest,
+    handleSetNewData,
+    setInvest,
+    cleanState,
+    fetchInvestments,
+  };
+}
+export const useInvestments2 = () => {
   const fetchInvestments = async (params: PaginationParams) => {
     try {
       const { bff } = config;
@@ -146,22 +157,10 @@ export const useInvestment = (id: number) => {
   return { fetchInvest, invest, setInvest, isLoading };
 };
 
-export const useCreateInvestmentOld = async (values: NewInvestInterface) => {
-  try {
-    const { bff } = config;
-
-    const response = await fetch(`${bff.url}/investments`, {
-      method: "POST",
-      body: JSON.stringify(values),
-      credentials: "include",
-    });
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const useCreateInvestment = (userId: number) => {
+export const useCreateInvestment = (
+  userId: number,
+  setOpen: (open: boolean) => void
+) => {
   const { setIsCreating, handleRefreshSignal } = useHandleData();
 
   const investmentForm = useForm<NewInvestInterface>({
@@ -189,6 +188,7 @@ export const useCreateInvestment = (userId: number) => {
       console.log(response);
       handleRefreshSignal(true);
       setIsCreating(false);
+      setOpen(false);
     } catch (error) {
       toast.error("Ha ocurrido un error al crear la inversion");
       console.log(error);
@@ -197,4 +197,48 @@ export const useCreateInvestment = (userId: number) => {
   });
 
   return { investmentForm, onSubmit };
+};
+export const useUpdateInvestment = (
+  data: InvestmentIdentity,
+  setOpen: (open: boolean) => void,
+  id: number
+) => {
+  const { setIsCreating, handleRefreshSignal } = useHandleData();
+
+  const updateInvestmentForm = useForm<UpdateInvestmentInterface>({
+    defaultValues: {
+      buyPrice: data.buyPrice,
+      currencyId: data.currencyId,
+      currencyInvestment: data.currencyInvestment,
+      userId: data.userId,
+    },
+  });
+
+  const onSubmit = updateInvestmentForm.handleSubmit(async (values) => {
+    setIsCreating(true);
+    console.log(data);
+    const defaultValues = { ...values, userId: id };
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/investments/${data.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(defaultValues),
+        credentials: "include",
+      });
+      toast.success(`Se ha Actualizado una inversion`);
+      console.log(response);
+      handleRefreshSignal(true);
+      setIsCreating(false);
+      setOpen(false);
+    } catch (error) {
+      toast.error("Ha ocurrido un error al actualizar la inversion");
+      console.log(error);
+      setIsCreating(false);
+    }
+  });
+
+  return { updateInvestmentForm, onSubmit };
 };

@@ -2,7 +2,7 @@
 import { useWallet } from "@/app/wallet/hook/useWallet";
 import { PaginationParams } from "@/common/interfaces/response.interface";
 import { Card, HStack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { PaginatedTable } from "../Table/PaginatedTable/PaginatedTable";
 import { WalletColumns } from "@/app/wallet/types/wallet.types";
 import { LoadItem } from "../layout/loading";
@@ -16,18 +16,21 @@ export const Assets = () => {
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [isLoadingPage, setIsLoadingPage] = useState(false);
 
-  const fetchData = async (page: number) => {
-    setIsLoadingData(true);
+  const fetchData = useCallback(
+    async (page: number) => {
+      setIsLoadingData(true);
 
-    const queryPamas: PaginationParams = {
-      page,
-      take: perPage,
-    };
+      const queryPamas: PaginationParams = {
+        page,
+        take: perPage,
+      };
 
-    await fetchWallet(queryPamas);
-    setIsLoadingPage(false);
-    setIsLoadingData(false);
-  };
+      await fetchWallet(queryPamas);
+      setIsLoadingPage(false);
+      setIsLoadingData(false);
+    },
+    [perPage, fetchWallet]
+  );
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     fetchData(selectedItem.selected + 1);
@@ -55,7 +58,7 @@ export const Assets = () => {
       fetchData(1);
       handleRefreshSignal(false);
     }
-  }, [refreshSignal]);
+  }, [refreshSignal, fetchData, handleRefreshSignal]);
 
   return (
     <>

@@ -1,40 +1,46 @@
-# Etapa de construcción
-FROM node:20-alpine AS builder
-
-# Establecer el directorio de trabajo
+# Base image
+FROM node:22.14.0-alpine AS base
 WORKDIR /app
 
-# Copiar los archivos necesarios para la instalación
+# Instala dependencias del sistema si se requieren módulos nativos
+RUN apk add --no-cache libc6-compat
+
+# Etapa de dependencias
+FROM base AS deps
 COPY package.json package-lock.json ./
+RUN npm ci
 
-# Instalar dependencias
-RUN npm install
-
-# Copiar el resto del código de la aplicación
+# Etapa de build
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
 
 ENV NEXT_PUBLIC_API_BFF="/api/cryptofollow-service/v1"
 
-# Construir la aplicación
+
 RUN npm run build
 
-# Eliminar las dependencias de desarrollo para ahorrar espacio
-RUN npm prune --production
-
-# Etapa de ejecución
-FROM node:20-alpine
-
-# Establecer el directorio de trabajo
+# Etapa final (runner)
+FROM base AS runner
 WORKDIR /app
 
-# Copiar los archivos compilados de la etapa anterior
-COPY --from=builder /app/package.json /app/package-lock.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/public ./public
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
-# Exponer el puerto de la aplicación
+# Crea usuario no root
+RUN addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 nextjs \
+    && mkdir .next \
+    && chown -R nextjs:nodejs .next
+
+# Copia assets y runtime
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
 EXPOSE 3000
-
-# Comando para iniciar la aplicación
-CMD ["npm", "start"]
+CMD ["node", "server.js"]

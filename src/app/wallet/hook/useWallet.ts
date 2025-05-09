@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { WalletIdentity } from "../types/wallet.types";
+import { useEffect, useState } from "react";
+import { BalanceIdentity, WalletIdentity } from "../types/wallet.types";
 import {
   PaginationMeta,
   PaginationParams,
@@ -10,6 +10,9 @@ export const useWallet = () => {
   const walletApiHandler = new WalletApiHandler();
   const fetchWallet = async (params: PaginationParams) => {
     const response = await walletApiHandler.findCurrencies(params);
+
+    console.log("response :>> ", response);
+    console.log("walletApiHandler :>> ", walletApiHandler);
     if (walletApiHandler.onError || !response) {
       cleanState();
     } else {
@@ -17,6 +20,7 @@ export const useWallet = () => {
       handleSetNewData(data, meta);
     }
   };
+
   const [wallet, setWallet] = useState({
     data: [] as WalletIdentity[],
     meta: {
@@ -28,6 +32,11 @@ export const useWallet = () => {
       hasNextPage: true,
     },
   });
+
+  useEffect(() => {
+    console.log("wallet :>> ", wallet);
+  }, [wallet]);
+
   const handleSetNewData = (
     newData: WalletIdentity[],
     newMeta: PaginationMeta
@@ -57,5 +66,36 @@ export const useWallet = () => {
     setWallet,
     cleanState,
     fetchWallet,
+  };
+};
+export const useBalance = () => {
+  const BalanceApiHandler = new WalletApiHandler();
+  const fetchBalance = async () => {
+    const response = await BalanceApiHandler.findBalance();
+    if (BalanceApiHandler.onError || !response) {
+      cleanState();
+    } else {
+      handleSetNewData(response);
+    }
+  };
+  const [balance, setBalance] = useState({
+    balance: 0,
+    variation: 0,
+  });
+  const handleSetNewData = (newData: BalanceIdentity) => {
+    setBalance(newData);
+  };
+  const cleanState = () => {
+    setBalance({
+      balance: 0,
+      variation: 0,
+    });
+  };
+  return {
+    data: balance,
+    handleSetNewData,
+    setBalance,
+    cleanState,
+    fetchBalance,
   };
 };
