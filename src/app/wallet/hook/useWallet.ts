@@ -10,6 +10,8 @@ export const useWallet = () => {
   const walletApiHandler = new WalletApiHandler();
   const fetchWallet = async (params: PaginationParams) => {
     const response = await walletApiHandler.findCurrencies(params);
+
+    console.log("response :>> ", response);
     if (walletApiHandler.onError || !response) {
       cleanState();
     } else {
