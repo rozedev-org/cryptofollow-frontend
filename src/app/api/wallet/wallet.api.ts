@@ -33,6 +33,7 @@ export class WalletApiHandler {
     apiHelper.config("GET", this.url.findCurrencies());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
+    console.log("response.statusText :>> ", response.statusText);
     if (response.statusText !== "OK") {
       this.onError = true;
     }
