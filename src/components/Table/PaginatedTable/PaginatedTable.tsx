@@ -32,7 +32,7 @@ export function PaginatedTable<Data extends object>(
     isLoadingData,
     height,
   } = props;
-
+  console.log("data IN TABLE :>> ", data);
   return (
     <Box w={"100%"}>
       <ResponsiveDataTable
