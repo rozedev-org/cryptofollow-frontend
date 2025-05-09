@@ -17,6 +17,7 @@ export const useWallet = () => {
       handleSetNewData(data, meta);
     }
   };
+
   const [wallet, setWallet] = useState({
     data: [] as WalletIdentity[],
     meta: {
