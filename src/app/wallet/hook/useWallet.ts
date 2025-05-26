@@ -80,7 +80,7 @@ export const useBalance = () => {
   };
   const [balance, setBalance] = useState({
     balance: 0,
-    variation: 0,
+    percentageVariation: 0,
   });
   const handleSetNewData = (newData: BalanceIdentity) => {
     setBalance(newData);
@@ -88,7 +88,7 @@ export const useBalance = () => {
   const cleanState = () => {
     setBalance({
       balance: 0,
-      variation: 0,
+      percentageVariation: 0,
     });
   };
   return {

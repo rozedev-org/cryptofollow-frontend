@@ -37,24 +37,16 @@ export const Balance = () => {
                 currency="USD"
               />
             </Stat.ValueText>
-            {100 > 0 ? (
+            {data.percentageVariation > 0 ? (
               <Badge colorPalette="green" borderRadius={"6px"} p={2}>
-                <HiArrowNarrowUp />+{100}%
+                <HiArrowNarrowUp />+{data.percentageVariation}%
               </Badge>
             ) : (
               <Badge colorPalette="red" borderRadius={"6px"} p={2}>
-                <HiArrowDown />-{100}%
+                <HiArrowDown />
+                <FormatNumber value={data.percentageVariation} />%
               </Badge>
             )}
-            {/* {data.variation > 0 ? (
-              <Badge colorPalette="green" borderRadius={"6px"} p={2}>
-                <HiArrowNarrowUp />+{data.variation}%
-              </Badge>
-            ) : (
-              <Badge colorPalette="red" borderRadius={"6px"} p={2}>
-                <HiArrowDown />-{data.variation}%
-              </Badge>
-            )} */}
           </HStack>
           <Stat.HelpText>Actualizado hace : 20 minutos</Stat.HelpText>
         </Stat.Root>
