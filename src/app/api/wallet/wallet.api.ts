@@ -21,7 +21,7 @@ export class WalletApiHandler {
     const apiHelper = new ApiHelper<BalanceResponse>();
     apiHelper.config("GET", this.url.find());
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -33,7 +33,8 @@ export class WalletApiHandler {
     apiHelper.config("GET", this.url.findCurrencies());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    console.log("response.statusText :>> ", response.status);
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;

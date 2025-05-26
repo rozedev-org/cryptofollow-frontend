@@ -1,4 +1,5 @@
 import { VStack, Text, List } from "@chakra-ui/react";
+import { JSX } from "react";
 import {
   LuInfo,
   LuChartBarStacked,

@@ -32,7 +32,7 @@ export class CurrencyApiHandler {
     apiHelper.config("GET", this.url.find());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -42,7 +42,7 @@ export class CurrencyApiHandler {
     const apiHelper = new ApiHelper<CurrencyIdentity>();
     apiHelper.config("GET", this.url.findOne(currencyId));
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -61,7 +61,7 @@ export class CurrencyApiHandler {
     const apiHelper = new ApiHelper<DeletedDataResponse>();
     apiHelper.config("DELETE", this.url.delete(currencyId));
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -71,7 +71,7 @@ export class CurrencyApiHandler {
     apiHelper.config("PUT", this.url.update(currencyId));
     apiHelper.addBody(payload);
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;

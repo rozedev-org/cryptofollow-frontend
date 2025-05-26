@@ -94,7 +94,7 @@ export const useUser = (id: number) => {
   return { fetchUser, user, setUser, isLoading };
 };
 
-export const useCreateUser = () => {
+export const useCreateUser = (setOpen: (open: boolean) => void) => {
   const { setIsCreating, handleRefreshSignal } = useHandleData();
 
   const userForm = useForm<newUser>({
@@ -123,12 +123,57 @@ export const useCreateUser = () => {
       console.log(response);
       handleRefreshSignal(true);
       setIsCreating(false);
+      setOpen(false);
     } catch (error) {
       toast.error("Ha ocurrido un error al crear el Usuario");
       console.log(error);
       setIsCreating(false);
+      setOpen(false);
     }
   });
 
   return { userForm, onSubmit };
+};
+export const useUpdateUser = (
+  data: UserEntity,
+  setOpen: (open: boolean) => void
+) => {
+  const { setIsCreating, handleRefreshSignal } = useHandleData();
+
+  const userUpdateForm = useForm<newUser>({
+    defaultValues: {
+      email: data.email,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      password: data.password,
+      // role: data.role,
+    },
+  });
+
+  const onSubmit = userUpdateForm.handleSubmit(async (values) => {
+    setIsCreating(true);
+    try {
+      const { bff } = config;
+      const response = await fetch(`${bff.url}/users/${data.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+        credentials: "include",
+      });
+      toast.success(`Se ha actualizado un Usuario`);
+      console.log(response);
+      handleRefreshSignal(true);
+      setIsCreating(false);
+      setOpen(false);
+    } catch (error) {
+      toast.error("Ha ocurrido un error al actualizar el Usuario");
+      console.log(error);
+      setIsCreating(false);
+      setOpen(false);
+    }
+  });
+
+  return { userUpdateForm, onSubmit };
 };
