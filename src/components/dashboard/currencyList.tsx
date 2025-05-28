@@ -1,17 +1,41 @@
 "use client";
-import { Card, Text } from "@chakra-ui/react";
+import { Card, Input, Text, VStack } from "@chakra-ui/react";
 import { CurrencyListCard } from "./currencyCard";
-import { cryptoList } from "@/constants/currencyList.constant";
 import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
+import { useBinanceCurrencies } from "@/app/currency/hook/useCurrencies";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 
 export interface CurrencyCardProps {
   symbol: string;
-  name: string;
   price: string;
-  variation: number;
 }
 export const CurrencyList = () => {
   const { isMobile, isTablet } = useResponsiveInfo();
+  const { currency, fetchBinanceCurrencies } = useBinanceCurrencies();
+  const [visibleCurrencies, setVisibleCurrencies] = useState(20);
+  const [searchText, setSearchText] = useState("");
+  const [showLoadMore, setShowLoadMore] = useState(true);
+
+  useEffect(() => {
+    fetchBinanceCurrencies();
+  }, []);
+
+  useEffect(() => {
+    if (searchText !== "") {
+      setShowLoadMore(false);
+    } else {
+      setShowLoadMore(true);
+    }
+  }, [searchText]);
+
+  const handleLoadMore = () => {
+    setVisibleCurrencies((prev) => prev + 20);
+  };
+
+  const filteredCurrencies = currency.filter((item) =>
+    item.symbol.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <Card.Root
@@ -27,25 +51,40 @@ export const CurrencyList = () => {
         color={"#1A1B2F"}
         fontSize={"18px"}
         fontWeight={500}
-        pb={"23px"}
+        pb={"2px"}
       >
-        <Text>Mercado</Text>
+        <Text textAlign={"start"}>Mercado</Text>
+        <Input
+          placeholder="Buscador"
+          mb={2}
+          p={2}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
       </Card.Header>
       <Card.Body
+        overflowX={"hidden"}
         overflowY={"scroll"}
         alignItems={isMobile || isTablet ? "center" : "unset"}
       >
-        {cryptoList.map((item, i) => {
+        {filteredCurrencies.slice(0, visibleCurrencies).map((item, i) => {
           return (
             <CurrencyListCard
               key={`${item.symbol}-${i}	`}
-              name={item.name}
               price={item.price}
-              variation={item.variation}
               symbol={item.symbol}
             />
           );
         })}
+        {showLoadMore
+          ? visibleCurrencies < currency.length && (
+              <VStack mt={4} mb={4}>
+                <Button onClick={handleLoadMore} variant="outline">
+                  Cargar más
+                </Button>
+              </VStack>
+            )
+          : null}
       </Card.Body>
     </Card.Root>
   );

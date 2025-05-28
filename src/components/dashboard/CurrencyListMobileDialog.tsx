@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DialogCloseTrigger,
   DialogContent,
@@ -10,10 +10,15 @@ import { Button } from "../ui/button";
 import { FaChartLine } from "react-icons/fa";
 import { Card, Text } from "@chakra-ui/react";
 import { CurrencyListCard } from "./currencyCard";
-import { cryptoList } from "@/constants/currencyList.constant";
+import { useBinanceCurrencies } from "@/app/currency/hook/useCurrencies";
 
 export const CurrencyListMobileDialog = () => {
+  const { currency, fetchBinanceCurrencies } = useBinanceCurrencies();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    fetchBinanceCurrencies();
+  }, []);
   return (
     <DialogRoot
       placement={"center"}
@@ -51,13 +56,11 @@ export const CurrencyListMobileDialog = () => {
             <Text>Mercado</Text>
           </Card.Header>
           <Card.Body overflowY={"scroll"} w={"80%"}>
-            {cryptoList.map((item, i) => {
+            {currency.map((item, i) => {
               return (
                 <CurrencyListCard
                   key={`${item.symbol}-${i}	`}
-                  name={item.name}
                   price={item.price}
-                  variation={item.variation}
                   symbol={item.symbol}
                 />
               );
