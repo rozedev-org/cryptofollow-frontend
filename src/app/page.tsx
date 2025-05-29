@@ -3,6 +3,9 @@ import { Balance } from "@/components/dashboard/balance";
 import { CurrencyList } from "@/components/dashboard/currencyList";
 import { BasePage } from "@/components/layout/base-page/base-page";
 import { HStack, VStack } from "@chakra-ui/react";
+
+export const revalidate = 0;
+
 export default function Dashboard() {
   return (
     <BasePage

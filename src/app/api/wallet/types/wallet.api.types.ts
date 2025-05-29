@@ -11,5 +11,5 @@ export interface WalletResponse {
 }
 export interface BalanceResponse {
   balance: number;
-  variation: number;
+  percentageVariation: number;
 }

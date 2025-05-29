@@ -32,7 +32,7 @@ export class UsersApiHandler {
     apiHelper.config("GET", this.url.find());
     apiHelper.addQueryParams(queryParams);
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -42,7 +42,7 @@ export class UsersApiHandler {
     const apiHelper = new ApiHelper<UserEntity>();
     apiHelper.config("GET", this.url.findOne(userId));
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -61,7 +61,7 @@ export class UsersApiHandler {
     const apiHelper = new ApiHelper<DeletedDataResponse>();
     apiHelper.config("DELETE", this.url.delete(userId));
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;
@@ -71,7 +71,7 @@ export class UsersApiHandler {
     apiHelper.config("PUT", this.url.update(userId));
     apiHelper.addBody(payload);
     const response = await apiHelper.do();
-    if (response.statusText !== "OK") {
+    if (response.status !== 200) {
       this.onError = true;
     }
     return response.data;

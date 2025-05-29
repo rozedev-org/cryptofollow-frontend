@@ -46,8 +46,8 @@ export default class ApiHelper<T> {
         url: this.url,
         params: this.params,
         headers: { ...this.headers },
-        validateStatus: function (status) {
-          return status < 500;
+        validateStatus: function () {
+          return true;
         },
         data: this.body,
       };
