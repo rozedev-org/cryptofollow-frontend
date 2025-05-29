@@ -40,7 +40,7 @@ export const CurrencyList = () => {
   return (
     <Card.Root
       display={isMobile || isTablet ? "none" : "flex"}
-      w={"400px"}
+      w={"340px"}
       borderWidth={0}
       height={"83vh"}
       p={3}
