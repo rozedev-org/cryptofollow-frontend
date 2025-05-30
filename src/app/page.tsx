@@ -1,6 +1,9 @@
 import { Assets } from "@/components/dashboard/assets";
 import { Balance } from "@/components/dashboard/balance";
+import { CurrencyList } from "@/components/dashboard/currencyList";
 import { BasePage } from "@/components/layout/base-page/base-page";
+import { HStack, VStack } from "@chakra-ui/react";
+
 export const revalidate = 0;
 
 export default function Dashboard() {
@@ -12,8 +15,13 @@ export default function Dashboard() {
       p={4}
       h={"80h"}
     >
-      <Balance />
-      <Assets />
+      <HStack>
+        <VStack w={"full"}>
+          <Balance />
+          <Assets />
+        </VStack>
+        <CurrencyList />
+      </HStack>
     </BasePage>
   );
 }
