@@ -1,7 +1,10 @@
 import { Flex } from "@chakra-ui/react";
 import { NavBarUserOptions } from "./user-options";
+import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
+import { CurrencyListMobileDialog } from "@/components/dashboard/CurrencyListMobileDialog";
 
 export const Navbar = () => {
+  const { isMobile, isTablet } = useResponsiveInfo();
   return (
     <Flex
       bg={"#ffffff"}
@@ -20,6 +23,7 @@ export const Navbar = () => {
       {/* <SearchButton /> */}
       {/* <NotificationButton /> */}
       {/* <ColorModeButton /> */}
+      {isMobile || isTablet ? <CurrencyListMobileDialog /> : null}
       <NavBarUserOptions />
     </Flex>
   );
