@@ -89,7 +89,7 @@ export const Assets = () => {
 
             <Card.Body>
               {isMobile ? (
-                <Box overflowY={"scroll"} height={"50vh"}>
+                <Box overflowY={"scroll"} height={"50vh"} w={"300px"}>
                   {data?.map((walletIdentity, index) => (
                     <MobileCard key={index} walletIdentity={walletIdentity} />
                   ))}

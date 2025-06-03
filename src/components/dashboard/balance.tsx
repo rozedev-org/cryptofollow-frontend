@@ -3,6 +3,7 @@ import { useBalance } from "@/app/wallet/hook/useWallet";
 import { Badge, Card, FormatNumber, HStack, Stat } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { HiArrowDown, HiArrowNarrowUp } from "react-icons/hi";
+import { NumericFormat } from "react-number-format";
 
 export const Balance = () => {
   const { fetchBalance, data } = useBalance();
@@ -40,7 +41,15 @@ export const Balance = () => {
             </Stat.ValueText>
             {data.percentageVariation > 0 ? (
               <Badge colorPalette="green" borderRadius={"6px"} p={2}>
-                <HiArrowNarrowUp />+{data.percentageVariation}%
+                <HiArrowNarrowUp />
+                <NumericFormat
+                  thousandSeparator
+                  suffix="%"
+                  prefix="$"
+                  displayType="text"
+                  value={data.percentageVariation}
+                  decimalScale={2}
+                />
               </Badge>
             ) : (
               <Badge colorPalette="red" borderRadius={"6px"} p={2}>
