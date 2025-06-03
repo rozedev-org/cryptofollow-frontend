@@ -14,6 +14,7 @@ import { PortfolioSummary } from "./portfolio-summary";
 import { InputGroup } from "@/components/ui/input-group";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
+import { MobileCard } from "@/components/dashboard/MobileCard";
 
 export const Investments = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
@@ -143,7 +144,7 @@ export const Investments = () => {
                   flex="1"
                   startElementProps={{ padding: "11px 15px 11px 11px" }}
                   startElement={<HiMagnifyingGlass size={18} />}
-                  display={["none", "flex"]} // Ocultar en móviles, mostrar en pantallas más grandes
+                  display={["none", "flex"]}
                 >
                   <Input
                     bg={"#f1f5f9"}
@@ -160,15 +161,22 @@ export const Investments = () => {
                 </InputGroup>
               </Box>
             </HStack>
-
-            <PaginatedTable
-              meta={meta}
-              data={data}
-              handlePageChange={handlePageChange}
-              handlePerRowsChange={handlePerRowsChange}
-              columns={InvestmentsColumns}
-              isLoadingData={isLoadingData}
-            />
+            {isMobile ? (
+              <Box overflowY={"scroll"} height={"50vh"} w={"300px"}>
+                {data?.map((walletIdentity, index) => (
+                  <MobileCard key={index} walletIdentity={walletIdentity} />
+                ))}
+              </Box>
+            ) : (
+              <PaginatedTable
+                meta={meta}
+                data={data}
+                handlePageChange={handlePageChange}
+                handlePerRowsChange={handlePerRowsChange}
+                columns={InvestmentsColumns}
+                isLoadingData={isLoadingData}
+              />
+            )}
           </VStack>
         </VStack>
       )}
