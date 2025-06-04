@@ -13,9 +13,8 @@ export const MobileCard: React.FC<MobileCardProps> = ({ walletIdentity }) => {
       p={6}
       w="100%"
       borderRadius="2xl"
-      boxShadow="0px 4px 32px 0px rgba(0, 0, 0, 0.07)"
       border="1px solid"
-      borderColor={"gray.700"}
+      borderColor={"gray.50"}
       position="relative"
       overflow="hidden"
     >
@@ -48,15 +47,33 @@ export const MobileCard: React.FC<MobileCardProps> = ({ walletIdentity }) => {
         <Text fontSize="sm" mb={1}>
           Precio
         </Text>
-        <Text fontSize="2xl" fontWeight="bold" color={"black"}>
+        {walletIdentity.currency.price > 1 ? (
           <NumericFormat
+            value={walletIdentity.currency.price}
             thousandSeparator
+            decimalScale={2}
             prefix="$"
             displayType="text"
-            value={walletIdentity.currency.price}
-            decimalScale={2}
+            renderText={(value) => (
+              <Text fontSize="2xl" fontWeight="bold" color={"black"}>
+                {value}
+              </Text>
+            )}
           />
-        </Text>
+        ) : (
+          <NumericFormat
+            value={walletIdentity.currency.price}
+            thousandSeparator
+            decimalScale={8}
+            prefix="$"
+            displayType="text"
+            renderText={(value) => (
+              <Text fontSize="2xl" fontWeight="bold" color={"black"}>
+                {value}
+              </Text>
+            )}
+          />
+        )}
       </Box>
 
       <Flex justify="space-between">
@@ -91,7 +108,7 @@ export const MobileCard: React.FC<MobileCardProps> = ({ walletIdentity }) => {
         </Box>
       </Flex>
 
-      <Box mt={6} pt={4} borderTop="1px solid" borderColor={"gray.700"}>
+      <Box mt={6} pt={4} borderTop="1px solid" borderColor={"gray.50"}>
         <Text fontSize="sm" mb={1}>
           Ganancia/Pérdida
         </Text>

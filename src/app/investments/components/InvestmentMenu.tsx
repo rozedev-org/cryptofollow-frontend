@@ -1,53 +1,47 @@
-import { Button } from "@/components/ui/button";
-import {
-  MenuRoot,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-} from "@/components/ui/menu";
 import { InvestmentDialogDetail } from "./dialog-details";
 import { InvestmentDialogDelete } from "./dialog-delete";
 import { InvestmentDialogUpdate } from "./dialog-update";
 import { InvestmentIdentity } from "../types/investment.types";
+import { BiDotsHorizontal } from "react-icons/bi";
+import { Button } from "@/components/ui/button";
+import { Menu } from "@chakra-ui/react";
 
 export interface InvestmentMenuProps {
-  textButton?: string;
-  iconButton?: React.ReactNode;
   invest: InvestmentIdentity;
 }
 
-export const InvestmentMenu = ({
-  textButton,
-  iconButton,
-  invest,
-}: InvestmentMenuProps) => {
+export const InvestmentMenu = ({ invest }: InvestmentMenuProps) => {
   return (
-    <MenuRoot>
-      <MenuTrigger asChild>
-        <Button
-          id="menu-table"
-          w={"20px"}
-          h={"18px"}
-          bg="#ffffff"
-          _hover={{ bg: "#cccccc" }}
-          ml={"11px"}
-          mr={"36px"}
-        >
-          {iconButton && iconButton}
-          {textButton && textButton}
-        </Button>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuItem value="detail" asChild>
-          <InvestmentDialogDetail invest={invest} />
-        </MenuItem>
-        <MenuItem value="edit" asChild>
-          <InvestmentDialogUpdate invest={invest} />
-        </MenuItem>
-        <MenuItem value="delete" asChild>
-          <InvestmentDialogDelete invest={invest} />
-        </MenuItem>
-      </MenuContent>
-    </MenuRoot>
+    //This div is necessary for the driver.js library to work correctly
+    <div id="menu-table">
+      <Menu.Root>
+        <Menu.Trigger asChild>
+          <Button
+            w={"20px"}
+            h={"18px"}
+            bg="#ffffff"
+            _hover={{ bg: "#cccccc" }}
+            ml={"11px"}
+            mr={"36px"}
+            variant={"outline"}
+          >
+            <BiDotsHorizontal color="black" />
+          </Button>
+        </Menu.Trigger>
+        <Menu.Positioner>
+          <Menu.Content>
+            <Menu.Item value="detail" asChild>
+              <InvestmentDialogDetail invest={invest} />
+            </Menu.Item>
+            <Menu.Item value="edit" asChild>
+              <InvestmentDialogUpdate invest={invest} />
+            </Menu.Item>
+            <Menu.Item value="delete" asChild>
+              <InvestmentDialogDelete invest={invest} />
+            </Menu.Item>
+          </Menu.Content>
+        </Menu.Positioner>
+      </Menu.Root>
+    </div>
   );
 };
