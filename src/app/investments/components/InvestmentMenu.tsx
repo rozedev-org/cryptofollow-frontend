@@ -1,29 +1,19 @@
-import { Button } from "@/components/ui/button";
-import {
-  MenuRoot,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-} from "@/components/ui/menu";
 import { InvestmentDialogDetail } from "./dialog-details";
 import { InvestmentDialogDelete } from "./dialog-delete";
 import { InvestmentDialogUpdate } from "./dialog-update";
 import { InvestmentIdentity } from "../types/investment.types";
+import { Menu } from "@chakra-ui/react";
+import { BiDotsHorizontal } from "react-icons/bi";
+import { Button } from "@/components/ui/button";
 
 export interface InvestmentMenuProps {
-  textButton?: string;
-  iconButton?: React.ReactNode;
   invest: InvestmentIdentity;
 }
 
-export const InvestmentMenu = ({
-  textButton,
-  iconButton,
-  invest,
-}: InvestmentMenuProps) => {
+export const InvestmentMenu = ({ invest }: InvestmentMenuProps) => {
   return (
-    <MenuRoot>
-      <MenuTrigger asChild>
+    <Menu.Root>
+      <Menu.Trigger>
         <Button
           id="menu-table"
           w={"20px"}
@@ -32,22 +22,24 @@ export const InvestmentMenu = ({
           _hover={{ bg: "#cccccc" }}
           ml={"11px"}
           mr={"36px"}
+          asChild
         >
-          {iconButton && iconButton}
-          {textButton && textButton}
+          <BiDotsHorizontal color="black" />
         </Button>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuItem value="detail" asChild>
-          <InvestmentDialogDetail invest={invest} />
-        </MenuItem>
-        <MenuItem value="edit" asChild>
-          <InvestmentDialogUpdate invest={invest} />
-        </MenuItem>
-        <MenuItem value="delete" asChild>
-          <InvestmentDialogDelete invest={invest} />
-        </MenuItem>
-      </MenuContent>
-    </MenuRoot>
+      </Menu.Trigger>
+      <Menu.Positioner>
+        <Menu.Content>
+          <Menu.Item value="detail" asChild>
+            <InvestmentDialogDetail invest={invest} />
+          </Menu.Item>
+          <Menu.Item value="edit" asChild>
+            <InvestmentDialogUpdate invest={invest} />
+          </Menu.Item>
+          <Menu.Item value="delete" asChild>
+            <InvestmentDialogDelete invest={invest} />
+          </Menu.Item>
+        </Menu.Content>
+      </Menu.Positioner>
+    </Menu.Root>
   );
 };

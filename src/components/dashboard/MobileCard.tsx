@@ -13,9 +13,8 @@ export const MobileCard: React.FC<MobileCardProps> = ({ walletIdentity }) => {
       p={6}
       w="100%"
       borderRadius="2xl"
-      boxShadow="0px 4px 32px 0px rgba(0, 0, 0, 0.07)"
       border="1px solid"
-      borderColor={"gray.700"}
+      borderColor={"gray.50"}
       position="relative"
       overflow="hidden"
     >
