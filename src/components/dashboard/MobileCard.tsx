@@ -1,49 +1,112 @@
-import React from "react";
-import { Box, Text } from "@chakra-ui/react";
-import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { WalletIdentity } from "@/app/wallet/types/wallet.types";
+import { NumericFormat } from "react-number-format";
 
 interface MobileCardProps {
   walletIdentity: WalletIdentity;
 }
 
 export const MobileCard: React.FC<MobileCardProps> = ({ walletIdentity }) => {
-  const { isMobile } = useResponsiveInfo();
-
-  if (!isMobile) return null;
-
   return (
     <Box
-      overflowY={"scroll"}
-      borderWidth={0}
-      w={"100%"}
-      p={"20px"}
-      borderRadius={"16px"}
-      boxShadow={"0px 4px 32px 0px rgba(0, 0, 0, 0.07)"}
+      mb={2}
+      p={6}
+      w="100%"
+      borderRadius="2xl"
+      boxShadow="0px 4px 32px 0px rgba(0, 0, 0, 0.07)"
+      border="1px solid"
+      borderColor={"gray.700"}
+      position="relative"
+      overflow="hidden"
     >
-      <Box mb={4}>
-        <Text fontSize="lg" fontWeight="bold" color="#1A1B2F">
+      <Flex justify="space-between" align="center" mb={6}>
+        <Text fontSize="lg" fontWeight="bold" color={"black"}>
           {walletIdentity.currency.name}
         </Text>
-      </Box>
-      <Box mb={4}>
-        <Text fontSize="md" color="red.500">
-          {walletIdentity.percentageVariation}
+
+        <Box borderRadius="md" px={3} py={1}>
+          <Text
+            fontSize="md"
+            fontWeight="bold"
+            color={
+              walletIdentity.percentageVariation > 0 ? "#10b981" : "#ef4444"
+            }
+          >
+            <NumericFormat
+              thousandSeparator
+              suffix="%"
+              prefix=""
+              displayType="text"
+              value={walletIdentity.percentageVariation}
+              decimalScale={2}
+            />
+          </Text>
+        </Box>
+      </Flex>
+
+      <Box mb={6}>
+        <Text fontSize="sm" mb={1}>
+          Precio
+        </Text>
+        <Text fontSize="2xl" fontWeight="bold" color={"black"}>
+          <NumericFormat
+            thousandSeparator
+            prefix="$"
+            displayType="text"
+            value={walletIdentity.currency.price}
+            decimalScale={2}
+          />
         </Text>
       </Box>
-      <Box mb={4}>
-        <Text fontSize="sm" color="gray.500">
-          Precio: {walletIdentity.currency.price}
+
+      <Flex justify="space-between">
+        <Box>
+          <Text fontSize="sm" mb={1}>
+            Inversión
+          </Text>
+          <Text fontSize="lg" fontWeight="semibold" color={"black"}>
+            <NumericFormat
+              thousandSeparator
+              prefix="$"
+              displayType="text"
+              value={walletIdentity.pairInvestment}
+              decimalScale={2}
+            />
+          </Text>
+        </Box>
+
+        <Box textAlign="right">
+          <Text fontSize="sm" mb={1}>
+            Importe
+          </Text>
+          <Text fontSize="lg" fontWeight="semibold" color={"black"}>
+            <NumericFormat
+              thousandSeparator
+              prefix="$"
+              displayType="text"
+              value={walletIdentity.pairAmount}
+              decimalScale={2}
+            />
+          </Text>
+        </Box>
+      </Flex>
+
+      <Box mt={6} pt={4} borderTop="1px solid" borderColor={"gray.700"}>
+        <Text fontSize="sm" mb={1}>
+          Ganancia/Pérdida
         </Text>
-      </Box>
-      <Box mb={4}>
-        <Text fontSize="sm" color="gray.500">
-          Inversión: {walletIdentity.pairInvestment}
-        </Text>
-      </Box>
-      <Box>
-        <Text fontSize="sm" color="gray.500">
-          Importe: {walletIdentity.pairAmount}
+        <Text
+          fontSize="lg"
+          fontWeight="bold"
+          color={walletIdentity.pairVariation >= 0 ? "#10b981" : "#ef4444"}
+        >
+          <NumericFormat
+            thousandSeparator
+            prefix="$"
+            displayType="text"
+            value={walletIdentity.pairVariation}
+            decimalScale={2}
+          />
         </Text>
       </Box>
     </Box>
