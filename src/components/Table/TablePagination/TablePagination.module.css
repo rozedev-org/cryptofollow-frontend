@@ -8,47 +8,40 @@
 
 .pagination li :hover {
   background-color: #d6b9c2;
-  color: white;
+  color: #fff;
+  transition: background-color 0.2s;
 }
 
 .paginationLink {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #d6b9c2;
   width: fit-content;
   margin: 0 0.5rem;
-  padding: 6px 10px;
+  padding: 6px 12px;
+  color: #4a5568;
+  transition: background-color 0.2s;
 }
 
 .paginationActive {
   background-color: #d6b9c2;
-  color: white;
+  color: #fff;
   margin: 0;
 }
 
-.paginationPrevious {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.paginationPreviousLink {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  margin: 0 0.5rem;
-  padding: 8px 10px;
-}
-
+.paginationPrevious,
 .paginationNext {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.paginationPreviousLink,
 .paginationNextLink {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+  border-radius: 6px;
   margin: 0 0.5rem;
-  padding: 8px 10px;
+  padding: 8px 12px;
+  transition: background-color 0.2s;
 }
