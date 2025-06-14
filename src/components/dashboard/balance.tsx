@@ -1,4 +1,5 @@
 "use client";
+import { InvestmentDialogForm } from "@/app/investments/components/dialog-form";
 import { useBalance } from "@/app/wallet/hook/useWallet";
 import { Badge, Card, FormatNumber, HStack, Stat } from "@chakra-ui/react";
 import { useEffect } from "react";
@@ -57,8 +58,8 @@ export const Balance = () => {
                 <FormatNumber value={data.percentageVariation} />%
               </Badge>
             )}
+            <InvestmentDialogForm />
           </HStack>
-          <Stat.HelpText>Actualizado hace : 20 minutos</Stat.HelpText>
         </Stat.Root>
       </Card.Body>
     </Card.Root>

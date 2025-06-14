@@ -6,13 +6,15 @@ import { useCallback, useEffect, useState } from "react";
 import { PaginatedTable } from "../Table/PaginatedTable/PaginatedTable";
 import { WalletColumns } from "@/app/wallet/types/wallet.types";
 import { LoadItem } from "../layout/loading";
-import { InvestmentDialogForm } from "@/app/investments/components/dialog-form";
 import { useHandleData } from "@/app/states/useHandleData";
 import { MobileCard } from "./MobileCard";
 import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
+import { useFilterStore } from "@/app/states/useFilterData";
+import { SearchFilter } from "./SearchFilter";
 
 export const Assets = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
+  const { filter } = useFilterStore();
   const { fetchWallet, data, meta } = useWallet();
   const { isMobile } = useResponsiveInfo();
   const [perPage, setPerPage] = useState(5);
@@ -26,6 +28,7 @@ export const Assets = () => {
       const queryPamas: PaginationParams = {
         page,
         take: perPage,
+        ...{ currencyName: filter },
       };
 
       await fetchWallet(queryPamas);
@@ -39,11 +42,16 @@ export const Assets = () => {
     fetchData(selectedItem.selected + 1);
   };
 
-  const handlePerRowsChange = async (newPerPage: number, page: number) => {
+  const handlePerRowsChange = async (
+    newPerPage: number,
+    page: number,
+    currencyName?: string
+  ) => {
     setIsLoadingData(true);
     const queryPamas = {
       page,
       take: newPerPage,
+      currencyName: currencyName ?? "",
     };
     await fetchWallet(queryPamas);
 
@@ -53,7 +61,7 @@ export const Assets = () => {
 
   useEffect(() => {
     fetchData(1);
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     if (refreshSignal) {
@@ -84,9 +92,10 @@ export const Assets = () => {
               >
                 Activos
               </Card.Header>
-              <InvestmentDialogForm />
+              <Box ml={"auto"} w={isMobile ? "100%" : "auto"}>
+                <SearchFilter />
+              </Box>
             </HStack>
-
             <Card.Body>
               {isMobile ? (
                 <Box overflowY={"scroll"} height={"50vh"} w={"300px"}>

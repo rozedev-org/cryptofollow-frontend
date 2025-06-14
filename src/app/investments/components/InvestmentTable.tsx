@@ -4,20 +4,21 @@ import { useHandleData } from "@/app/states/useHandleData";
 import { PaginationParams } from "@/common/interfaces/response.interface";
 import { PaginatedTable } from "@/components/Table/PaginatedTable/PaginatedTable";
 import { LoadItem } from "@/components/layout/loading";
-import { Box, Heading, HStack, Input, Tabs, VStack } from "@chakra-ui/react";
+import { Box, Heading, HStack, Tabs, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useInvestments } from "../hook/useInvestment";
 import { InvestmentsColumns } from "../types/investment.types";
 import { InvestmentDialogForm } from "./dialog-form";
 import { GuideInvestmentButton } from "./investment-guide-button";
 import { PortfolioSummary } from "./portfolio-summary";
-import { InputGroup } from "@/components/ui/input-group";
-import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useResponsiveInfo } from "@/common/hook/useResponsiveInfo";
 import { MobileCard } from "@/components/dashboard/MobileCard";
+import { useFilterStore } from "@/app/states/useFilterData";
+import { SearchFilter } from "@/components/dashboard/SearchFilter";
 
 export const Investments = () => {
   const { refreshSignal, handleRefreshSignal } = useHandleData();
+  const { filter } = useFilterStore();
   const { isMobile } = useResponsiveInfo();
   const { fetchInvestments, invest } = useInvestments();
   const { data, meta } = invest;
@@ -28,12 +29,13 @@ export const Investments = () => {
   const fetchData = async (page: number) => {
     setIsLoadingData(true);
 
-    const queryPamas: PaginationParams = {
+    const queryParams: PaginationParams = {
       page,
       take: perPage,
+      ...{ currencyName: filter },
     };
 
-    await fetchInvestments(queryPamas);
+    await fetchInvestments(queryParams);
     setIsLoadingPage(false);
     setIsLoadingData(false);
   };
@@ -42,13 +44,18 @@ export const Investments = () => {
     fetchData(selectedItem.selected + 1);
   };
 
-  const handlePerRowsChange = async (newPerPage: number, page: number) => {
+  const handlePerRowsChange = async (
+    newPerPage: number,
+    page: number,
+    currencyName?: string
+  ) => {
     setIsLoadingData(true);
-    const queryPamas = {
+    const queryParams = {
       page,
       take: newPerPage,
+      currencyName: currencyName ?? "",
     };
-    await fetchInvestments(queryPamas);
+    await fetchInvestments(queryParams);
 
     setPerPage(newPerPage);
     setIsLoadingData(false);
@@ -56,7 +63,7 @@ export const Investments = () => {
 
   useEffect(() => {
     fetchData(1);
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     if (refreshSignal) {
@@ -138,27 +145,7 @@ export const Investments = () => {
               </Box>
 
               <Box ml={"auto"} w={isMobile ? "100%" : "auto"}>
-                <InputGroup
-                  h={"36px"}
-                  py={"0.5rem"}
-                  flex="1"
-                  startElementProps={{ padding: "11px 15px 11px 11px" }}
-                  startElement={<HiMagnifyingGlass size={18} />}
-                  display={["none", "flex"]}
-                >
-                  <Input
-                    bg={"#f1f5f9"}
-                    ml={"auto"}
-                    borderRadius={"xl"}
-                    border={"none"}
-                    placeholder="Buscar..."
-                    _placeholder={{
-                      color: "#C9C9C9",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                    }}
-                  />
-                </InputGroup>
+                <SearchFilter />
               </Box>
             </HStack>
             {isMobile ? (
