@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { InvestmentMenu } from "../components/InvestmentMenu";
+import { InvestmentMenuActions } from "../components/InvestmentMenuActions";
 import { HStack, Stack, Text } from "@chakra-ui/react";
 import { NumericFormat } from "react-number-format";
 import { CurrencyIdentity } from "@/app/currency/types/currency.types";
@@ -28,7 +28,7 @@ const columnHelper = createColumnHelper<InvestmentIdentity>();
 
 export const InvestmentsColumns = [
   columnHelper.accessor("id", {
-    cell: (item) => <InvestmentMenu invest={item.row.original} />,
+    cell: (item) => <InvestmentMenuActions invest={item.row.original} />,
     header: "",
   }),
 

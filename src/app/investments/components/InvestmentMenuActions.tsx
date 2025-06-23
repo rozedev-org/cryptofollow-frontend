@@ -5,15 +5,19 @@ import { InvestmentIdentity } from "../types/investment.types";
 import { BiDotsHorizontal } from "react-icons/bi";
 import { Button } from "@/components/ui/button";
 import { Menu } from "@chakra-ui/react";
+import { InvestCheckbox } from "./InvestCheckbox";
+import { InvestActionBar } from "./InvestActionBar";
 
 export interface InvestmentMenuProps {
   invest: InvestmentIdentity;
 }
 
-export const InvestmentMenu = ({ invest }: InvestmentMenuProps) => {
+export const InvestmentMenuActions = ({ invest }: InvestmentMenuProps) => {
   return (
     //This div is necessary for the driver.js library to work correctly
     <div id="menu-table">
+      <InvestCheckbox invest={invest} />
+      <InvestActionBar />
       <Menu.Root>
         <Menu.Trigger asChild>
           <Button
