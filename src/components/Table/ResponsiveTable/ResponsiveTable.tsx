@@ -54,14 +54,14 @@ export function ResponsiveDataTable<Data extends object>({
                     <Table.ColumnHeader
                       key={`table-column-header-${uuidv4()}`}
                       onClick={header.column.getToggleSortingHandler()}
-                      color={"#64748b"}
+                      color={"#4a5568"}
                       py={"0.75rem"}
                       px={"1rem"}
-                      fontWeight={500}
+                      fontWeight={600}
                       textAlign={"left"}
-                      fontSize={"0.75rem"}
+                      fontSize={"0.875rem"}
                       lineHeight={"1rem"}
-                      bg={"#f1f5f94d"}
+                      bg="#f9fafb"
                       borderBottomColor={"#e2e8f066"}
                       borderBottomWidth={"1px"}
                     >
